@@ -1,3 +1,4 @@
+import { OverlayProvider } from '@/hooks/use-overlay';
 import type { AppProps } from 'next/app';
 
 if (process.env.NODE_ENV === 'development') {
@@ -5,5 +6,9 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 export default function App({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />;
+  return (
+    <OverlayProvider>
+      <Component {...pageProps} />
+    </OverlayProvider>
+  );
 }
