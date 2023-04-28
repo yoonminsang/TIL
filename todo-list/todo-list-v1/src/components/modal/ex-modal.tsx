@@ -1,17 +1,7 @@
-import {
-  ClassAttributes,
-  ComponentClass,
-  JSXElementConstructor,
-  ReactNode,
-} from 'react';
+import { ReactNode } from 'react';
 import { FC } from 'react';
 import { Modal } from './modal';
-
-export type GetProps<C> = C extends JSXElementConstructor<infer P>
-  ? C extends ComponentClass<P>
-    ? ClassAttributes<InstanceType<C>> & P
-    : P
-  : never;
+import { GetProps } from '@/utils';
 
 interface Props extends GetProps<typeof Modal> {
   visible: boolean;
