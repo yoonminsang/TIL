@@ -1,26 +1,105 @@
 import { rest } from 'msw';
-import { Book, Review } from './types';
+import { Todo, TodoCreateDto, TodoSummaryDto, TodoUpdateDto } from './types';
+
+const todos: Todo[] = [];
+let todoId = 1;
 
 export const handlers = [
-  rest.get('https://my.backend/book', (_req, res, ctx) => {
-    return res(
-      ctx.json<Book>({
-        title: 'Lord of the Rings',
-        imageUrl: '/book-cover.jpg',
-        description:
-          'The Lord of the Rings is an epic high-fantasy novel written by English author and scholar J. R. R. Tolkien.',
-      })
-    );
+  rest.get('/todos', (_req, res, ctx) => {
+    return res(ctx.json<TodoSummaryDto[]>(getTodoSummary()));
   }),
-  rest.get('/reviews', (_req, res, ctx) => {
-    return res(
-      ctx.json<Review[]>([
-        {
-          id: '60333292-7ca1-4361-bf38-b6b43b90cb16',
-          author: 'John Maverick',
-          text: 'Lord of The Rings, is with no absolute hesitation, my most favored and adored book by‑far. The trilogy is wonderful‑ and I really consider this a legendary fantasy series. It will always keep you at the edge of your seat‑ and the characters you will grow and fall in love with!',
-        },
-      ])
-    );
+
+  rest.get('/todos/:id', (req, res, ctx) => {
+    const { id } = req.params;
+    const todo = getTodoById(Number(id));
+
+    if (!todo) {
+      return res(
+        ctx.status(404),
+        ctx.json({ message: `${id}에 해당하는 todo가 없습니다` })
+      );
+    }
+
+    return res(ctx.json<Todo>(todo));
+  }),
+
+  rest.post('/todos', async (req, res, ctx) => {
+    const { title, description, priority, status } =
+      await req.json<TodoCreateDto>();
+
+    if (!title || !priority || !status) {
+      return res(
+        ctx.status(400),
+        ctx.json({ message: `title, priority, status 중 하나가 없습니다` })
+      );
+    }
+
+    const newTodo: Todo = {
+      id: todoId,
+      title,
+      description,
+      priority,
+      status,
+      createdAt: new Date().toISOString(),
+    };
+    todos.push(newTodo);
+    todoId += 1;
+    return res(ctx.status(201), ctx.json<Todo>(newTodo));
+  }),
+
+  rest.patch(`/todos/:id`, async (req, res, ctx) => {
+    const body = await req.json<TodoUpdateDto>();
+    const { id } = req.params;
+    const todoIndex = todos.findIndex((todo) => todo.id === Number(id));
+
+    if (!body.title || !body.priority || !body.status) {
+      return res(
+        ctx.status(400),
+        ctx.json({ message: `title, priority, status 중 하나가 없습니다` })
+      );
+    }
+
+    if (todoIndex === -1) {
+      return res(
+        ctx.status(404),
+        ctx.json({ message: `${id}에 해당하는 todo가 없습니다` })
+      );
+    }
+
+    const updatedTodo = {
+      ...todos[todoIndex],
+      ...body,
+      updatedAt: new Date().toISOString(),
+    };
+
+    todos[todoIndex] = updatedTodo;
+
+    return res(ctx.json<Todo>(updatedTodo));
+  }),
+
+  rest.delete('/todos/:id', (req, res, ctx) => {
+    const { id } = req.params;
+    const todoIndex = todos.findIndex((todo) => todo.id === Number(id));
+
+    if (todoIndex === -1) {
+      return res(
+        ctx.status(404),
+        ctx.json({ message: `${id}에 해당하는 todo가 없습니다` })
+      );
+    }
+
+    todos.splice(todoIndex, 1);
+
+    return res(ctx.json({ message: `${id}에 해당하는 todo가 삭제되었습니다` }));
   }),
 ];
+
+const getTodoSummary = () =>
+  todos.map((todo) => {
+    const { description, ...summary } = todo;
+    return summary;
+  });
+
+const getTodoById = (id: number) => {
+  return todos.find((todo) => todo.id === id);
+};
