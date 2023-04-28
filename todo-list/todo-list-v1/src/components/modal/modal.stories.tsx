@@ -21,5 +21,6 @@ type Story = StoryObj<typeof Modal>;
 export const Primary: Story = {
   args: {
     children: <div>모달입니다!</div>,
+    visible: true,
   },
 };
