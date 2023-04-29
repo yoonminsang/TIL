@@ -20,6 +20,7 @@ export const TodoCard = forwardRef<HTMLDivElement, Props>(function TodoCard(
         flex-direction: column;
         gap: 10px;
         padding: 16px;
+        min-width: 200px;
         .title {
           font-weight: 700;
           overflow: hidden;
