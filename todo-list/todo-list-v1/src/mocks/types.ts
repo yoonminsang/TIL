@@ -14,4 +14,6 @@ export type Todo = {
 
 export type TodoSummaryDto = Omit<Todo, 'description'>;
 export type TodoCreateDto = Omit<Todo, 'id' | 'createdAt' | 'updatedAt'>;
-export type TodoUpdateDto = Omit<Todo, 'createdAt' | 'updatedAt'>;
+export type TodoUpdateDto = Partial<
+  Omit<Todo, 'id' | 'createdAt' | 'updatedAt'>
+>;

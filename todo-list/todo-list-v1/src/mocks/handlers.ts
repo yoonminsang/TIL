@@ -52,13 +52,6 @@ export const handlers = [
     const { id } = req.params;
     const todoIndex = todos.findIndex((todo) => todo.id === Number(id));
 
-    if (!body.title || !body.priority || !body.status) {
-      return res(
-        ctx.status(400),
-        ctx.json({ message: `title, priority, status 중 하나가 없습니다` })
-      );
-    }
-
     if (todoIndex === -1) {
       return res(
         ctx.status(404),
