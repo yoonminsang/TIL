@@ -1,6 +1,6 @@
 # TodoListV1
 
-- react18, next, msw, jest ,react-testing-library, cypress, react-query, recoil, jotai, oop, vac 연습용 투두리스트
+- react18, next, msw, jest ,react-testing-library, cypress, react-query, recoil, jotai, oop, vac, react-dnd 연습용 투두리스트
 
 ---
 
