@@ -50,11 +50,7 @@ const PriorityImg: FC<{ priority: Props['priority'] }> = ({ priority }) => {
     return 'https://classum.atlassian.net/images/icons/priorities/low.svg';
   })();
 
-  return (
-    <>
-      <Image src={src} alt={priority} width={16} height={16} />
-    </>
-  );
+  return <Image src={src} alt={priority} width={16} height={16} />;
 };
 
 // local img를 import하는 방법
