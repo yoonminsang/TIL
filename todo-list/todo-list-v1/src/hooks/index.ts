@@ -1,1 +1,1 @@
-export { useOverlay } from './use-overlay';
+export { useOverlay, OverlayProvider, OverlayContext } from './use-overlay';

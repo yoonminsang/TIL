@@ -1,4 +1,4 @@
-import { OverlayProvider } from '@/hooks/use-overlay';
+import { OverlayProvider } from '@/hooks';
 import type { AppProps } from 'next/app';
 
 if (process.env.NODE_ENV === 'development') {

@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { Card } from '@/components/card';
+import { Card } from '@/components';
 import { TodoPriority } from '@/mocks/types';
 import { css } from '@emotion/react';
 import { FC, forwardRef } from 'react';
