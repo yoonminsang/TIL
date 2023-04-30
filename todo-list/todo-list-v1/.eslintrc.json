@@ -9,6 +9,9 @@
             "group": ["@/components/*"]
           },
           {
+            "group": ["@/domain/*/*"]
+          },
+          {
             "group": ["@/hooks/*"]
           },
           {
