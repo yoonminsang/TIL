@@ -1,5 +1,5 @@
-import { Button } from '@/components/button';
-import { ModalV1 } from '@/components/modal/modal-v1';
+import { Button } from '@/components';
+import { ModalV1 } from '@/components';
 import { useOverlay } from '@/hooks';
 import { css } from '@emotion/react';
 import Link from 'next/link';
