@@ -1,4 +1,5 @@
-import { ExModal } from '@/components/modal/ex-modal';
+import { Button } from '@/components/button';
+import { ModalV1 } from '@/components/modal/modal-v1';
 import { useOverlay } from '@/hooks';
 import { css } from '@emotion/react';
 import Link from 'next/link';
@@ -9,19 +10,36 @@ export default function Home() {
   const openExModal = async () => {
     const result = await new Promise<boolean>((resolve) => {
       overlay.open(({ isOpen, close }) => (
-        <ExModal
+        <ModalV1
           visible={isOpen}
-          onConfirm={() => {
-            resolve(true);
-            close();
-          }}
           onClose={() => {
             resolve(false);
             close();
           }}
+          title="title"
+          buttons={[
+            <Button
+              key={0}
+              onClick={() => {
+                resolve(true);
+                close();
+              }}
+            >
+              확인
+            </Button>,
+            <Button
+              key={1}
+              onClick={() => {
+                resolve(false);
+                close();
+              }}
+            >
+              취소
+            </Button>,
+          ]}
         >
           Children
-        </ExModal>
+        </ModalV1>
       ));
     });
     console.log(result);
