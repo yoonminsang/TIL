@@ -1,6 +1,16 @@
-export type TodoPriority = 'high' | 'medium' | 'low';
+export const TodoPriority = {
+  high: 'high',
+  medium: 'medium',
+  low: 'low',
+} as const;
+export type TodoPriority = (typeof TodoPriority)[keyof typeof TodoPriority];
 
-export type TodoStatus = 'todo' | 'ing' | 'done';
+export const TodoStatus = {
+  tood: 'todo',
+  ing: 'ing',
+  done: 'done',
+} as const;
+export type TodoStatus = (typeof TodoStatus)[keyof typeof TodoStatus];
 
 export type Todo = {
   id: number;
