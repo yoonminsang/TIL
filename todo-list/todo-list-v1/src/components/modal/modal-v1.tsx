@@ -61,7 +61,7 @@ export const ModalV1: FC<Props> = ({
       >
         <header>
           <h1>{title}</h1>
-          <Button>
+          <Button onClick={onClose}>
             <Image src="/close.svg" width={26} height={26} alt="close" />
           </Button>
         </header>
