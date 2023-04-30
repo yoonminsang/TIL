@@ -1,11 +1,11 @@
 import styled from '@emotion/styled';
-import { MouseEvent, MouseEventHandler, ReactNode } from 'react';
+import { MouseEvent, MouseEventHandler, ReactNode, CSSProperties } from 'react';
 import { FC } from 'react';
 
 interface Props {
   visible: boolean;
-  width?: number;
-  height?: number;
+  width: CSSProperties['width'];
+  height: CSSProperties['height'];
   onClickOverlay?: MouseEventHandler<HTMLDivElement>;
   children: ReactNode;
 }
@@ -69,8 +69,8 @@ const ModalWrapper = styled.div<{
 `;
 
 const ModalInner = styled.div<{
-  width?: number;
-  height?: number;
+  width: Props['width'];
+  height?: Props['height'];
 }>`
   background-color: white;
   width: ${(props) => (props.width ? props.width : '320px')};
