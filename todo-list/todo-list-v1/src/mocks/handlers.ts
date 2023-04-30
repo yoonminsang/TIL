@@ -1,8 +1,33 @@
 import { rest } from 'msw';
 import { Todo, TodoCreateDto, TodoSummaryDto, TodoUpdateDto } from './types';
 
-const todos: Todo[] = [];
-let todoId = 1;
+const todos: Todo[] = [
+  {
+    id: 1,
+    title: '코딩공부하기',
+    description: 'nextjs 공부하기',
+    priority: 'high',
+    status: 'ing',
+    createdAt: new Date('2023-05-01').toISOString(),
+  },
+  {
+    id: 2,
+    title: '운동하기',
+    description: '등운동',
+    priority: 'medium',
+    status: 'done',
+    createdAt: new Date('2023-05-01').toISOString(),
+  },
+  {
+    id: 3,
+    title: '영양제먹기',
+    description: '비타민',
+    priority: 'low',
+    status: 'todo',
+    createdAt: new Date('2023-05-01').toISOString(),
+  },
+];
+let todoId = Math.max(...todos.map(({ id }) => id)) + 1;
 
 export const handlers = [
   rest.get('/todos', (_req, res, ctx) => {
