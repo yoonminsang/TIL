@@ -1,1 +1,1 @@
-export { ExModal } from './ex-modal';
+export { ModalV1 } from './modal-v1';
