@@ -18,6 +18,9 @@
             "group": ["@/hooks/common/*"]
           },
           {
+            "group": ["@/pages/*"]
+          },
+          {
             "group": ["@/utils/*"]
           }
         ]
