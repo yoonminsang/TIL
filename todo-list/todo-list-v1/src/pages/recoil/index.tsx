@@ -1,6 +1,4 @@
 import { TodoCard, TodoLayout } from '@/domain/todos';
-import { useGetTodos } from '@/hooks/queries/todo-queries';
-import { TodoStatus, TodoSummaryDto } from '@/mocks/types';
 import { Suspense } from 'react';
 import { useGetList } from './useRecoilPage';
 
