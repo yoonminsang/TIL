@@ -6,7 +6,7 @@ export const TodoPriority = {
 export type TodoPriority = (typeof TodoPriority)[keyof typeof TodoPriority];
 
 export const TodoStatus = {
-  tood: 'todo',
+  todo: 'todo',
   ing: 'ing',
   done: 'done',
 } as const;
