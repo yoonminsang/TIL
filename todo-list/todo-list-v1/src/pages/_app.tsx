@@ -1,4 +1,6 @@
-import { OverlayProvider } from '@/hooks';
+import { OverlayProvider } from '@/hooks/common';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import type { AppProps } from 'next/app';
 
 if (process.env.NODE_ENV === 'development') {
@@ -7,8 +9,11 @@ if (process.env.NODE_ENV === 'development') {
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
-    <OverlayProvider>
-      <Component {...pageProps} />
-    </OverlayProvider>
+    <QueryClientProvider client={new QueryClient()}>
+      <OverlayProvider>
+        <Component {...pageProps} />
+      </OverlayProvider>
+      <ReactQueryDevtools initialIsOpen={false} position="bottom-right" />
+    </QueryClientProvider>
   );
 }
