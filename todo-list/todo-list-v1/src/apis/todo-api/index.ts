@@ -10,13 +10,19 @@ class TodoApi extends Api {
   public getTodos() {
     return this.get<TodoSummaryDto[]>('/todos');
   }
-  public getTodosById(pathParams: { id: number }) {
+  public getTodosById({ pathParams }: { pathParams: { id: number } }) {
     return this.get<Todo>('/todos/:id', { pathParams });
   }
-  public postTodos(body: TodoCreateDto) {
+  public postTodos({ body }: { body: TodoCreateDto }) {
     return this.post<Todo, TodoCreateDto>('/todos', { body });
   }
-  public patchTodos(pathParams: { id: number }, body: TodoUpdateDto) {
+  public patchTodos({
+    pathParams,
+    body,
+  }: {
+    pathParams: { id: number };
+    body: TodoUpdateDto;
+  }) {
     return this.patch<Todo, TodoUpdateDto>('/todos/:id', { pathParams, body });
   }
 }
