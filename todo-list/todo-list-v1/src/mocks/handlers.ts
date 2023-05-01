@@ -51,7 +51,7 @@ const todos: Todo[] = [
     createdAt: new Date('2023-05-01').toISOString(),
   },
   {
-    id: 6,
+    id: 7,
     title: '영앙제먹기3',
     description: '유산균',
     priority: 'low',
@@ -59,7 +59,7 @@ const todos: Todo[] = [
     createdAt: new Date('2023-05-01').toISOString(),
   },
   {
-    id: 7,
+    id: 8,
     title: '영앙제먹기4',
     description: '유산균',
     priority: 'low',
@@ -67,7 +67,7 @@ const todos: Todo[] = [
     createdAt: new Date('2023-05-01').toISOString(),
   },
   {
-    id: 8,
+    id: 9,
     title: '영앙제먹기5',
     description: '유산균',
     priority: 'low',
@@ -75,7 +75,7 @@ const todos: Todo[] = [
     createdAt: new Date('2023-05-01').toISOString(),
   },
   {
-    id: 9,
+    id: 10,
     title: '영앙제먹기6',
     description: '유산균',
     priority: 'low',
@@ -83,7 +83,7 @@ const todos: Todo[] = [
     createdAt: new Date('2023-05-01').toISOString(),
   },
   {
-    id: 10,
+    id: 11,
     title: '영앙제먹기7',
     description: '유산균',
     priority: 'low',
