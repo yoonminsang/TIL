@@ -26,6 +26,30 @@ const todos: Todo[] = [
     status: 'todo',
     createdAt: new Date('2023-05-01').toISOString(),
   },
+  {
+    id: 4,
+    title: '코딩공부하기2',
+    description: 'react query 공부하기',
+    priority: 'high',
+    status: 'ing',
+    createdAt: new Date('2023-05-01').toISOString(),
+  },
+  {
+    id: 5,
+    title: '운동하기2',
+    description: '가슴운동',
+    priority: 'medium',
+    status: 'done',
+    createdAt: new Date('2023-05-01').toISOString(),
+  },
+  {
+    id: 6,
+    title: '영앙제먹기2',
+    description: '유산균',
+    priority: 'low',
+    status: 'todo',
+    createdAt: new Date('2023-05-01').toISOString(),
+  },
 ];
 let todoId = Math.max(...todos.map(({ id }) => id)) + 1;
 
