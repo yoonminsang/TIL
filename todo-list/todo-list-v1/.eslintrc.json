@@ -6,6 +6,9 @@
       {
         "patterns": [
           {
+            "group": ["@/apis/*"]
+          },
+          {
             "group": ["@/components/*"]
           },
           {

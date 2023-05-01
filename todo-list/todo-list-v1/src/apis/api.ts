@@ -8,7 +8,7 @@ interface RequestOptions<B> {
   headers?: AxiosRequestHeaders;
 }
 
-class Api {
+export class Api {
   private client: AxiosInstance;
 
   constructor() {
@@ -67,5 +67,3 @@ class Api {
     return this.request<T>('DELETE', url, options);
   }
 }
-
-export const api = new Api();
