@@ -35,32 +35,35 @@ export class Api {
     return data;
   }
 
-  public async get<T>(
+  protected async get<T>(
     url: string,
     options?: RequestOptions<undefined>
   ): Promise<T> {
     return this.request<T>('GET', url, options);
   }
 
-  public async post<T, B>(
+  protected async post<T, B>(
     url: string,
     options?: RequestOptions<B>
   ): Promise<T> {
     return this.request<T, B>('POST', url, options);
   }
 
-  public async patch<T, B>(
+  protected async patch<T, B>(
     url: string,
     options?: RequestOptions<B>
   ): Promise<T> {
     return this.request<T, B>('PATCH', url, options);
   }
 
-  public async put<T, B>(url: string, options?: RequestOptions<B>): Promise<T> {
+  protected async put<T, B>(
+    url: string,
+    options?: RequestOptions<B>
+  ): Promise<T> {
     return this.request<T, B>('PUT', url, options);
   }
 
-  public async delete<T>(
+  protected async delete<T>(
     url: string,
     options?: RequestOptions<undefined>
   ): Promise<T> {

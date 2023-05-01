@@ -7,16 +7,16 @@ import {
 import { Api } from '../api';
 
 class TodoApi extends Api {
-  private getTodos() {
+  public getTodos() {
     return this.get<TodoSummaryDto[]>('/todos');
   }
-  private getTodosById(pathParams: { id: number }) {
+  public getTodosById(pathParams: { id: number }) {
     return this.get<Todo>('/todos/:id', { pathParams });
   }
-  private postTodos(body: TodoCreateDto) {
+  public postTodos(body: TodoCreateDto) {
     return this.post<Todo, TodoCreateDto>('/todos', { body });
   }
-  private patchTodos(pathParams: { id: number }, body: TodoUpdateDto) {
+  public patchTodos(pathParams: { id: number }, body: TodoUpdateDto) {
     return this.patch<Todo, TodoUpdateDto>('/todos/:id', { pathParams, body });
   }
 }
