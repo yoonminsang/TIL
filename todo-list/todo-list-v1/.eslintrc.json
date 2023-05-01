@@ -15,7 +15,7 @@
             "group": ["@/domain/*/*"]
           },
           {
-            "group": ["@/hooks/*"]
+            "group": ["@/hooks/common/*"]
           },
           {
             "group": ["@/utils/*"]
