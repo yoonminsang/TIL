@@ -49,17 +49,17 @@ export const Layout: Story = {
   decorators: [
     (Story) => (
       <TodoCardListContainer>
-        <TodoCardList>
+        <TodoCardList title="할 일">
           <Story />
           <Story />
           <Story />
         </TodoCardList>
-        <TodoCardList>
+        <TodoCardList title="진행중">
           <Story />
           <Story />
           <Story />
         </TodoCardList>
-        <TodoCardList>
+        <TodoCardList title="완료">
           <Story />
           <Story />
           <Story />
