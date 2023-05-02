@@ -1,10 +1,15 @@
 import { FC } from 'react';
-import { useGetList } from './useTodos';
 import { TodoCard, TodoLayout } from './components';
+import { TodoSummaryDto } from '@/mocks/types';
 
-export const Todos: FC = () => {
-  const { list } = useGetList();
+interface Props {
+  list: {
+    title: string;
+    data?: TodoSummaryDto[];
+  }[];
+}
 
+export const Todos: FC<Props> = ({ list }) => {
   return (
     <TodoLayout>
       <TodoCard.listContainer>
