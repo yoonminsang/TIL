@@ -7,17 +7,23 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 
 interface Props {
   visible: GetProps<typeof ModalV1>['visible'];
-  onConfirm: (value: TodoCreateDto | PromiseLike<TodoCreateDto>) => void;
-  onClose: GetProps<typeof ModalV1>['onClose'];
+  resolve: (
+    value: false | TodoCreateDto | PromiseLike<TodoCreateDto | false>
+  ) => void;
+  close: () => void;
 }
 
-export const TodoCreateModal: FC<Props> = ({ visible, onConfirm, onClose }) => {
-  const { register, handleSubmit, control } = useForm<TodoCreateDto>();
+export const TodoCreateModal: FC<Props> = ({ visible, resolve, close }) => {
+  const { register, handleSubmit } = useForm<TodoCreateDto>();
 
   const onSubmit: SubmitHandler<TodoCreateDto> = (data, err) => {
-    console.log(data, err);
-    onConfirm(data);
-    onClose();
+    resolve(data);
+    close();
+  };
+
+  const onClose = () => {
+    resolve(false);
+    close();
   };
 
   return (
