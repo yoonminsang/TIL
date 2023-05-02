@@ -43,11 +43,9 @@ export const TodoCard = forwardRef<HTMLDivElement, Props>(function TodoCard(
 
 const PriorityImg: FC<{ priority: Props['priority'] }> = ({ priority }) => {
   const src = (() => {
-    if (priority === 'high')
-      return 'https://classum.atlassian.net/images/icons/priorities/high.svg';
-    if (priority === 'medium')
-      return 'https://classum.atlassian.net/images/icons/priorities/medium.svg';
-    return 'https://classum.atlassian.net/images/icons/priorities/low.svg';
+    if (priority === 'high') return '/high.svg';
+    if (priority === 'medium') return '/medium.svg';
+    return '/low.svg';
   })();
 
   return <Image src={src} alt={priority} width={16} height={16} />;
@@ -68,4 +66,14 @@ const PriorityImg: FC<{ priority: Props['priority'] }> = ({ priority }) => {
 //   if (priority === 'high') return highSrc;
 //   if (priority === 'medium') return mediumSrc;
 //   return lowSrc;
+// })();
+
+// 외부 이미지
+
+// const src = (() => {
+//   if (priority === 'high')
+//     return 'https://classum.atlassian.net/images/icons/priorities/high.svg';
+//   if (priority === 'medium')
+//     return 'https://classum.atlassian.net/images/icons/priorities/medium.svg';
+//   return 'https://classum.atlassian.net/images/icons/priorities/low.svg';
 // })();
