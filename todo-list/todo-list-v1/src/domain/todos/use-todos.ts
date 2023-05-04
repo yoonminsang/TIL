@@ -9,7 +9,6 @@ export const useTodos: UseTodos = () => {
   const setTodos = useSetRecoilState(todosState);
   const filteredTodos = useRecoilValue(filteredTodosState);
 
-  // TODO: 훅 실행될때마다 recoil todosState 실행되는거 비효율
   useEffect(() => {
     if (data) setTodos(data);
   }, [data, setTodos]);
