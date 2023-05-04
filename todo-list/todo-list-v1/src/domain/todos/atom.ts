@@ -4,6 +4,13 @@ import { atom, selector } from 'recoil';
 export const todosState = atom<null | TodoSummaryDto[]>({
   key: 'todosState',
   default: null,
+  effects: [
+    () => {
+      console.log(
+        'todosState 바뀜.(이걸 api, 로컬스토리지, queryparam에 동기화 가능'
+      );
+    },
+  ],
 });
 
 export const filteredTodosState = selector({
