@@ -94,11 +94,15 @@ const todos: Todo[] = [
 let todoId = Math.max(...todos.map(({ id }) => id)) + 1;
 
 export const handlers = [
-  rest.get('/todos', (_req, res, ctx) => {
+  rest.get('/todos', async (_req, res, ctx) => {
+    await loading();
+
     return res(ctx.json<TodoSummaryDto[]>(getTodoSummary()));
   }),
 
-  rest.get('/todos/:id', (req, res, ctx) => {
+  rest.get('/todos/:id', async (req, res, ctx) => {
+    await loading();
+
     const { id } = req.params;
     const todo = getTodoById(Number(id));
 
@@ -113,6 +117,8 @@ export const handlers = [
   }),
 
   rest.post('/todos', async (req, res, ctx) => {
+    await loading();
+
     const { title, description, priority, status } =
       await req.json<TodoCreateDto>();
 
@@ -137,6 +143,8 @@ export const handlers = [
   }),
 
   rest.patch(`/todos/:id`, async (req, res, ctx) => {
+    await loading();
+
     const body = await req.json<TodoUpdateDto>();
     const { id } = req.params;
     const todoIndex = todos.findIndex((todo) => todo.id === Number(id));
@@ -159,7 +167,9 @@ export const handlers = [
     return res(ctx.json<Todo>(updatedTodo));
   }),
 
-  rest.delete('/todos/:id', (req, res, ctx) => {
+  rest.delete('/todos/:id', async (req, res, ctx) => {
+    await loading();
+
     const { id } = req.params;
     const todoIndex = todos.findIndex((todo) => todo.id === Number(id));
 
@@ -184,4 +194,8 @@ const getTodoSummary = () =>
 
 const getTodoById = (id: number) => {
   return todos.find((todo) => todo.id === id);
+};
+
+const loading = async (time = 500) => {
+  await new Promise((resolve) => setTimeout(resolve, time));
 };
