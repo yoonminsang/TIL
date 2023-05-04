@@ -1,7 +1,4 @@
 import { TodoStatus, TodoSummaryDto } from '@/mocks/types';
-import { useRecoilState } from 'recoil';
-import { useSetRecoilState } from 'recoil';
-import { useRecoilValue } from 'recoil';
 import { atom, selector } from 'recoil';
 
 export const todosState = atom<null | TodoSummaryDto[]>({
@@ -38,26 +35,3 @@ export const filteredTodosState = selector({
     return list;
   },
 });
-
-useRecoilValue;
-// const todoList = useRecoilValue(todoListState);
-useSetRecoilState;
-// const setTodoList = useSetRecoilState(todoListState);
-
-// const addItem = () => {
-//   setTodoList((oldTodoList) => [
-//     ...oldTodoList,
-//     {
-//       id: getId(),
-//       text: inputValue,
-//       isComplete: false,
-//     },
-//   ]);
-//   setInputValue('');
-// };
-
-// const onChange = ({target: {value}}) => {
-//   setInputValue(value);
-// };
-useRecoilState;
-// const [todoList, setTodoList] = useRecoilState(todoListState);
