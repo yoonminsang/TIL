@@ -12,6 +12,7 @@ export const useGetTodos = () =>
     queryKey: TODO_KEY.all,
     queryFn: () => todoApi.getTodos(),
     suspense: true,
+    staleTime: 10000,
   });
 export const useGetTodosById = (id: number) =>
   useQuery({
