@@ -16,6 +16,6 @@ export const useGetTodos = () =>
   });
 export const useGetTodosById = (id: number) =>
   useQuery({
-    queryKey: TODO_KEY.all,
+    queryKey: TODO_KEY.detail(id),
     queryFn: () => todoApi.getTodosById({ pathParams: { id } }),
   });
