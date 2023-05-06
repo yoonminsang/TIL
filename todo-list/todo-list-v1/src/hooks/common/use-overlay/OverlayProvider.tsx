@@ -1,3 +1,4 @@
+import { config } from '@/config';
 import React, {
   createContext,
   PropsWithChildren,
@@ -11,7 +12,7 @@ export const OverlayContext = createContext<{
   mount(id: string, element: ReactNode): void;
   unmount(id: string): void;
 } | null>(null);
-if (process.env.NODE_ENV !== 'production') {
+if (config.NODE_ENV !== 'production') {
   OverlayContext.displayName = 'OverlayContext';
 }
 

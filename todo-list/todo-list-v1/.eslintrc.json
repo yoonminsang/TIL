@@ -12,6 +12,9 @@
             "group": ["@/components/*"]
           },
           {
+            "group": ["@/config/*"]
+          },
+          {
             "group": ["@/domain/*/*"]
           },
           {

@@ -1,3 +1,4 @@
+import { config } from '@/config';
 import { OverlayProvider } from '@/hooks/common';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
@@ -5,7 +6,7 @@ import type { AppProps } from 'next/app';
 import { Suspense, useEffect, useState } from 'react';
 import { RecoilRoot, useRecoilSnapshot } from 'recoil';
 
-if (process.env.NODE_ENV === 'development') {
+if (config.NODE_ENV === 'development') {
   require('../mocks');
 }
 
