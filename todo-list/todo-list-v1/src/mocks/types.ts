@@ -12,7 +12,7 @@ export const TodoStatus = {
 } as const;
 export type TodoStatus = (typeof TodoStatus)[keyof typeof TodoStatus];
 
-export type Todo = {
+export interface Todo {
   id: number;
   title: string;
   description?: string;
@@ -20,10 +20,10 @@ export type Todo = {
   status: TodoStatus;
   createdAt: string;
   updatedAt?: string;
-};
+}
 
-export type TodoSummaryDto = Omit<Todo, 'description'>;
-export type TodoCreateDto = Omit<Todo, 'id' | 'createdAt' | 'updatedAt'>;
-export type TodoUpdateDto = Partial<
-  Omit<Todo, 'id' | 'createdAt' | 'updatedAt'>
->;
+export interface TodoSummaryDto extends Omit<Todo, 'description'> {}
+export interface TodoCreateDto
+  extends Omit<Todo, 'id' | 'createdAt' | 'updatedAt'> {}
+export interface TodoUpdateDto
+  extends Partial<Omit<Todo, 'id' | 'createdAt' | 'updatedAt'>> {}
