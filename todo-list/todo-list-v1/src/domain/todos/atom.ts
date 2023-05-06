@@ -36,13 +36,6 @@ export const filteredTodosState = selector({
               context: 'domain/todos/atom - filteredTodosState',
             });
         }
-        if (cur.status === TodoStatus.todo) {
-          acc.todo.push(cur);
-        } else if (cur.status === TodoStatus.ing) {
-          acc.ing.push(cur);
-        } else if (cur.status === TodoStatus.done) {
-          acc.done.push(cur);
-        }
         return acc;
       },
       {
