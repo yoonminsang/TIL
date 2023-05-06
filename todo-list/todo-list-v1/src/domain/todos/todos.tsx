@@ -1,6 +1,5 @@
 import { FC } from 'react';
 import { TodoCard, TodoLayout } from './components';
-import { TodoSummaryDto } from '@/mocks/types';
 import { UseTodos } from './types';
 
 interface Props {
