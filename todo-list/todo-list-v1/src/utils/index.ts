@@ -1,2 +1,2 @@
-export * from './types';
 export { errorMessage } from './errorMessage';
+export * from './types';
