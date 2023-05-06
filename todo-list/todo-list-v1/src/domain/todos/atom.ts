@@ -1,4 +1,5 @@
 import { TodoStatus, TodoSummaryDto } from '@/mocks/types';
+import { logMessage } from '@/utils';
 import { atom, selector } from 'recoil';
 
 export const todosState = atom<null | TodoSummaryDto[]>({
@@ -19,6 +20,22 @@ export const filteredTodosState = selector({
     const data = get(todosState);
     const filteredData = data?.reduce(
       (acc, cur) => {
+        switch (cur.status) {
+          case TodoStatus.todo:
+            acc.todo.push(cur);
+            break;
+          case TodoStatus.ing:
+            acc.ing.push(cur);
+            break;
+          case TodoStatus.done:
+            acc.done.push(cur);
+            break;
+          default:
+            logMessage({
+              message: '정해진 status가 아닙니다',
+              context: 'domain/todos/atom - filteredTodosState',
+            });
+        }
         if (cur.status === TodoStatus.todo) {
           acc.todo.push(cur);
         } else if (cur.status === TodoStatus.ing) {
