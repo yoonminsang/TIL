@@ -1,5 +1,5 @@
 import { TodoStatus, TodoSummaryDto } from '@/mocks/types';
-import { logMessage } from '@/utils';
+import { errorMessage } from '@/utils';
 import { atom, selector } from 'recoil';
 
 export const todosState = atom<null | TodoSummaryDto[]>({
@@ -31,7 +31,7 @@ export const filteredTodosState = selector({
             acc.done.push(cur);
             break;
           default:
-            logMessage({
+            errorMessage({
               message: '정해진 status가 아닙니다',
               context: 'domain/todos/atom - filteredTodosState',
             });

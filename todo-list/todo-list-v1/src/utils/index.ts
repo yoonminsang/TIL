@@ -17,7 +17,7 @@ export type GetProps<C> = C extends JSXElementConstructor<infer P>
  *   use-filter-list라는 파일의 filter 함수에서 에러가 발생
  *   => logMessage('백엔드 dto와 status가 다릅니다', 'hooks/list/use-filter-list - filter', err)
  */
-export const logMessage = ({
+export const errorMessage = ({
   message,
   context,
   err,
@@ -27,16 +27,16 @@ export const logMessage = ({
   err?: any;
 }) => {
   if (config.NODE_ENV === 'production') {
-    logMessageInProd();
+    errorMessageInProd();
   } else {
-    logMessageInDev();
+    errorMessageInDev();
   }
   /** dev에서는 로컬에서 볼 수 있는 에러 */
-  function logMessageInDev() {
+  function errorMessageInDev() {
     console.log(`message: ${message} \n context: ${context} \n err: ${err}`);
   }
   /** prod에서는 에러 로그를 전송 */
-  function logMessageInProd() {
+  function errorMessageInProd() {
     console.log(`message: ${message} \n context: ${context} \n err: ${err}`);
   }
 };
