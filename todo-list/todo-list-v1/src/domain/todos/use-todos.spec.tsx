@@ -1,88 +1,35 @@
 import { TodoCreateDto, TodoPriority, TodoStatus } from '@/mocks/types';
 import { useTodosHeader } from './use-todos';
-import { renderHook, act, waitFor } from '@testing-library/react';
-import { RecoilRoot, useRecoilValue } from 'recoil';
-import { todosState } from './atom';
+import { renderHook, act } from '@testing-library/react';
+import { RecoilRoot } from 'recoil';
 
+const context = describe;
+
+// recoil 테스트 하는방법을 모르겠음.. 불가능한건지 내가모르는건지...
 describe('useTodosHeader', () => {
-  it('1', async () => {
-    const { result } = renderHook(() => useTodosHeader(), {
-      wrapper: RecoilRoot,
-    });
-    const newTodo: TodoCreateDto = {
-      status: TodoStatus.todo,
-      title: 'title',
-      priority: TodoPriority.high,
-    };
-
-    act(() => {
-      result.current.handleCreateTodo(newTodo);
+  describe('handleCreateTodo', () => {
+    context('basic success', () => {
+      it('should be success create when todos empty', () => {});
+      it('should be success create when todos exist', () => {});
     });
 
-    // await waitFor(() => {
-    // const { result } = renderHook(() => useRecoilValue(todosState), {
-    //   wrapper: RecoilRoot,
-    // });
-    // console.log(result.current);
-    // expect(result.current).toHaveLength(1);
-    // });
+    context('check id', () => {
+      it('should be id -1 when first client create', () => {
+        const { result } = renderHook(() => useTodosHeader(), {
+          wrapper: RecoilRoot,
+        });
 
-    // await waitFor(() => {
-    //   console.log('waits');
-    // });
-    // act(() => {
-    //   const { result } = renderHook(() => useRecoilValue(todosState), {
-    //     wrapper: RecoilRoot,
-    //   });
-    //   console.log(result.current);
-    // });
-    // expect(1).toBe(1);
+        const newTodo: TodoCreateDto = {
+          status: TodoStatus.todo,
+          title: 'title',
+          priority: TodoPriority.high,
+        };
+
+        act(() => {
+          result.current.handleCreateTodo(newTodo);
+        });
+      });
+      it('should be id -2 when second client create', () => {});
+    });
   });
 });
-// await waitFor(() => {
-//   const snapshot = snapshot_UNSTABLE();
-//   const todoListLoadable = snapshot.getLoadable(todosState);
-//   console.log(todoListLoadable);
-// });
-
-// let todos;
-// act(() => {
-//   const Component = () => {
-//     todos = useRecoilValue(todosState);
-//     return <div>23</div>;
-//   };
-//   render(<Component />);
-// });
-
-// expect(todos).toHaveLength(1);
-
-// describe('useTodosHeader', () => {
-//   it('should create a new todo', () => {
-//     const setTodos = jest.fn();
-//     const { getByTestId } = render(
-//       <RecoilRoot>
-//         <TestComponent setTodos={setTodos} />
-//       </RecoilRoot>
-//     );
-
-//     fireEvent.click(getByTestId('create-todo-btn'));
-
-//     expect(setTodos).toHaveBeenCalledWith(expect.any(Function));
-//   });
-// });
-
-// const TestComponent = ({ setTodos }) => {
-//   const { handleCreateTodo } = useTodosHeader();
-
-//   const handleTestCreateTodo = () => {
-//     handleCreateTodo({ description: 'Test todo' });
-//   };
-
-//   return (
-//     <div>
-//       <button onClick={handleTestCreateTodo} data-testid="create-todo-btn">
-//         Create Todo
-//       </button>
-//     </div>
-//   );
-// };
