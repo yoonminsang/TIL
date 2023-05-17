@@ -1,6 +1,10 @@
 // https://school.programmers.co.kr/learn/courses/30/lessons/178870
 // https://www.youtube.com/watch?v=uifOTqMOVrE&ab_channel=%EC%9C%A4%EC%9C%A4
 
+/**
+ * @Date 대략 2023.04.19
+ */
+
 // 첫번째 시도는 n^2이라서 실패. 누적합 알고리즘이 필요하다고 느꼈음.
 function solution(sequence, k) {
   const answerList = [];
