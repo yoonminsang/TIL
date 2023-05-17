@@ -1,4 +1,4 @@
 export { Todos } from './todos';
 export { TodoCreateModal } from './components';
-export { useTodos } from './use-todos';
-export type { UseTodos } from './types';
+export { useTodos, useTodosHeader } from './use-todos';
+export type { UseTodos, UseTodosHeader } from './types';

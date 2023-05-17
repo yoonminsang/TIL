@@ -1,18 +1,18 @@
 import { Button } from '@/components';
 import { TodoCreateModal } from '@/domain/todos';
-import { UseTodos } from '@/domain/todos';
+
+import { UseTodosHeader } from '@/domain/todos';
 
 import { useOverlay } from '@/hooks/common';
 import { TodoCreateDto } from '@/mocks/types';
 import { FC } from 'react';
 
 interface Props {
-  useTodos: UseTodos;
+  useTodosHeader: UseTodosHeader;
   title: string;
 }
 
-export const Header: FC<Props> = ({ useTodos, title }) => {
-  useTodos();
+export const Header: FC<Props> = ({ useTodosHeader, title }) => {
   const overlay = useOverlay();
   const openTodoCreateModal = async () => {
     const result = await new Promise<TodoCreateDto | false>((resolve) => {
