@@ -13,6 +13,7 @@ interface Props {
 }
 
 export const Header: FC<Props> = ({ useTodosHeader, title }) => {
+  const { handleCreateTodo } = useTodosHeader();
   const overlay = useOverlay();
   const openTodoCreateModal = async () => {
     const result = await new Promise<TodoCreateDto | false>((resolve) => {
@@ -20,7 +21,9 @@ export const Header: FC<Props> = ({ useTodosHeader, title }) => {
         <TodoCreateModal visible={isOpen} resolve={resolve} close={close} />
       ));
     });
-    console.log(result);
+    if (result) {
+      handleCreateTodo(result);
+    }
   };
   return (
     <header>
