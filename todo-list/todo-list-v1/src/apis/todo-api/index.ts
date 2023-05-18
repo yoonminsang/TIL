@@ -7,8 +7,15 @@ import {
 import { Api } from '../api';
 
 class TodoApi extends Api {
+  /** @deprecated /todos/summary로 변경 */
   public getTodos() {
     return this.get<TodoSummaryDto[]>('/todos');
+  }
+  public getAllTodos() {
+    return this.get<TodoSummaryDto[]>('/todos/all');
+  }
+  public getSummaryTodos() {
+    return this.get<TodoSummaryDto[]>('/todos/summary');
   }
   public getTodosById({ pathParams }: { pathParams: { id: number } }) {
     return this.get<Todo>('/todos/:id', { pathParams });
