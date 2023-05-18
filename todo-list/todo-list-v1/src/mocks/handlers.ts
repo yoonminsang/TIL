@@ -94,7 +94,19 @@ const todos: Todo[] = [
 let todoId = Math.max(...todos.map(({ id }) => id)) + 1;
 
 export const handlers = [
+  /** @deprecated TODO: api 변경 */
   rest.get('/todos', async (_req, res, ctx) => {
+    const redirectUrl = '/todos/summary';
+    return res(ctx.status(302), ctx.set('Location', redirectUrl));
+  }),
+
+  rest.get('/todos/all', async (_req, res, ctx) => {
+    await loading();
+
+    return res(ctx.json<Todo[]>(getTodo()));
+  }),
+
+  rest.get('/todos/summary', async (_req, res, ctx) => {
     await loading();
 
     return res(ctx.json<TodoSummaryDto[]>(getTodoSummary()));
@@ -191,6 +203,8 @@ const getTodoSummary = () =>
     const { description, ...summary } = todo;
     return summary;
   });
+
+const getTodo = () => todos;
 
 const getTodoById = (id: number) => {
   return todos.find((todo) => todo.id === id);
