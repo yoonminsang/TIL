@@ -2,15 +2,15 @@ import Image from 'next/image';
 import { Card } from '@/components';
 import { TodoPriority } from '@/mocks/types';
 import { css } from '@emotion/react';
-import { FC, forwardRef } from 'react';
+import { FC, HTMLAttributes, forwardRef } from 'react';
 
-interface Props {
+interface Props extends HTMLAttributes<HTMLDivElement> {
   title: string;
   priority: TodoPriority;
 }
 
 export const TodoCard = forwardRef<HTMLDivElement, Props>(function TodoCard(
-  { title, priority },
+  { title, priority, ...otherProps },
   ref
 ) {
   return (
@@ -32,6 +32,7 @@ export const TodoCard = forwardRef<HTMLDivElement, Props>(function TodoCard(
         }
       `}
       ref={ref}
+      {...otherProps}
     >
       <div className="title">{title}</div>
       <div className="options">
