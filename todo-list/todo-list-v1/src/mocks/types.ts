@@ -25,5 +25,4 @@ export interface Todo {
 export interface TodoSummaryDto extends Omit<Todo, 'description'> {}
 export interface TodoCreateDto
   extends Omit<Todo, 'id' | 'createdAt' | 'updatedAt'> {}
-export interface TodoUpdateDto
-  extends Partial<Omit<Todo, 'id' | 'createdAt' | 'updatedAt'>> {}
+export interface TodoUpdateDto extends Partial<Omit<Todo, 'id'>> {}
