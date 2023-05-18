@@ -35,17 +35,17 @@ describe('useTodosMutation', () => {
 
   describe('handleUpdateTodo', () => {
     context('error case', () => {
-      it('data null');
-      it('matching data null');
+      it('data null', () => {});
+      it('matching data null', () => {});
     });
-    it('should update');
+    it('should update', () => {});
   });
 
   describe('handleDeleteTodo', () => {
     context('error case', () => {
-      it('data null');
-      it('matching data null');
+      it('data null', () => {});
+      it('matching data null', () => {});
     });
-    it('should delete');
+    it('should delete', () => {});
   });
 });
