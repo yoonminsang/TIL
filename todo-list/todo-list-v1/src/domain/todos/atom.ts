@@ -14,6 +14,11 @@ export const todosSummaryState = atom<null | TodoSummaryDto[]>({
   ],
 });
 
+export const todosState = atom<Record<string, Todo>>({
+  key: 'todosState',
+  default: {},
+});
+
 export const filteredTodosState = selector({
   key: 'filteredTodosState',
   get: ({ get }) => {
