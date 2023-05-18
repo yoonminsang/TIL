@@ -1,13 +1,13 @@
-import { Todos, UseTodosHeader } from '@/domain/todos';
+import { Todos } from '@/domain/todos';
 import { Suspense } from 'react';
 import { Header } from './header';
 import { useTodos } from '@/domain/todos';
-import { useTodosHeader } from '@/domain/todos';
+import { useTodosMutation } from '@/domain/todos';
 
 export default function Recoil() {
   return (
     <>
-      <Header useTodosHeader={useTodosHeader} />
+      <Header useTodosMutation={useTodosMutation} />
       <Suspense fallback={<div>recoil loading...</div>}>
         <Todos useTodos={useTodos} />
       </Suspense>
