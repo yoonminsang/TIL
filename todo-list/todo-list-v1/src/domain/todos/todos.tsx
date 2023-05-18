@@ -3,6 +3,7 @@ import { TodoCard, TodoLayout, TodoUpdateModal } from './components';
 import { UseTodos, UseTodosMutation } from './types';
 import { useOverlay } from '@/hooks/common';
 import { GetProps, ResolveReturnType } from '@/utils';
+import { usePrefetchTodosById } from '@/hooks/queries/todo-queries';
 
 interface Props {
   useTodos: UseTodos;
@@ -10,11 +11,15 @@ interface Props {
 }
 
 export const Todos: FC<Props> = ({ useTodos, useTodosMutation }) => {
+  const overlay = useOverlay();
+
   const { filteredTodos } = useTodos();
   const { handleDeleteTodo, handleUpdateTodo } = useTodosMutation();
+  const { prefetchTodosById } = usePrefetchTodosById();
 
-  const overlay = useOverlay();
   const openTodoModifyModal = async (id: number) => {
+    // TODO: 로딩추가
+    const initialData = await prefetchTodosById(id);
     const result = await new Promise<
       ResolveReturnType<GetProps<typeof TodoUpdateModal>['resolve']>
     >((resolve) => {
@@ -23,15 +28,7 @@ export const Todos: FC<Props> = ({ useTodos, useTodosMutation }) => {
           visible={isOpen}
           resolve={resolve}
           close={close}
-          initialState={{
-            // TODO: API 연동
-            id: 1,
-            title: 'initail title',
-            description: 'description',
-            priority: 'low',
-            status: 'ing',
-            createdAt: new Date('1995-09-06').toISOString(),
-          }}
+          initialState={initialData}
         />
       ));
     });
