@@ -9,10 +9,9 @@ import { FC } from 'react';
 
 interface Props {
   useTodosHeader: UseTodosHeader;
-  title: string;
 }
 
-export const Header: FC<Props> = ({ useTodosHeader, title }) => {
+export const Header: FC<Props> = ({ useTodosHeader }) => {
   const { handleCreateTodo } = useTodosHeader();
   const overlay = useOverlay();
   const openTodoCreateModal = async () => {
@@ -27,7 +26,7 @@ export const Header: FC<Props> = ({ useTodosHeader, title }) => {
   };
   return (
     <header>
-      <h1>{title}</h1>
+      <h1>Recoil</h1>
       <Button onClick={openTodoCreateModal}>모달 만들기</Button>
     </header>
   );

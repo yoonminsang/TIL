@@ -7,7 +7,7 @@ import { useTodosHeader } from '@/domain/todos';
 export default function Recoil() {
   return (
     <>
-      <Header title="Recoil" useTodosHeader={useTodosHeader} />
+      <Header useTodosHeader={useTodosHeader} />
       <Suspense fallback={<div>recoil loading...</div>}>
         <Todos useTodos={useTodos} />
       </Suspense>
