@@ -3,7 +3,7 @@ import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { useEffect } from 'react';
 import { filteredTodosState, todosSummaryState, todosState } from './atom';
 import { UseTodos, UseTodosMutation } from './types';
-import { Todo, TodoCreateDto } from '@/mocks/types';
+import { Todo, TodoCreateDto, TodoUpdateDto } from '@/mocks/types';
 import { TodoSummaryDto } from '@/mocks/types';
 import { errorMessage, getCreateId } from '@/utils';
 import { produce } from 'immer';
@@ -47,7 +47,7 @@ export const useTodosMutation: UseTodosMutation = () => {
     });
   };
 
-  const handleUpdateTodo = (todo: Todo) => {
+  const handleUpdateTodo = (id: number, todo: TodoUpdateDto) => {
     setTodosSummary((todosSummary) => {
       if (!todosSummary) {
         errorMessage({
@@ -56,7 +56,9 @@ export const useTodosMutation: UseTodosMutation = () => {
         });
         return todosSummary;
       }
-      const index = todosSummary.findIndex(({ id }) => id === todo.id);
+      const index = todosSummary.findIndex(
+        (todoSummary) => todoSummary.id === id
+      );
       if (index === -1) {
         errorMessage({
           message: '찾는 todo가 없습니다',
@@ -65,7 +67,7 @@ export const useTodosMutation: UseTodosMutation = () => {
         return todosSummary;
       }
       return produce(todosSummary, (draft) => {
-        draft.splice(index, 1, todo);
+        draft.splice(index, 1, { ...draft[index], ...todo, id: id });
         return draft;
       });
     });

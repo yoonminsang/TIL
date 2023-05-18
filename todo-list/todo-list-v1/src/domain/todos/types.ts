@@ -1,10 +1,10 @@
-import { Todo, TodoCreateDto, TodoSummaryDto } from '@/mocks/types';
+import { TodoCreateDto, TodoSummaryDto, TodoUpdateDto } from '@/mocks/types';
 
 export type UseTodos = () => {
   filteredTodos: { title: string; data?: TodoSummaryDto[] }[];
 };
 export type UseTodosMutation = () => {
   handleCreateTodo: (todo: TodoCreateDto) => void;
-  handleUpdateTodo: (todo: Todo) => void;
-  handleDeleteTodo: (id: Todo['id']) => void;
+  handleUpdateTodo: (id: number, todo: TodoUpdateDto) => void;
+  handleDeleteTodo: (id: number) => void;
 };
