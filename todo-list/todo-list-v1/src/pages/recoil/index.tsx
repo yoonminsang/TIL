@@ -9,7 +9,7 @@ export default function Recoil() {
     <>
       <Header useTodosMutation={useTodosMutation} />
       <Suspense fallback={<div>recoil loading...</div>}>
-        <Todos useTodos={useTodos} />
+        <Todos useTodos={useTodos} useTodosMutation={useTodosMutation} />
       </Suspense>
     </>
   );
