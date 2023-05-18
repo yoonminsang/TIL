@@ -1,14 +1,14 @@
-import { TodoStatus, TodoSummaryDto } from '@/mocks/types';
+import { Todo, TodoStatus, TodoSummaryDto } from '@/mocks/types';
 import { errorMessage } from '@/utils';
 import { atom, selector } from 'recoil';
 
-export const todosState = atom<null | TodoSummaryDto[]>({
-  key: 'todosState',
+export const todosSummaryState = atom<null | TodoSummaryDto[]>({
+  key: 'todosSummaryState',
   default: null,
   effects: [
     () => {
       console.log(
-        'todosState 바뀜.(이걸 api, 로컬스토리지, queryparam에 동기화 가능'
+        'todosSummaryState 바뀜.(이걸 api, 로컬스토리지, queryparam에 동기화 가능'
       );
     },
   ],
@@ -17,7 +17,7 @@ export const todosState = atom<null | TodoSummaryDto[]>({
 export const filteredTodosState = selector({
   key: 'filteredTodosState',
   get: ({ get }) => {
-    const data = get(todosState);
+    const data = get(todosSummaryState);
     const filteredData = data?.reduce(
       (acc, cur) => {
         switch (cur.status) {
