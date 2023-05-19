@@ -21,6 +21,7 @@ export const TodoCard = forwardRef<HTMLDivElement, Props>(function TodoCard(
         gap: 10px;
         padding: 16px;
         min-width: 200px;
+        cursor: pointer;
         .title {
           font-weight: 700;
           overflow: hidden;
