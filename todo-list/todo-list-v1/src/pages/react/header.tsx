@@ -8,9 +8,7 @@ export const Header = () => {
   const overlay = useOverlay();
   const openTodoCreateModal = async () => {
     const result = await new Promise<TodoCreateDto | false>((resolve) => {
-      overlay.open(({ isOpen, close }) => (
-        <TodoCreateModal visible={isOpen} resolve={resolve} close={close} />
-      ));
+      overlay.open(({ isOpen, close }) => <TodoCreateModal visible={isOpen} resolve={resolve} close={close} />);
     });
     console.log(result);
   };

@@ -119,10 +119,7 @@ export const handlers = [
     const todo = getTodoById(Number(id));
 
     if (!todo) {
-      return res(
-        ctx.status(404),
-        ctx.json({ message: `${id}에 해당하는 todo가 없습니다` })
-      );
+      return res(ctx.status(404), ctx.json({ message: `${id}에 해당하는 todo가 없습니다` }));
     }
 
     return res(ctx.json<Todo>(todo));
@@ -131,14 +128,10 @@ export const handlers = [
   rest.post('/todos', async (req, res, ctx) => {
     await loading();
 
-    const { title, description, priority, status } =
-      await req.json<TodoCreateDto>();
+    const { title, description, priority, status } = await req.json<TodoCreateDto>();
 
     if (!title || !priority || !status) {
-      return res(
-        ctx.status(400),
-        ctx.json({ message: `title, priority, status 중 하나가 없습니다` })
-      );
+      return res(ctx.status(400), ctx.json({ message: `title, priority, status 중 하나가 없습니다` }));
     }
 
     const newTodo: Todo = {
@@ -162,10 +155,7 @@ export const handlers = [
     const todoIndex = todos.findIndex((todo) => todo.id === Number(id));
 
     if (todoIndex === -1) {
-      return res(
-        ctx.status(404),
-        ctx.json({ message: `${id}에 해당하는 todo가 없습니다` })
-      );
+      return res(ctx.status(404), ctx.json({ message: `${id}에 해당하는 todo가 없습니다` }));
     }
 
     const updatedTodo = {
@@ -186,10 +176,7 @@ export const handlers = [
     const todoIndex = todos.findIndex((todo) => todo.id === Number(id));
 
     if (todoIndex === -1) {
-      return res(
-        ctx.status(404),
-        ctx.json({ message: `${id}에 해당하는 todo가 없습니다` })
-      );
+      return res(ctx.status(404), ctx.json({ message: `${id}에 해당하는 todo가 없습니다` }));
     }
 
     todos.splice(todoIndex, 1);

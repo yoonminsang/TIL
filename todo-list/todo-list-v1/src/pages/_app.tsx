@@ -16,7 +16,7 @@ export default function App({ Component, pageProps }: AppProps) {
       defaultOptions: {
         queries: {},
       },
-    })
+    }),
   );
   return (
     <RecoilRoot>

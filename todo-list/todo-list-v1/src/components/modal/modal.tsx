@@ -10,13 +10,7 @@ interface Props {
   children: ReactNode;
 }
 
-export const Modal: FC<Props> = ({
-  visible,
-  width,
-  height,
-  onClickOverlay,
-  children,
-}) => {
+export const Modal: FC<Props> = ({ visible, width, height, onClickOverlay, children }) => {
   const onClickModalWrapper = (e: MouseEvent<HTMLDivElement>) => {
     if (e.target === e.currentTarget) {
       onClickOverlay?.(e);

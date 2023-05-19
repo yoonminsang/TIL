@@ -9,10 +9,7 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
   priority: TodoPriority;
 }
 
-export const TodoCard = forwardRef<HTMLDivElement, Props>(function TodoCard(
-  { title, priority, ...otherProps },
-  ref
-) {
+export const TodoCard = forwardRef<HTMLDivElement, Props>(function TodoCard({ title, priority, ...otherProps }, ref) {
   return (
     <Card
       css={css`
@@ -33,8 +30,7 @@ export const TodoCard = forwardRef<HTMLDivElement, Props>(function TodoCard(
         }
       `}
       ref={ref}
-      {...otherProps}
-    >
+      {...otherProps}>
       <div className="title">{title}</div>
       <div className="options">
         <PriorityImg priority={priority} />

@@ -24,16 +24,9 @@ export const Todos: FC<Props> = ({ useTodos, useTodosMutation }) => {
       });
       return;
     }
-    const result = await new Promise<
-      ResolveReturnType<GetProps<typeof TodoUpdateModal>['resolve']>
-    >((resolve) => {
+    const result = await new Promise<ResolveReturnType<GetProps<typeof TodoUpdateModal>['resolve']>>((resolve) => {
       overlay.open(({ isOpen, close }) => (
-        <TodoUpdateModal
-          visible={isOpen}
-          resolve={resolve}
-          close={close}
-          initialState={initialData}
-        />
+        <TodoUpdateModal visible={isOpen} resolve={resolve} close={close} initialState={initialData} />
       ));
     });
     if (result === false) return;

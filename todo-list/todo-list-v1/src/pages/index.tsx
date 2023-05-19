@@ -20,8 +20,7 @@ export default function Home() {
             text-decoration: none;
           }
         }
-      `}
-    >
+      `}>
       <h1>TODO LIST</h1>
       <nav>
         <Link href="/react">상태관리없는 투두리스트</Link>

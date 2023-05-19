@@ -7,9 +7,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 
 interface Props {
   visible: GetProps<typeof ModalV1>['visible'];
-  resolve: (
-    value: false | TodoCreateDto | PromiseLike<TodoCreateDto | false>
-  ) => void;
+  resolve: (value: false | TodoCreateDto | PromiseLike<TodoCreateDto | false>) => void;
   close: () => void;
 }
 
@@ -38,8 +36,7 @@ export const TodoCreateModal: FC<Props> = ({ visible, resolve, close }) => {
         <Button onClick={onClose} key={1}>
           취소하기
         </Button>,
-      ]}
-    >
+      ]}>
       <label htmlFor="title">제목</label>
       <Input
         {...register('title', {

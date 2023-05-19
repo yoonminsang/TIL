@@ -7,8 +7,7 @@ import styled from '@emotion/styled';
 import { Button } from '../button';
 import Image from 'next/image';
 
-interface Props
-  extends Omit<GetProps<typeof Modal>, 'children' | 'width' | 'height'> {
+interface Props extends Omit<GetProps<typeof Modal>, 'children' | 'width' | 'height'> {
   width?: GetProps<typeof Modal>['width'];
   height?: GetProps<typeof Modal>['height'];
   onClose: () => void;
@@ -29,12 +28,7 @@ export const ModalV1: FC<Props> = ({
   onClose,
 }) => {
   return (
-    <Modal
-      visible={visible}
-      onClickOverlay={onClose}
-      width={width}
-      height={height}
-    >
+    <Modal visible={visible} onClickOverlay={onClose} width={width} height={height}>
       <div
         css={css`
           display: flex;
@@ -57,8 +51,7 @@ export const ModalV1: FC<Props> = ({
               gap: 5px;
             }
           }
-        `}
-      >
+        `}>
         <header>
           <h1>{title}</h1>
           <Button onClick={onClose}>

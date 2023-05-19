@@ -46,9 +46,7 @@ export const usePrefetchTodosById = () => {
       queryFn: () => todoApi.getTodosById({ pathParams: { id } }),
       staleTime: 10000,
     });
-    return queryClient.getQueryData(TODO_KEY.detail(id)) as Awaited<
-      ReturnType<typeof todoApi.getTodosById>
-    >;
+    return queryClient.getQueryData(TODO_KEY.detail(id)) as Awaited<ReturnType<typeof todoApi.getTodosById>>;
   };
 
   return { prefetchTodosById };

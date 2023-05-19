@@ -17,11 +17,7 @@ export class Api {
     // this.client.defaults.withCredentials = true;
   }
 
-  private async request<T, B = any>(
-    method: Method,
-    url: string,
-    options?: RequestOptions<B>
-  ): Promise<T> {
+  private async request<T, B = any>(method: Method, url: string, options?: RequestOptions<B>): Promise<T> {
     const { body, params, pathParams, headers } = options ?? {};
 
     const { data } = await this.client({
@@ -35,38 +31,23 @@ export class Api {
     return data;
   }
 
-  protected async get<T>(
-    url: string,
-    options?: RequestOptions<undefined>
-  ): Promise<T> {
+  protected async get<T>(url: string, options?: RequestOptions<undefined>): Promise<T> {
     return this.request<T>('GET', url, options);
   }
 
-  protected async post<T, B>(
-    url: string,
-    options?: RequestOptions<B>
-  ): Promise<T> {
+  protected async post<T, B>(url: string, options?: RequestOptions<B>): Promise<T> {
     return this.request<T, B>('POST', url, options);
   }
 
-  protected async patch<T, B>(
-    url: string,
-    options?: RequestOptions<B>
-  ): Promise<T> {
+  protected async patch<T, B>(url: string, options?: RequestOptions<B>): Promise<T> {
     return this.request<T, B>('PATCH', url, options);
   }
 
-  protected async put<T, B>(
-    url: string,
-    options?: RequestOptions<B>
-  ): Promise<T> {
+  protected async put<T, B>(url: string, options?: RequestOptions<B>): Promise<T> {
     return this.request<T, B>('PUT', url, options);
   }
 
-  protected async delete<T>(
-    url: string,
-    options?: RequestOptions<undefined>
-  ): Promise<T> {
+  protected async delete<T>(url: string, options?: RequestOptions<undefined>): Promise<T> {
     return this.request<T>('DELETE', url, options);
   }
 }

@@ -35,7 +35,7 @@ export const filteredTodosState = selector({
         todo: [] as Todo[],
         ing: [] as Todo[],
         done: [] as Todo[],
-      }
+      },
     );
     const list = [
       { title: '할 일', data: filteredData?.todo },

@@ -5,11 +5,7 @@ const toPath = (_path: string) => path.join(process.cwd(), _path);
 
 const config: StorybookConfig = {
   stories: ['../src/**/*.mdx', '../src/**/*.stories.@(js|jsx|ts|tsx)'],
-  addons: [
-    '@storybook/addon-links',
-    '@storybook/addon-essentials',
-    '@storybook/addon-interactions',
-  ],
+  addons: ['@storybook/addon-links', '@storybook/addon-essentials', '@storybook/addon-interactions'],
   staticDirs: ['../public'],
   framework: {
     name: '@storybook/nextjs',
@@ -26,19 +22,13 @@ const config: StorybookConfig = {
           test: /\.(ts|tsx)$/,
           loader: require.resolve('babel-loader'),
           options: {
-            presets: [
-              'next/babel',
-              [
-                '@babel/preset-react',
-                { runtime: 'automatic', importSource: '@emotion/react' },
-              ],
-            ],
+            presets: ['next/babel', ['@babel/preset-react', { runtime: 'automatic', importSource: '@emotion/react' }]],
           },
         },
         {
           test: /\.(png|svg|jpg|jpeg|gif)$/i,
           loader: 'next/images',
-        }
+        },
       );
     }
     if (config.resolve?.alias) {

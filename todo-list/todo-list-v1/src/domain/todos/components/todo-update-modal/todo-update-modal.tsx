@@ -10,19 +10,12 @@ type Modify = { type: 'modify'; data: TodoUpdateDto };
 
 interface Props {
   visible: GetProps<typeof ModalV1>['visible'];
-  resolve: (
-    value: Delete | Modify | false | PromiseLike<Delete | Modify | false>
-  ) => void;
+  resolve: (value: Delete | Modify | false | PromiseLike<Delete | Modify | false>) => void;
   close: () => void;
   initialState: Todo;
 }
 
-export const TodoUpdateModal: FC<Props> = ({
-  visible,
-  resolve,
-  close,
-  initialState,
-}) => {
+export const TodoUpdateModal: FC<Props> = ({ visible, resolve, close, initialState }) => {
   const { register, handleSubmit } = useForm<TodoUpdateDto>({
     defaultValues: {
       title: initialState.title,
@@ -62,8 +55,7 @@ export const TodoUpdateModal: FC<Props> = ({
         <Button onClick={onClose} key={2}>
           취소하기
         </Button>,
-      ]}
-    >
+      ]}>
       <label htmlFor="title">제목</label>
       <Input
         {...register('title', {

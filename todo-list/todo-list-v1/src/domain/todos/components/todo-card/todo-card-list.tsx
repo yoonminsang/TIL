@@ -19,8 +19,7 @@ export const TodoCardList: FC<Props> = ({ title, children }) => {
         h2 {
           padding-left: 10px;
         }
-      `}
-    >
+      `}>
       <h2>{title}</h2>
       {children}
     </li>

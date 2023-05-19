@@ -42,7 +42,7 @@ export function useOverlay({ exitOnUnmount = true }: Options = {}) {
             onExit={() => {
               unmount(id);
             }}
-          />
+          />,
         );
       },
       close: () => {
@@ -52,6 +52,6 @@ export function useOverlay({ exitOnUnmount = true }: Options = {}) {
         unmount(id);
       },
     }),
-    [id, mount, unmount]
+    [id, mount, unmount],
   );
 }

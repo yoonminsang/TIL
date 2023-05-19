@@ -7,6 +7,4 @@ export type GetProps<C> = C extends JSXElementConstructor<infer P>
     : P
   : never;
 
-export type ResolveReturnType<T> = T extends (value: infer R) => any
-  ? R
-  : never;
+export type ResolveReturnType<T> = T extends (value: infer R) => any ? R : never;
