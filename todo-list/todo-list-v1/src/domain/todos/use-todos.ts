@@ -1,7 +1,7 @@
 import { useGetAllTodos } from '@/hooks/queries/todo-queries';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { useEffect } from 'react';
-import { filteredTodosState, todosSummaryState } from './atom';
+import { filteredTodosState, todosState } from './atom';
 import { UseTodos, UseTodosMutation } from './types';
 import { Todo, TodoCreateDto, TodoUpdateDto } from '@/mocks/types';
 import { errorMessage, getCreateId } from '@/utils';
@@ -9,52 +9,50 @@ import { produce } from 'immer';
 
 export const useTodos: UseTodos = () => {
   const { data } = useGetAllTodos();
-  const [todoSummary, setTodosSummary] = useRecoilState(todosSummaryState);
+  const [todo, setTodos] = useRecoilState(todosState);
   const filteredTodos = useRecoilValue(filteredTodosState);
 
   useEffect(() => {
-    if (data) setTodosSummary(data);
-  }, [data, setTodosSummary]);
+    if (data) setTodos(data);
+  }, [data, setTodos]);
 
-  return { todoSummary, filteredTodos };
+  return { todoSummary: todo, filteredTodos };
 };
 
 export const useTodosMutation: UseTodosMutation = () => {
-  const [todosSummary, setTodosSummary] = useRecoilState(todosSummaryState);
+  const [todos, setTodos] = useRecoilState(todosState);
 
   const handleCreateTodo = (todo: TodoCreateDto) => {
-    const id = getCreateId(todosSummary);
+    const id = getCreateId(todos);
     const createdAt = new Date().toISOString();
-    setTodosSummary((todosSummary) => {
+    setTodos((todos) => {
       const newTodo: Todo = {
         ...todo,
         id,
         createdAt,
       };
-      return todosSummary ? [...todosSummary, newTodo] : [newTodo];
+      return todos ? [...todos, newTodo] : [newTodo];
     });
   };
 
   const handleUpdateTodo = (id: number, todo: TodoUpdateDto) => {
-    setTodosSummary((todosSummary) => {
-      if (!todosSummary) {
+    setTodos((todos) => {
+      if (!todos) {
         errorMessage({
           message: 'todos가 없습니다',
           context: 'domain/todos/use-todos useTodosMutation-handleUpdateTodo',
         });
-        return todosSummary;
+        return todos;
       }
-      const index = todosSummary.findIndex(
-        (todoSummary) => todoSummary.id === id
-      );
+      const index = todos.findIndex((todoSummary) => todoSummary.id === id);
       if (index === -1) {
         errorMessage({
           message: '찾는 todo가 없습니다',
           context: 'domain/todos/use-todos useTodosMutation-handleUpdateTodo',
         });
-        return todosSummary;
+        return todos;
       }
-      return produce(todosSummary, (draft) => {
+      return produce(todos, (draft) => {
         draft.splice(index, 1, { ...draft[index], ...todo, id: id });
         return draft;
       });
@@ -62,15 +60,15 @@ export const useTodosMutation: UseTodosMutation = () => {
   };
 
   const handleDeleteTodo = (id: Todo['id']) => {
-    setTodosSummary((todosSummary) => {
-      if (!todosSummary) {
+    setTodos((todos) => {
+      if (!todos) {
         errorMessage({
           message: 'todos가 없습니다',
           context: 'domain/todos/use-todos useTodosMutation-handleDeleteTodo',
         });
-        return todosSummary;
+        return todos;
       }
-      return todosSummary.filter((todo) => todo.id !== id);
+      return todos.filter((todo) => todo.id !== id);
     });
   };
 

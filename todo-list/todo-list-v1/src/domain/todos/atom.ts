@@ -2,7 +2,7 @@ import { Todo, TodoStatus, TodoSummaryDto } from '@/mocks/types';
 import { errorMessage } from '@/utils';
 import { atom, selector } from 'recoil';
 
-export const todosSummaryState = atom<null | Todo[]>({
+export const todosState = atom<null | Todo[]>({
   key: 'todosState',
   default: null,
 });
@@ -10,7 +10,7 @@ export const todosSummaryState = atom<null | Todo[]>({
 export const filteredTodosState = selector({
   key: 'filteredTodosState',
   get: ({ get }) => {
-    const data = get(todosSummaryState);
+    const data = get(todosState);
     const filteredData = data?.reduce(
       (acc, cur) => {
         switch (cur.status) {
