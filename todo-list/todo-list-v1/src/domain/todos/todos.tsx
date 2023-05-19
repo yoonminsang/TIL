@@ -2,8 +2,7 @@ import { FC } from 'react';
 import { TodoCard, TodoLayout, TodoUpdateModal } from './components';
 import { UseTodos, UseTodosMutation } from './types';
 import { useOverlay } from '@/hooks/common';
-import { GetProps, ResolveReturnType } from '@/utils';
-import { usePrefetchTodosById } from '@/hooks/queries/todo-queries';
+import { GetProps, ResolveReturnType, errorMessage } from '@/utils';
 
 interface Props {
   useTodos: UseTodos;
@@ -13,13 +12,18 @@ interface Props {
 export const Todos: FC<Props> = ({ useTodos, useTodosMutation }) => {
   const overlay = useOverlay();
 
-  const { filteredTodos } = useTodos();
+  const { todoSummary, filteredTodos } = useTodos();
   const { handleDeleteTodo, handleUpdateTodo } = useTodosMutation();
-  const { prefetchTodosById } = usePrefetchTodosById();
 
   const openTodoModifyModal = async (id: number) => {
-    // TODO: 로딩추가
-    const initialData = await prefetchTodosById(id);
+    const initialData = todoSummary?.find((v) => v.id === id);
+    if (!initialData) {
+      errorMessage({
+        message: 'initialData(todo에서 id를 find)가 없습니다',
+        context: 'domain/todos/todos - openTodoModifyModal',
+      });
+      return;
+    }
     const result = await new Promise<
       ResolveReturnType<GetProps<typeof TodoUpdateModal>['resolve']>
     >((resolve) => {

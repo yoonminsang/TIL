@@ -2,21 +2,9 @@ import { Todo, TodoStatus, TodoSummaryDto } from '@/mocks/types';
 import { errorMessage } from '@/utils';
 import { atom, selector } from 'recoil';
 
-export const todosSummaryState = atom<null | TodoSummaryDto[]>({
-  key: 'todosSummaryState',
-  default: null,
-  effects: [
-    () => {
-      console.log(
-        'todosSummaryState 바뀜.(이걸 api, 로컬스토리지, queryparam에 동기화 가능'
-      );
-    },
-  ],
-});
-
-export const todosState = atom<Record<string, Todo>>({
+export const todosSummaryState = atom<null | Todo[]>({
   key: 'todosState',
-  default: {},
+  default: null,
 });
 
 export const filteredTodosState = selector({
@@ -44,9 +32,9 @@ export const filteredTodosState = selector({
         return acc;
       },
       {
-        todo: [] as TodoSummaryDto[],
-        ing: [] as TodoSummaryDto[],
-        done: [] as TodoSummaryDto[],
+        todo: [] as Todo[],
+        ing: [] as Todo[],
+        done: [] as Todo[],
       }
     );
     const list = [

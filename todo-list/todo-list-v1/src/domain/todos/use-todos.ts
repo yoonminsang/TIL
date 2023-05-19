@@ -1,49 +1,37 @@
-import { useGetTodos } from '@/hooks/queries/todo-queries';
+import { useGetAllTodos } from '@/hooks/queries/todo-queries';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { useEffect } from 'react';
-import { filteredTodosState, todosSummaryState, todosState } from './atom';
+import { filteredTodosState, todosSummaryState } from './atom';
 import { UseTodos, UseTodosMutation } from './types';
 import { Todo, TodoCreateDto, TodoUpdateDto } from '@/mocks/types';
-import { TodoSummaryDto } from '@/mocks/types';
 import { errorMessage, getCreateId } from '@/utils';
 import { produce } from 'immer';
 
 export const useTodos: UseTodos = () => {
-  const { data } = useGetTodos();
-  const setTodosSummary = useSetRecoilState(todosSummaryState);
+  const { data } = useGetAllTodos();
+  const [todoSummary, setTodosSummary] = useRecoilState(todosSummaryState);
   const filteredTodos = useRecoilValue(filteredTodosState);
 
   useEffect(() => {
     if (data) setTodosSummary(data);
   }, [data, setTodosSummary]);
 
-  return { filteredTodos };
+  return { todoSummary, filteredTodos };
 };
 
 export const useTodosMutation: UseTodosMutation = () => {
   const [todosSummary, setTodosSummary] = useRecoilState(todosSummaryState);
-  const setTodos = useSetRecoilState(todosState);
 
   const handleCreateTodo = (todo: TodoCreateDto) => {
     const id = getCreateId(todosSummary);
     const createdAt = new Date().toISOString();
     setTodosSummary((todosSummary) => {
-      const { description, ...todoWithoutDescription } = todo;
-      const newTodo: TodoSummaryDto = {
-        ...todoWithoutDescription,
+      const newTodo: Todo = {
+        ...todo,
         id,
         createdAt,
       };
       return todosSummary ? [...todosSummary, newTodo] : [newTodo];
-    });
-    setTodos((todos) => {
-      return produce(todos, (draft) => {
-        draft[id] = {
-          ...todo,
-          id,
-          createdAt,
-        };
-      });
     });
   };
 
@@ -83,12 +71,6 @@ export const useTodosMutation: UseTodosMutation = () => {
         return todosSummary;
       }
       return todosSummary.filter((todo) => todo.id !== id);
-    });
-    setTodos((todos) => {
-      return produce(todos, (draft) => {
-        delete draft[id];
-        return draft;
-      });
     });
   };
 
