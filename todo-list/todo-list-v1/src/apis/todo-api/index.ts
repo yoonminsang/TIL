@@ -12,7 +12,7 @@ class TodoApi extends Api {
     return this.get<TodoSummaryDto[]>('/todos');
   }
   public getAllTodos() {
-    return this.get<TodoSummaryDto[]>('/todos/all');
+    return this.get<Todo[]>('/todos/all');
   }
   public getSummaryTodos() {
     return this.get<TodoSummaryDto[]>('/todos/summary');
