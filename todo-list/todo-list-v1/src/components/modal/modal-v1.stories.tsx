@@ -15,7 +15,14 @@ export const Primary: Story = {
     visible: true,
     title: 'title',
     children: <div>모달입니다!</div>,
-    buttons: [<button key={0}>확인</button>, <button key={1}>취소</button>],
+    buttons: [
+      <button key={0} type="button">
+        확인
+      </button>,
+      <button key={1} type="button">
+        취소
+      </button>,
+    ],
     footer: 'footer',
   },
 };

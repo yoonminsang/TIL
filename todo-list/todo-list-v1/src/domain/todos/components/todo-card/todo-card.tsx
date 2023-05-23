@@ -1,43 +1,41 @@
 import Image from 'next/image';
-import { Card } from '@/components';
-import { TodoPriority } from '@/mocks/types';
 import { css } from '@emotion/react';
 import { FC, HTMLAttributes, forwardRef } from 'react';
+import { Card } from '@/components';
+import { TodoPriority } from '@/mocks/types';
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
   title: string;
   priority: TodoPriority;
 }
 
-export const TodoCard = forwardRef<HTMLDivElement, Props>(function TodoCard({ title, priority, ...otherProps }, ref) {
-  return (
-    <Card
-      css={css`
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-        padding: 16px;
-        min-width: 200px;
-        cursor: pointer;
-        .title {
-          font-weight: 700;
-          overflow: hidden;
-          display: -webkit-box;
-          -webkit-box-orient: vertical;
-          -webkit-line-clamp: 3;
-          text-overflow: ellipsis;
-          white-space: initial;
-        }
-      `}
-      ref={ref}
-      {...otherProps}>
-      <div className="title">{title}</div>
-      <div className="options">
-        <PriorityImg priority={priority} />
-      </div>
-    </Card>
-  );
-});
+export const TodoCard = forwardRef<HTMLDivElement, Props>(({ title, priority, ...otherProps }, ref) => (
+  <Card
+    css={css`
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      padding: 16px;
+      min-width: 200px;
+      cursor: pointer;
+      .title {
+        font-weight: 700;
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 3;
+        text-overflow: ellipsis;
+        white-space: initial;
+      }
+    `}
+    ref={ref}
+    {...otherProps}>
+    <div className="title">{title}</div>
+    <div className="options">
+      <PriorityImg priority={priority} />
+    </div>
+  </Card>
+));
 
 const PriorityImg: FC<{ priority: Props['priority'] }> = ({ priority }) => {
   const src = (() => {

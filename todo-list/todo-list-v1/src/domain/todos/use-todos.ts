@@ -1,11 +1,11 @@
-import { useGetAllTodos } from '@/hooks/queries/todo-queries';
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { useEffect } from 'react';
+import { produce } from 'immer';
+import { useGetAllTodos } from '@/hooks/queries/todo-queries';
 import { filteredTodosState, todosState } from './atom';
 import { UseTodos, UseTodosMutation } from './types';
 import { Todo, TodoCreateDto, TodoUpdateDto } from '@/mocks/types';
 import { errorMessage, getCreateId } from '@/utils';
-import { produce } from 'immer';
 
 export const useTodos: UseTodos = () => {
   const { data } = useGetAllTodos();
@@ -53,7 +53,7 @@ export const useTodosMutation: UseTodosMutation = () => {
         return todos;
       }
       return produce(todos, (draft) => {
-        draft.splice(index, 1, { ...draft[index], ...todo, id: id });
+        draft.splice(index, 1, { ...draft[index], ...todo, id });
         return draft;
       });
     });

@@ -1,6 +1,6 @@
-import { Todo, TodoStatus, TodoSummaryDto } from '@/mocks/types';
-import { errorMessage } from '@/utils';
 import { atom, selector } from 'recoil';
+import { Todo, TodoStatus } from '@/mocks/types';
+import { errorMessage } from '@/utils';
 
 export const todosState = atom<null | Todo[]>({
   key: 'todosState',

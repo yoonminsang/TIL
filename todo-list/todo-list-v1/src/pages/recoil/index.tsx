@@ -1,8 +1,6 @@
-import { Todos } from '@/domain/todos';
 import { Suspense } from 'react';
+import { Todos, useTodos, useTodosMutation } from '@/domain/todos';
 import { Header } from './header';
-import { useTodos } from '@/domain/todos';
-import { useTodosMutation } from '@/domain/todos';
 
 export default function Recoil() {
   return (

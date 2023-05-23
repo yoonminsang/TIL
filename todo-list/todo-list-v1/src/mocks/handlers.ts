@@ -131,7 +131,7 @@ export const handlers = [
     const { title, description, priority, status } = await req.json<TodoCreateDto>();
 
     if (!title || !priority || !status) {
-      return res(ctx.status(400), ctx.json({ message: `title, priority, status 중 하나가 없습니다` }));
+      return res(ctx.status(400), ctx.json({ message: 'title, priority, status 중 하나가 없습니다' }));
     }
 
     const newTodo: Todo = {
@@ -147,7 +147,7 @@ export const handlers = [
     return res(ctx.status(201), ctx.json<Todo>(newTodo));
   }),
 
-  rest.patch(`/todos/:id`, async (req, res, ctx) => {
+  rest.patch('/todos/:id', async (req, res, ctx) => {
     await loading();
 
     const body = await req.json<TodoUpdateDto>();
@@ -187,16 +187,23 @@ export const handlers = [
 
 const getTodoSummary = () =>
   todos.map((todo) => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { description, ...summary } = todo;
     return summary;
   });
 
 const getTodo = () => todos;
 
-const getTodoById = (id: number) => {
-  return todos.find((todo) => todo.id === id);
-};
+const getTodoById = (id: number) => todos.find((todo) => todo.id === id);
+
+// const loading = async (time = 500) => {
+//   await new Promise((resolve) => setTimeout(resolve, time));
+// };
 
 const loading = async (time = 500) => {
-  await new Promise((resolve) => setTimeout(resolve, time));
+  await new Promise<void>((resolve) => {
+    setTimeout(() => {
+      resolve();
+    }, time);
+  });
 };

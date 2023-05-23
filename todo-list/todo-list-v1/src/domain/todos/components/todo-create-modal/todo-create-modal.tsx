@@ -1,9 +1,8 @@
-import { Button, ModalV1, Select, Textarea } from '@/components';
-import { Input } from '@/components';
-import { TodoCreateDto, TodoPriority, TodoStatus } from '@/mocks/types';
-import { GetProps } from '@/utils';
 import { FC } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
+import { Button, ModalV1, Select, Textarea, Input } from '@/components';
+import { TodoCreateDto, TodoPriority, TodoStatus } from '@/mocks/types';
+import { GetProps } from '@/utils';
 
 interface Props {
   visible: GetProps<typeof ModalV1>['visible'];
@@ -14,7 +13,7 @@ interface Props {
 export const TodoCreateModal: FC<Props> = ({ visible, resolve, close }) => {
   const { register, handleSubmit } = useForm<TodoCreateDto>();
 
-  const onSubmit: SubmitHandler<TodoCreateDto> = (data, err) => {
+  const onSubmit: SubmitHandler<TodoCreateDto> = (data, _err) => {
     resolve(data);
     close();
   };
@@ -50,23 +49,19 @@ export const TodoCreateModal: FC<Props> = ({ visible, resolve, close }) => {
       <Textarea {...register('description')} id="description" />
       <label htmlFor="priority">우선순위</label>
       <Select {...register('priority')} id="priority">
-        {Object.values(TodoPriority).map((status) => {
-          return (
-            <option value={status} key={status}>
-              {status}
-            </option>
-          );
-        })}
+        {Object.values(TodoPriority).map((status) => (
+          <option value={status} key={status}>
+            {status}
+          </option>
+        ))}
       </Select>
       <label htmlFor="status">상태</label>
       <Select {...register('status')} id="status">
-        {Object.values(TodoStatus).map((status) => {
-          return (
-            <option value={status} key={status}>
-              {status}
-            </option>
-          );
-        })}
+        {Object.values(TodoStatus).map((status) => (
+          <option value={status} key={status}>
+            {status}
+          </option>
+        ))}
       </Select>
     </ModalV1>
   );

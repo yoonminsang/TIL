@@ -1,11 +1,10 @@
-import { ReactNode } from 'react';
-import { FC } from 'react';
-import { Modal } from './modal';
-import { GetProps } from '@/utils';
+import { ReactNode, FC } from 'react';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import { Button } from '../button';
 import Image from 'next/image';
+import { Modal } from './modal';
+import { GetProps } from '@/utils';
+import { Button } from '../button';
 
 interface Props extends Omit<GetProps<typeof Modal>, 'children' | 'width' | 'height'> {
   width?: GetProps<typeof Modal>['width'];
@@ -26,58 +25,56 @@ export const ModalV1: FC<Props> = ({
   footer,
   buttons,
   onClose,
-}) => {
-  return (
-    <Modal visible={visible} onClickOverlay={onClose} width={width} height={height}>
-      <div
-        css={css`
+}) => (
+  <Modal visible={visible} onClickOverlay={onClose} width={width} height={height}>
+    <div
+      css={css`
+        display: flex;
+        flex-direction: column;
+        padding: 16px;
+        header {
           display: flex;
-          flex-direction: column;
-          padding: 16px;
-          header {
+          align-items: center;
+          h1 {
+            margin: 0;
+          }
+          button {
+            margin-left: auto;
+          }
+        }
+        footer {
+          .button-wrapper {
             display: flex;
-            align-items: center;
-            h1 {
-              margin: 0;
-            }
-            button {
-              margin-left: auto;
-            }
+            flex-direction: column;
+            gap: 5px;
           }
-          footer {
-            .button-wrapper {
-              display: flex;
-              flex-direction: column;
-              gap: 5px;
-            }
-          }
-        `}>
-        <header>
-          <h1>{title}</h1>
-          <Button onClick={onClose}>
-            <Image src="/close.svg" width={26} height={26} alt="close" />
-          </Button>
-        </header>
-        {children ? (
-          <>
-            <Divider />
-            {children}
-          </>
-        ) : null}
+        }
+      `}>
+      <header>
+        <h1>{title}</h1>
+        <Button onClick={onClose}>
+          <Image src="/close.svg" width={26} height={26} alt="close" />
+        </Button>
+      </header>
+      {children ? (
+        <>
+          <Divider />
+          {children}
+        </>
+      ) : null}
 
-        {footer || buttons ? (
-          <>
-            <Divider />
-            <footer>
-              {footer}
-              <div className="button-wrapper">{buttons}</div>
-            </footer>
-          </>
-        ) : null}
-      </div>
-    </Modal>
-  );
-};
+      {footer || buttons ? (
+        <>
+          <Divider />
+          <footer>
+            {footer}
+            <div className="button-wrapper">{buttons}</div>
+          </footer>
+        </>
+      ) : null}
+    </div>
+  </Modal>
+);
 
 const Divider = styled.div`
   width: 100%;

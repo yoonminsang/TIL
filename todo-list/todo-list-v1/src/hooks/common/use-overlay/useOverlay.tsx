@@ -16,18 +16,20 @@ export function useOverlay({ exitOnUnmount = true }: Options = {}) {
     throw new Error('useOverlay is only available within OverlayProvider.');
   }
 
+  // eslint-disable-next-line @typescript-eslint/unbound-method
   const { mount, unmount } = context;
   const [id] = useState(() => String(elementId++));
 
   const overlayRef = useRef<OverlayControlRef | null>(null);
 
-  useEffect(() => {
-    return () => {
+  useEffect(
+    () => () => {
       if (exitOnUnmount) {
         unmount(id);
       }
-    };
-  }, [exitOnUnmount, id, unmount]);
+    },
+    [exitOnUnmount, id, unmount],
+  );
 
   return useMemo(
     () => ({

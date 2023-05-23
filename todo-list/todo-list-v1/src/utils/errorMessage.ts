@@ -13,19 +13,21 @@ interface ErrorMessage {
  *   use-filter-list라는 파일의 filter 함수에서 에러가 발생
  *   => logMessage('백엔드 dto와 status가 다릅니다', 'hooks/list/use-filter-list - filter', err)
  */
-export const errorMessage = (errorMessage: ErrorMessage) => {
+export const errorMessage = (_errorMessage: ErrorMessage) => {
   if (config.NODE_ENV === 'production') {
-    errorMessageInProd(errorMessage);
+    errorMessageInProd(_errorMessage);
   } else {
-    errorMessageInDev(errorMessage);
+    errorMessageInDev(_errorMessage);
   }
 };
 
 /** dev에서는 로컬에서 볼 수 있는 에러 */
 export function errorMessageInDev({ message, context, err }: ErrorMessage) {
+  // eslint-disable-next-line no-console
   console.log(`message: ${message} \n context: ${context} \n err: ${err}`);
 }
 /** prod에서는 에러 로그를 전송 */
 export function errorMessageInProd({ message, context, err }: ErrorMessage) {
+  // eslint-disable-next-line no-console
   console.log(`message: ${message} \n context: ${context} \n err: ${err}`);
 }

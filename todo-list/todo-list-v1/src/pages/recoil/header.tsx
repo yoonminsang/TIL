@@ -1,11 +1,9 @@
+import { FC } from 'react';
 import { Button } from '@/components';
-import { TodoCreateModal } from '@/domain/todos';
-
-import { UseTodosMutation } from '@/domain/todos';
+import { TodoCreateModal, UseTodosMutation } from '@/domain/todos';
 
 import { useOverlay } from '@/hooks/common';
 import { TodoCreateDto } from '@/mocks/types';
-import { FC } from 'react';
 
 interface Props {
   useTodosMutation: UseTodosMutation;

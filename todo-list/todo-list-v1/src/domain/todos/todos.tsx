@@ -40,22 +40,22 @@ export const Todos: FC<Props> = ({ useTodos, useTodosMutation }) => {
 
   return (
     <TodoLayout>
-      <TodoCard.listContainer>
+      <TodoCard.ListContainer>
         {filteredTodos.map(({ title, data }) => (
-          <TodoCard.list key={title} title={title}>
+          <TodoCard.List key={title} title={title}>
             {data?.map(({ id, title, priority }) => (
               <TodoCard
                 key={id}
                 title={title}
                 priority={priority}
-                onClick={() => {
-                  openTodoModifyModal(id);
+                onClick={async () => {
+                  await openTodoModifyModal(id);
                 }}
               />
             ))}
-          </TodoCard.list>
+          </TodoCard.List>
         ))}
-      </TodoCard.listContainer>
+      </TodoCard.ListContainer>
     </TodoLayout>
   );
 };

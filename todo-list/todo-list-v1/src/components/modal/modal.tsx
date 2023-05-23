@@ -1,6 +1,5 @@
 import styled from '@emotion/styled';
-import { MouseEvent, MouseEventHandler, ReactNode, CSSProperties } from 'react';
-import { FC } from 'react';
+import { MouseEvent, MouseEventHandler, ReactNode, CSSProperties, FC } from 'react';
 
 interface Props {
   visible: boolean;

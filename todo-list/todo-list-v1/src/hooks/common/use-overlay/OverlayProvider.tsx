@@ -1,5 +1,5 @@
-import { config } from '@/config';
 import React, { createContext, PropsWithChildren, ReactNode, useCallback, useMemo, useState } from 'react';
+import { config } from '@/config';
 
 export const OverlayContext = createContext<{
   mount(id: string, element: ReactNode): void;

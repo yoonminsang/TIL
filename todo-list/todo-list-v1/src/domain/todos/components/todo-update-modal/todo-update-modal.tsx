@@ -1,9 +1,8 @@
-import { Button, ModalV1, Select, Textarea } from '@/components';
-import { Input } from '@/components';
-import { TodoUpdateDto, TodoPriority, TodoStatus, Todo } from '@/mocks/types';
-import { GetProps } from '@/utils';
 import { FC } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
+import { Button, ModalV1, Select, Textarea, Input } from '@/components';
+import { TodoUpdateDto, TodoPriority, TodoStatus, Todo } from '@/mocks/types';
+import { GetProps } from '@/utils';
 
 type Delete = { type: 'delete' };
 type Modify = { type: 'modify'; data: TodoUpdateDto };
@@ -25,7 +24,7 @@ export const TodoUpdateModal: FC<Props> = ({ visible, resolve, close, initialSta
     },
   });
 
-  const onSubmit: SubmitHandler<TodoUpdateDto> = (data, err) => {
+  const onSubmit: SubmitHandler<TodoUpdateDto> = (data, _err) => {
     resolve({ type: 'modify', data });
     close();
   };
@@ -69,23 +68,19 @@ export const TodoUpdateModal: FC<Props> = ({ visible, resolve, close, initialSta
       <Textarea {...register('description')} id="description" />
       <label htmlFor="priority">우선순위</label>
       <Select {...register('priority')} id="priority">
-        {Object.values(TodoPriority).map((status) => {
-          return (
-            <option value={status} key={status}>
-              {status}
-            </option>
-          );
-        })}
+        {Object.values(TodoPriority).map((status) => (
+          <option value={status} key={status}>
+            {status}
+          </option>
+        ))}
       </Select>
       <label htmlFor="status">상태</label>
       <Select {...register('status')} id="status">
-        {Object.values(TodoStatus).map((status) => {
-          return (
-            <option value={status} key={status}>
-              {status}
-            </option>
-          );
-        })}
+        {Object.values(TodoStatus).map((status) => (
+          <option value={status} key={status}>
+            {status}
+          </option>
+        ))}
       </Select>
     </ModalV1>
   );
