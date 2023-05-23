@@ -1,5 +1,20 @@
 {
-  "extends": ["next/core-web-vitals", "plugin:storybook/recommended"],
+  "extends": [
+    "eslint:recommended",
+    "airbnb",
+    "airbnb-typescript",
+    "airbnb/hooks",
+    "plugin:react/recommended",
+    "plugin:react-hooks/recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:@typescript-eslint/recommended-requiring-type-checking",
+    "plugin:@next/next/recommended",
+    "plugin:storybook/recommended",
+    "prettier"
+  ],
+  "parserOptions": {
+    "project": true
+  },
   "rules": {
     "no-restricted-imports": [
       "error",
@@ -28,6 +43,32 @@
           }
         ]
       }
-    ]
+    ],
+    "consistent-return": "off", // return 타입이 달라야만 하는 경우도 있음
+    "no-restricted-exports": "off", // export { default }
+    "no-plusplus": "off", // ++가 필수적인 경우가 있음
+    "import/prefer-default-export": "off", // allow export { Function }
+    "import/extensions": "off", // allow skip .tsx
+    "import/export": "off", // export * from ~~
+    "import/no-extraneous-dependencies": "off",
+    "react/react-in-jsx-scope": "off", // import React 필수
+    "react/jsx-filename-extension": [1, { "extensions": [".ts", ".tsx"] }], // allow jsx syntax in js files (for next.js project)
+    "react/jsx-props-no-spreading": "off",
+    "react/function-component-definition": "off",
+    "react/prop-types": "off", // - typescript에서는 불필요
+    "react/display-name": "off", // forwardRef에서 필요함
+    "react/require-default-props": "off",
+    "react/no-unknown-property": "off",
+    "jsx-a11y/anchor-is-valid": "off", // <Link><a></Link> in nextjs
+    "jsx-a11y/label-has-associated-control": "off",
+    "@typescript-eslint/no-misused-promises": "off", // - promise 실수 방지용
+    "@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "^_" }], // 사용하지 않는 변수는 없애는게 좋아보임
+    "@typescript-eslint/no-use-before-define": "off",
+    "@typescript-eslint/restrict-template-expressions": "off",
+    "@typescript-eslint/no-unsafe-return": "off",
+    "@typescript-eslint/no-unsafe-assignment": "off",
+    "@typescript-eslint/no-shadow": "off", // shadow는 필요하지만 너무 과하다는 생각이 듬.
+    "@typescript-eslint/no-explicit-any": "off", // any가 필요한 경우가 꽤 많음
+    "@typescript-eslint/no-redeclare": "off" // ts enum 대체하기위해서 필요 (const + type으로 대체)
   }
 }
