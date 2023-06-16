@@ -75,3 +75,16 @@ const addUrlParams = (url, params) => {
   if (params.searchParams) url = addUrlSearchParams(url, params.queryParams);
   return url;
 };
+
+/** examples
+import { Api } from '../core/api.js';
+
+class DefaultApi extends Api {
+  // /web/src
+  getNewData() {
+    return this.get('/src/data/new_data.json');
+  }
+}
+
+export const defaultApi = new DefaultApi();
+*/

@@ -18,10 +18,20 @@ export class Component {
     this.setEvents();
   }
 
+  /**
+   * @description this.state 정의
+   * @examples this.state={ component:true }
+   */
   setup() {}
+
+  /**
+   *
+   * @returns html string
+   */
   template() {
     return '';
   }
+
   render() {
     this.$target.innerHTML = this.template();
   }
@@ -46,6 +56,9 @@ export class Component {
   componentDidMount() {}
   componentDidUpdate(state, nextState) {}
 
+  /**
+   * @description addEvent로 이벤트를 정의하는 메소드
+   */
   setEvents() {}
   /**
    * @param {keyof DocumentEventMap} eventType
@@ -75,4 +88,41 @@ const debounceFrame = (callback) => {
   };
 };
 
-// examples
+/** examples
+export class HomePage extends Component {
+  setup() {
+    this.state = { personalInfoStorage: usePersonalInfoStorage(), cardStatusStorage: useCardStatusStorage() };
+  }
+
+  componentDidMount() {
+    const $header = this.$target.querySelector('header');
+    new Header($header);
+    const $contentTitle = this.$target.querySelector('.content_title');
+    new ContentTitle($contentTitle, { type: 'home' });
+  }
+
+  template() {
+    const [personalInfo] = this.state.personalInfoStorage;
+    const [cardStatus] = this.state.cardStatusStorage;
+    return `
+        <header></header>
+        <main id="page_content">
+            <div class="content_title"></div>
+            <div id="cards_container">
+                ${personalInfo
+                  .map(({ idx, nickname, mbti }) => {
+                    return `<div idx="${idx}" class="card"> ~~ </div>`;
+                  })
+                  .join('')}
+            </div>
+        </main>
+        `;
+  }
+
+  setEvents() {
+    this.addEvent('click', '.card', (e) => {
+      
+    });
+  }
+}
+*/

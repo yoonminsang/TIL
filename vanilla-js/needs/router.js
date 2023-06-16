@@ -85,3 +85,14 @@ const matchPath = (currentPath, routePath) => {
   }
   return params;
 };
+
+/** examples
+export class App {
+  constructor($target) {
+    router.init($target, [
+      { path: DEFAULT_URL.web.toString(), component: HomePage },
+      { path: DEFAULT_URL.web.signup.toString(), component: SignupPage },
+    ]);
+  }
+}
+*/

@@ -1,3 +1,5 @@
+import { useStorage } from '../core/storage.js';
+
 export const debounce = (callback, delay) => {
   let timerId;
   return () => {
@@ -17,11 +19,16 @@ export const throttle = (callback, delay) => {
   };
 };
 
+// 변경해서 사용
 export const DEFAULT_URL = {
   web: {
-    toString: () => '/web/',
+    toString: () => '/',
     signup: {
-      toString: () => '/web/signup',
+      toString: () => '/signup',
     },
   },
 };
+
+// 변경해서 사용
+export const usePersonalInfoStorage = () => useStorage('personalInfo');
+export const useCardStatusStorage = () => useStorage('cardStatus');
