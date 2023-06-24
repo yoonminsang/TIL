@@ -21,6 +21,7 @@ export const useTodos: UseTodos = () => {
 
 export const useTodosMutation: UseTodosMutation = () => {
   const [todos, setTodos] = useRecoilState(todosState);
+  const filteredTodos = useRecoilValue(filteredTodosState);
 
   const handleCreateTodo = (todo: TodoCreateDto) => {
     const id = getCreateId(todos);
@@ -72,5 +73,5 @@ export const useTodosMutation: UseTodosMutation = () => {
     });
   };
 
-  return { handleCreateTodo, handleDeleteTodo, handleUpdateTodo };
+  return { todoSummary: todos, filteredTodos, handleCreateTodo, handleDeleteTodo, handleUpdateTodo };
 };
