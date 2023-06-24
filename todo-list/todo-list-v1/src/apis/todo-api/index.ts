@@ -2,11 +2,6 @@ import { Todo, TodoCreateDto, TodoSummaryDto, TodoUpdateDto } from '@/mocks/type
 import { Api } from '../api';
 
 class TodoApi extends Api {
-  /** @deprecated /todos/summary로 변경 */
-  public getTodos() {
-    return this.get<TodoSummaryDto[]>('/todos');
-  }
-
   public getAllTodos() {
     return this.get<Todo[]>('/todos/all');
   }

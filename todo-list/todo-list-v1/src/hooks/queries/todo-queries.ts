@@ -6,15 +6,6 @@ const TODO_KEY = {
   detail: (id: number) => [...TODO_KEY.all, id] as const,
 };
 
-/** @deprecated useGetAllTodos를 사용해주세요 */
-export const useGetTodos = () =>
-  useQuery({
-    queryKey: TODO_KEY.all,
-    queryFn: () => todoApi.getTodos(),
-    suspense: true,
-    staleTime: 10000,
-  });
-
 export const useGetAllTodos = () =>
   useQuery({
     queryKey: TODO_KEY.all,
