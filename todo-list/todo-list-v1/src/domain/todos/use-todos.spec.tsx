@@ -6,7 +6,8 @@ import { useTodosMutation } from './use-todos';
 const context = describe;
 
 const currentMockDate = new Date('2023-05-01');
-global.Date = jest.fn(() => currentMockDate) as any;
+// global.Date = jest.fn(() => currentMockDate) as any;
+jest.useFakeTimers().setSystemTime(currentMockDate);
 
 describe('useTodosMutation', () => {
   describe('handleCreateTodo', () => {
