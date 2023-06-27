@@ -1,5 +1,30 @@
 // https://school.programmers.co.kr/learn/courses/30/lessons/176962
 
+// 정답
+function solution(plans) {
+  const result = [];
+  const filteredPlans = getFilteredPlans(plans);
+  const stoppedPlans = []; // stack
+  let currTime = 0;
+  filteredPlans.forEach((plan) => {
+    let lastStoppedPlan = stoppedPlans.at(-1);
+    while (lastStoppedPlan) {
+      const diff = plan.startTime - currTime;
+      if (diff < lastStoppedPlan.remainTime) {
+        lastStoppedPlan.remainTime -= diff;
+        break;
+      }
+      const temp = stoppedPlans.pop();
+      currTime += temp.remainTime;
+      result.push(temp.name);
+      lastStoppedPlan = stoppedPlans.at(-1);
+    }
+    currTime = plan.startTime;
+    stoppedPlans.push(plan);
+  });
+  return [...result, ...stoppedPlans.map(({ name }) => name).reverse()];
+}
+
 /**
  * @Date 대략 2023.04.19
  */
