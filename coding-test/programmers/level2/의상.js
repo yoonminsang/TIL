@@ -18,16 +18,18 @@ function solution(clothes) {
 /**
  * @Date 2023.07.28
  */
-function solution(clothes) {
-  const obj = {};
-  clothes.forEach(([value, key]) => {
-    obj[key] = obj[key] ?? [];
-    obj[key].push(value);
-  });
-  const arr = Object.values(obj);
-  return (
-    arr.reduce((acc, cur) => {
-      return acc * (cur.length + 1);
-    }, 1) - 1
-  );
+{
+  function solution(clothes) {
+    const obj = {};
+    clothes.forEach(([value, key]) => {
+      obj[key] = obj[key] ?? [];
+      obj[key].push(value);
+    });
+    const arr = Object.values(obj);
+    return (
+      arr.reduce((acc, cur) => {
+        return acc * (cur.length + 1);
+      }, 1) - 1
+    );
+  }
 }

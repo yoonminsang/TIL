@@ -23,19 +23,21 @@ function solution(priorities, location) {
 /**
  * @Date 2023.07.28
  */
-function solution(priorities, location) {
-  const queue = priorities.map((priority, index) => {
-    return { priority, index };
-  });
-  let count = 0;
-  while (true) {
-    const max = Math.max(...queue.map((v) => v.priority));
-    const process = queue.shift();
-    if (process.priority < max) {
-      queue.push(process);
-    } else {
-      count += 1;
-      if (process.index === location) return count;
+{
+  function solution(priorities, location) {
+    const queue = priorities.map((priority, index) => {
+      return { priority, index };
+    });
+    let count = 0;
+    while (true) {
+      const max = Math.max(...queue.map((v) => v.priority));
+      const process = queue.shift();
+      if (process.priority < max) {
+        queue.push(process);
+      } else {
+        count += 1;
+        if (process.index === location) return count;
+      }
     }
   }
 }
