@@ -21,23 +21,6 @@ function solution(targets) {
  */
 
 function solution(targets) {
-  targets.sort((a, b) => a[1] - b[1]);
-  let answer = 0;
-  while (targets.length) {
-    const point = targets.shift()[1] - 0.5;
-    let i;
-    for (i = 0; i < targets.length; i++) {
-      if (point < targets[i][0]) {
-        break;
-      }
-    }
-    targets = targets.slice(i);
-    answer++;
-  }
-  return answer;
-}
-
-function solution(targets) {
   let answer = 0;
   let prev = -Infinity;
   targets.sort((a, b) => a[1] - b[1]);

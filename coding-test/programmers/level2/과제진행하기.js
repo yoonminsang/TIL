@@ -1,5 +1,7 @@
 // https://school.programmers.co.kr/learn/courses/30/lessons/176962
 
+// ★
+
 // 정답
 function solution(plans) {
   const result = [];

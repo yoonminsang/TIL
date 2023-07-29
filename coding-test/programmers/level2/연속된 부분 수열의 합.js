@@ -1,6 +1,8 @@
 // https://school.programmers.co.kr/learn/courses/30/lessons/178870
 // https://www.youtube.com/watch?v=uifOTqMOVrE&ab_channel=%EC%9C%A4%EC%9C%A4
 
+// ★
+
 // 정답
 function solution(sequence, k) {
   let [start, end] = [0, 0];
