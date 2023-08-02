@@ -45,6 +45,8 @@
       }
     ],
     "consistent-return": "off", // return 타입이 달라야만 하는 경우도 있음
+    "max-classes-per-file": "off", // class 여러개 가능하게
+    "class-methods-use-this": "off", // class 메서드는 무조건 this 사용
     "no-restricted-exports": "off", // export { default }
     "no-plusplus": "off", // ++가 필수적인 경우가 있음
     "import/prefer-default-export": "off", // allow export { Function }
