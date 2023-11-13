@@ -86,3 +86,35 @@ a = Array.from({ length: 4 }, () => Array.from({ length: 4 }, () => false));
 b = Array(4)
   .fill()
   .map(() => Array(4).fill(false));
+
+/**
+ * @description 배열을 받아서 그래프 만들기
+ * @example
+ * ```
+   makeGraph(3,[[1,3],[2,3]])
+   {
+    1: [3],
+    2: [3],
+    3: [1, 2],
+    }
+ * ```
+ */
+function makeGraph(n, arr) {
+  const graph = Array(n)
+    .fill(null)
+    .reduce((acc, cur, index) => {
+      acc[index + 1] = [];
+      return acc;
+    }, {});
+  arr.forEach(([from, to]) => {
+    graph[from].push(to);
+    graph[to].push(from);
+  });
+  return graph;
+}
+
+a = {
+  1: [3],
+  2: [3],
+  3: [1, 2],
+};
