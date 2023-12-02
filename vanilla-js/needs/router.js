@@ -86,7 +86,8 @@ const matchPath = (currentPath, routePath) => {
   return params;
 };
 
-/** examples
+// examples
+/** 
 export class App {
   constructor($target) {
     router.init($target, [
