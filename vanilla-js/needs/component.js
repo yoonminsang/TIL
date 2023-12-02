@@ -12,6 +12,7 @@ export class Component {
   constructor($target, props) {
     this.$target = $target;
     this.props = props;
+    this._debouncedId = -1;
     this.setup();
     this.render();
     this.componentDidMount();
@@ -46,9 +47,9 @@ export class Component {
     this.componentDidUpdate({ ...this.state }, { ...this.state, ...newState });
     this.state = { ...this.state, ...newState };
     if (forceRender) {
-      debounceFrame(() => {
+      this.debounceFrame(() => {
         this.render();
-      })();
+      });
     }
     callback?.();
   }
@@ -78,15 +79,12 @@ export class Component {
     }
     return false;
   }
-}
 
-const debounceFrame = (callback) => {
-  let currentCallback;
-  return () => {
-    if (currentCallback) cancelAnimationFrame(currentCallback);
-    currentCallback = requestAnimationFrame(callback);
-  };
-};
+  debounceFrame(callback) {
+    cancelAnimationFrame(this._debouncedId);
+    this._debouncedId = requestAnimationFrame(callback);
+  }
+}
 
 // examples
 /** 
