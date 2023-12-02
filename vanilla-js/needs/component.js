@@ -88,7 +88,8 @@ const debounceFrame = (callback) => {
   };
 };
 
-/** examples
+// examples
+/** 
 export class HomePage extends Component {
   setup() {
     this.state = { personalInfoStorage: usePersonalInfoStorage(), cardStatusStorage: useCardStatusStorage() };
