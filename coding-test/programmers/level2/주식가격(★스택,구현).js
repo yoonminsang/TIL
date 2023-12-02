@@ -1,6 +1,6 @@
 // https://school.programmers.co.kr/learn/courses/30/lessons/42584
 
-// ★
+// ★ 스택, 구현
 
 // 정답
 function solution(prices) {

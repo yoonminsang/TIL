@@ -26,7 +26,7 @@ function solution(s, skip, index) {
  * @Date 2023.11.28
  */
 
-// 8분
+// 8분 걸림
 {
   function solution(s, skip, index) {
     const alpabet = 'abcdefghijklmnopqrstuvwxyz';
