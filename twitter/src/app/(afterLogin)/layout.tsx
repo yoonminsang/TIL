@@ -4,6 +4,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import ZLogo from '../../../public/zlogo.png';
 import NavMenu from './_components/NavMenu';
+import LogoutButton from './_components/LogoutButton';
 
 export default function AfterLoginLayout({ children }: { children: ReactNode }) {
   return (
@@ -24,6 +25,7 @@ export default function AfterLoginLayout({ children }: { children: ReactNode }) 
                 게시하기
               </Link>
             </nav>
+            <LogoutButton />
           </div>
         </section>
       </header>
