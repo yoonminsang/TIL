@@ -19,6 +19,14 @@
   background-color: red;
 }
 
+.leftSectionFixed {
+  position: fixed;
+  width: inherit;
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+}
+
 .rightSectionWrapper {
   display: flex;
   flex-direction: column;

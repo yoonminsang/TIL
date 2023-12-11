@@ -5,7 +5,9 @@ export default function AfterLoginLayout({ children }: { children: ReactNode }) 
   return (
     <div className={style.container}>
       <header className={style.leftSectionWrapper}>
-        <section className={style.leftSection}></section>
+        <section className={style.leftSection}>
+          <div className={style.leftSectionFixed}></div>
+        </section>
       </header>
 
       <div className={style.rightSectionWrapper}>
