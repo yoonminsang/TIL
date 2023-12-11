@@ -1,12 +1,21 @@
 import { ReactNode } from 'react';
 import style from '@/app/(afterLogin)/layout.module.css';
+import Link from 'next/link';
+import Image from 'next/image';
+import ZLogo from '../../../public/zlogo.png';
 
 export default function AfterLoginLayout({ children }: { children: ReactNode }) {
   return (
     <div className={style.container}>
       <header className={style.leftSectionWrapper}>
         <section className={style.leftSection}>
-          <div className={style.leftSectionFixed}></div>
+          <div className={style.leftSectionFixed}>
+            <Link className={style.logo} href="/home">
+              <div className={style.logoPill}>
+                <Image src={ZLogo} alt="z.com로고" width={40} height={40} />
+              </div>
+            </Link>
+          </div>
         </section>
       </header>
 
