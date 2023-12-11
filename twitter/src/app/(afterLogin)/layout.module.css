@@ -1,0 +1,46 @@
+.container {
+  width: 100%;
+  display: flex;
+  align-items: stretch;
+  background-color: #fff;
+}
+
+.leftSectionWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  flex-grow: 1;
+  flex-shrink: 0;
+}
+
+.leftSection {
+  width: 275px;
+  height: 100dvh;
+  background-color: red;
+}
+
+.rightSectionWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  height: 100dvh;
+  flex-grow: 1;
+}
+
+.rightSectionInner {
+  width: 990px;
+  height: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.main {
+  width: 600px;
+  flex-shrink: 1;
+}
+
+.rightSection {
+  width: 350px;
+  height: 100%;
+  background-color: green;
+}
