@@ -20,6 +20,9 @@ export default function AfterLoginLayout({ children }: { children: ReactNode }) 
               <ul>
                 <NavMenu />
               </ul>
+              <Link href="/compose/tweet" className={style.postButton}>
+                게시하기
+              </Link>
             </nav>
           </div>
         </section>
