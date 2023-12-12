@@ -16,7 +16,6 @@
 .leftSection {
   width: 275px;
   height: 100dvh;
-  background-color: red;
 }
 
 .leftSectionFixed nav {
@@ -95,7 +94,6 @@
 .rightSection {
   width: 350px;
   height: 100%;
-  background-color: green;
 }
 
 .search {
