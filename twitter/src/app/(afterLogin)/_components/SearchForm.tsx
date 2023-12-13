@@ -1,6 +1,10 @@
 import style from './SearchForm.module.css';
 
-export default function SearchForm() {
+interface Props {
+  q?: string;
+}
+
+export default function SearchForm({ q }: Props) {
   return (
     <div style={{ marginBottom: 60, width: 'inherit' }}>
       <form className={style.search}>
