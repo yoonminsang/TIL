@@ -10,7 +10,7 @@ export default function RightSearchZone() {
   const onChangeFollow = () => {};
   const onChangeAll = () => {};
 
-  if (pathname === 'explore') {
+  if (pathname === '/explore') {
     return null;
   }
 
