@@ -2,6 +2,7 @@
 
 import style from './FollowRecommend.module.css';
 
+// TODO: onFollow, user는 props로 전달받는게 좋을듯
 export default function FollowRecommend() {
   const onFollow = () => {};
 

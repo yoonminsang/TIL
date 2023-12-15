@@ -4,6 +4,7 @@ import { usePathname } from 'next/navigation';
 import style from './RightSearchZone.module.css';
 import SearchForm from './SearchForm';
 
+// TODO: onChangeFollow, onChangeAll은 props로 전달받는게 좋을듯. /search에 있는 부분도 컴포넌트 분리하면 좋을듯.
 export default function RightSearchZone() {
   const pathname = usePathname();
 

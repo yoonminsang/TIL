@@ -2,6 +2,7 @@
 
 import style from './LogoutButton.module.css';
 
+// TODO: me, onLogout은 props로 전달받는게 좋을듯
 export default function LogoutButton() {
   const me = {
     // 임시로 내 정보 있는것처럼

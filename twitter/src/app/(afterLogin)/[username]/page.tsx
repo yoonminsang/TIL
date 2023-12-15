@@ -13,7 +13,6 @@ export default function UserNamePage() {
     <main className={style.main}>
       <div className={style.header}>
         <BackButton />
-
         <h3 className={style.headerTitle}>{user.nickname}</h3>
       </div>
 
@@ -27,6 +26,7 @@ export default function UserNamePage() {
         </div>
         <button className={style.followButton}>팔로우</button>
       </div>
+
       <div>
         <Post />
         <Post />
