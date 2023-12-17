@@ -104,27 +104,34 @@
 
 .rightSectionWrapper {
   display: flex;
-  flex-direction: column;
   align-items: flex-start;
   height: 100dvh;
+  flex-direction: column;
   flex-grow: 1;
 }
-
+.rightSection {
+  display: none;
+}
 .rightSectionInner {
-  width: 990px;
   height: 100%;
+  width: 600px;
   display: flex;
   justify-content: space-between;
+}
+@media all and (min-width: 1024px) {
+  .rightSection {
+    display: inline-block;
+    width: 350px;
+    height: 100%;
+  }
+  .rightSectionInner {
+    width: 990px;
+  }
 }
 
 .main {
   width: 600px;
-  flex-shrink: 1;
-}
-
-.rightSection {
-  width: 350px;
-  height: 100%;
+  height: 200dvh;
 }
 
 .followRecommend {
