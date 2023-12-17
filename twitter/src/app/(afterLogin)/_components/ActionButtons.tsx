@@ -1,5 +1,5 @@
 'use client';
-import style from './Post.module.css';
+import style from './ActionButtons.module.css';
 import cx from 'classnames';
 
 interface Props {
