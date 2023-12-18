@@ -1,5 +1,5 @@
 import BackButton from '@/app/(afterLogin)/_components/BackButton';
-import Post from '@/app/(afterLogin)/_components/Post';
+import { Post } from '@/app/(afterLogin)/_components/Post';
 import CommentForm from './_components/CommentForm';
 import style from './page.module.css';
 

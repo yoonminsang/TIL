@@ -4,8 +4,8 @@ import { usePathname } from 'next/navigation';
 import style from './trendSection.module.css';
 import Trend from '@/app/(afterLogin)/_components/Trend';
 
-// TODO: TrendSection에서 분기치는것보다는 부모 컴포넌트에서 분기를 치는게 더 좋지 않을까?
 export default function TrendSection() {
+  // 부모 컴포넌트에서 분기를 치는게 더 좋지만 부모가 server component라서 usePathname 훅 사용이 불가능함.
   const pathname = usePathname();
   if (pathname === '/explore') return null;
   return (

@@ -6,7 +6,6 @@ interface Props {
   white?: boolean;
 }
 
-// TODO: Post에서만 사용된다면 Post폴더안으로 이동
 export default function ActionButtons({ white }: Props) {
   const commented = true;
   const reposted = true;

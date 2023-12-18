@@ -1,11 +1,21 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
 import style from './BackButton.module.css';
 
-// TODO: 이벤트 props 추가
-export default function BackButton() {
+interface Props {
+  onClick?: () => void;
+}
+
+export default function BackButton({ onClick }: Props) {
+  const router = useRouter();
   return (
-    <button className={style.backButton}>
+    <button
+      className={style.backButton}
+      onClick={() => {
+        onClick ? onClick() : router.back();
+      }}
+    >
       <svg
         width={24}
         viewBox="0 0 24 24"

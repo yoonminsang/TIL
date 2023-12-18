@@ -1,5 +1,5 @@
 import BackButton from '../_components/BackButton';
-import Post from '../_components/Post';
+import { Post } from '../_components/Post';
 import SearchForm from '../_components/SearchForm';
 import Tab from './_components/Tab';
 import style from './page.module.css';

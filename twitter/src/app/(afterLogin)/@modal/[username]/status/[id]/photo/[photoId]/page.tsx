@@ -2,7 +2,7 @@ import ActionButtons from '@/app/(afterLogin)/_components/ActionButtons';
 import PhotoModalCloseButton from './_components/PhotoModalCloseButton';
 import style from './page.module.css';
 import { faker } from '@faker-js/faker';
-import Post from '@/app/(afterLogin)/_components/Post';
+import { Post } from '@/app/(afterLogin)/_components/Post';
 import CommentForm from '@/app/(afterLogin)/[username]/status/[id]/_components/CommentForm';
 
 export default function Default() {

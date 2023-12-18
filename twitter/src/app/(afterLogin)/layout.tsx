@@ -3,11 +3,11 @@ import style from '@/app/(afterLogin)/layout.module.css';
 import Link from 'next/link';
 import Image from 'next/image';
 import ZLogo from '../../../public/zlogo.png';
-import NavMenu from './_components/NavMenu';
-import LogoutButton from './_components/LogoutButton';
-import TrendSection from './_components/TrendSection';
-import FollowRecommend from './_components/FollowRecommend';
-import RightSearchZone from './_components/RightSearchZone';
+import NavMenu from './_layoutComponents/NavMenu';
+import LogoutButton from './_layoutComponents/LogoutButton';
+import TrendSection from './_layoutComponents/TrendSection';
+import FollowRecommend from './_layoutComponents/FollowRecommend';
+import RightSearchZone from './_layoutComponents/RightSearchZone';
 
 interface Props {
   children: ReactNode;
@@ -50,6 +50,7 @@ export default function AfterLoginLayout({ children, modal }: Props) {
       <div className={style.rightSectionWrapper}>
         <div className={style.rightSectionInner}>
           <main className={style.main}>{children}</main>
+
           <section className={style.rightSection}>
             <RightSearchZone />
             <TrendSection />

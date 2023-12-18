@@ -1,6 +1,6 @@
 import BackButton from '../_components/BackButton';
 import style from './page.module.css';
-import Post from '@/app/(afterLogin)/_components/Post';
+import { Post } from '@/app/(afterLogin)/_components/Post';
 
 export default function UserNamePage() {
   const user = {

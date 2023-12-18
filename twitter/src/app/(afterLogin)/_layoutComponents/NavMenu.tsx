@@ -4,7 +4,6 @@ import style from './NavMenu.module.css';
 import { useSelectedLayoutSegment } from 'next/navigation';
 import Link from 'next/link';
 
-// TODO: me는 props로 전달받는게 좋을듯. url이 많아질수록 관리가 힘들어짐. 상수로 빼는것도 좋을듯.
 export default function NavMenu() {
   const segment = useSelectedLayoutSegment();
   const me = {
