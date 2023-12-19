@@ -4,6 +4,7 @@ import './normalize.css';
 import './reset.css';
 import './global.css';
 import styles from '@/app/(beforeLogin)/_component/Main.module.css';
+import { MSWComponent } from './_components/MSWComponent';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -16,6 +17,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <body className={inter.className}>
+        <MSWComponent />
         <div className={styles.container}>{children}</div>
       </body>
     </html>
