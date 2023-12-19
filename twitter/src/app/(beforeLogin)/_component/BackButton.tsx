@@ -1,6 +1,6 @@
 'use client';
 
-import style from '@/app/(beforeLogin)/_component/signup.module.css';
+import style from './SignupModal.module.css';
 import { useRouter } from 'next/navigation';
 
 export default function BackButton() {
