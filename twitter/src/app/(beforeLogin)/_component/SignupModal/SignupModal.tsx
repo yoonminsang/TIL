@@ -1,8 +1,8 @@
 'use client';
 
 import { useFormState, useFormStatus } from 'react-dom';
-import onSubmit from '../_lib/signup';
-import BackButton from './BackButton';
+import onSubmit from './signup';
+import BackButton from '../BackButton';
 import style from './SignupModal.module.css';
 
 function showMessage(message?: string) {
