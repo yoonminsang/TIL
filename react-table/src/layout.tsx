@@ -43,12 +43,12 @@ function Header() {
           {routes.map(({ path }) => {
             if (path === location.pathname)
               return (
-                <NavLink to={path} css={{ color: 'red' }}>
+                <NavLink to={path} css={{ color: 'red' }} key={path}>
                   {path}
                 </NavLink>
               );
             return (
-              <Link to={path} css={{ color: 'black' }}>
+              <Link to={path} css={{ color: 'black' }} key={path}>
                 {path}
               </Link>
             );
