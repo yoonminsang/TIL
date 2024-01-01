@@ -94,6 +94,7 @@ const RootStyle = css`
     border-spacing: 0;
     thead {
       th {
+        padding: 0 10px;
         height: 40px;
         border-top: 1px solid gray;
         border-right: 1px solid gray;
