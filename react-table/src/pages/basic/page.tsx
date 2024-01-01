@@ -102,6 +102,7 @@ const RootStyle = css`
     border-spacing: 0;
     thead {
       th {
+        height: 40px;
         border-top: 1px solid gray;
         border-right: 1px solid gray;
         border-bottom: 1px solid gray;
@@ -115,6 +116,8 @@ const RootStyle = css`
     }
     tbody {
       td {
+        padding: 0 10px;
+        height: 120px;
         border-right: 1px solid gray;
         border-bottom: 1px solid gray;
         &:first-child {
