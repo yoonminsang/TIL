@@ -4,6 +4,7 @@ import CredentialsProvider from 'next-auth/providers/credentials';
 export const {
   handlers: { GET, POST },
   auth,
+  signIn,
 } = NextAuth({
   pages: {
     signIn: '/i/flow/login',
