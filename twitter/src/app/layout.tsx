@@ -5,6 +5,7 @@ import './reset.css';
 import './global.css';
 import styles from '@/app/(beforeLogin)/_component/Main.module.css';
 import { MSWComponent } from './_components/MSWComponent';
+import AuthSession from './_components/AuthSession';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -18,7 +19,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en">
       <body className={inter.className}>
         <MSWComponent />
-        <div className={styles.container}>{children}</div>
+        <AuthSession>
+          <div className={styles.container}>{children}</div>
+        </AuthSession>
       </body>
     </html>
   );
