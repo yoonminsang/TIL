@@ -13,7 +13,7 @@ export const {
   providers: [
     CredentialsProvider({
       async authorize(credentials) {
-        const authResponse = await fetch(`${process.env.AUTH_RUL}/api/login`, {
+        const authResponse = await fetch(`${process.env.AUTH_URL}/api/login`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
