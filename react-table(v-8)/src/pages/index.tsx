@@ -4,6 +4,7 @@ import BasicPage from './basic/page';
 import ColumnGroupsPage from './column-groups/page';
 import SortingPage from './sorting/page';
 import AlignPage from './align/page';
+import AlignTypePage from './algin-type/page';
 
 export const routes: { path: string; element: ReactNode }[] = [
   { path: '/', element: <RootPage /> },
@@ -11,4 +12,5 @@ export const routes: { path: string; element: ReactNode }[] = [
   { path: '/column-groups', element: <ColumnGroupsPage /> },
   { path: '/sorting', element: <SortingPage /> },
   { path: '/align', element: <AlignPage /> },
+  { path: '/align-type', element: <AlignTypePage /> },
 ];
