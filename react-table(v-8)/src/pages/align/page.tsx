@@ -45,7 +45,7 @@ export default function AlignPage() {
   return (
     <div>
       <h1>align 테이블</h1>
-      <div>테이블을 Composition Pattern으로 정의하고 react-table 훅으로 데이터를 제어</div>
+      <div>테이블을 Composition Pattern으로 정의하고 Table.Cell.~~ 컴포넌트로 align 제어</div>
       <Table>
         <Table.THead>
           {table.getHeaderGroups().map((headerGroup) => (
