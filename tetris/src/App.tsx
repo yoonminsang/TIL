@@ -40,6 +40,9 @@ function App() {
             onChangeStageClearPage={() => {
               setStatus('stage-clear');
             }}
+            onChangeStageDeadPage={() => {
+              setStatus('dead');
+            }}
           />
         ),
         'stage-clear': (
