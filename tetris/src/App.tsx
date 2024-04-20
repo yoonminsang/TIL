@@ -55,6 +55,7 @@ function App() {
         ),
         dead: (
           <DeadPage
+            stage={stage}
             onChangeStartPage={() => {
               setStatus('start');
             }}
