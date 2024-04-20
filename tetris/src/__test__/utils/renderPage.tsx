@@ -25,3 +25,9 @@ export async function renderRankingPage() {
   const button = await screen.findByRole('button', { name: /Go Ranking Page/ });
   await userEvent.click(button);
 }
+
+export async function renderPlayPage(stage?: number) {
+  await renderStageIntroPage(stage);
+  const button = await screen.findByRole('button', { name: /Go Play Page/ });
+  await userEvent.click(button);
+}
