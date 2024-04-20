@@ -7,12 +7,18 @@ import StageClearPage from './pages/stage-clear/page';
 import StageIntroPage from './pages/stage-intro/page';
 import StartPage from './pages/start/page';
 import { useStage } from './stores/stage';
+import { useShallow } from 'zustand/react/shallow';
 
 type Page = 'start' | 'stage-intro' | 'play' | 'stage-clear' | 'dead' | 'ranking';
 
 function App() {
   const [status, setStatus] = useState<Page>('start');
-  const stage = useStage((state) => state.stage);
+  const { stage, increase: increaseStage } = useStage(
+    useShallow(({ stage, increase }) => {
+      return { stage, increase };
+    }),
+  );
+
   return (
     <SwitchCase
       value={status}
@@ -38,6 +44,7 @@ function App() {
         play: (
           <PlayPage
             onChangeStageClearPage={() => {
+              increaseStage();
               setStatus('stage-clear');
             }}
             onChangeStageDeadPage={() => {
