@@ -31,3 +31,9 @@ export async function renderPlayPage(stage?: number) {
   const button = await screen.findByRole('button', { name: /Go Play Page/ });
   await userEvent.click(button);
 }
+
+export async function renderStageClearPage(stage?: number) {
+  await renderPlayPage(stage);
+  const button = await screen.findByRole('button', { name: /Go Stage Clear Page/ });
+  await userEvent.click(button);
+}
