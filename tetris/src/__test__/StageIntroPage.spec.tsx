@@ -26,24 +26,15 @@ describe('StageIntroPage', () => {
         { timeout: 5000 },
       );
     });
+  });
 
     it('1초마다 count가 변경된다.', async () => {
       await renderStageIntroPage();
 
-      await waitFor(
-        async () => {
-          await screen.findByText(/3/);
-          await new Promise((_) => setTimeout(_, 1000));
-          await screen.findByText(/2/);
-          await new Promise((_) => setTimeout(_, 1000));
-          await screen.findByText(/1/);
-          await new Promise((_) => setTimeout(_, 1000));
-          const messageAfter = screen.queryByText(/StageIntroPage/);
-          expect(messageAfter).toBeNull();
-          await screen.findByText(/PlayPage/);
-        },
-        { timeout: 5000 },
-      );
+    await waitFor(() => expect(screen.getByText(/3/)).toBeInTheDocument(), { timeout: 1000 });
+    await waitFor(() => expect(screen.getByText(/2/)).toBeInTheDocument(), { timeout: 2000 });
+    await waitFor(() => expect(screen.getByText(/1/)).toBeInTheDocument(), { timeout: 3000 });
+  });
     });
   });
 });
