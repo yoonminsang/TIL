@@ -1,30 +1,71 @@
+import { SwitchCase } from '@toss/react';
 import { useState } from 'react';
-import reactLogo from './assets/react.svg';
-import viteLogo from '/vite.svg';
-import './App.css';
+import DeadPage from './pages/dead/page';
+import PlayPage from './pages/play/page';
+import RankingPage from './pages/ranking/page';
+import StageClearPage from './pages/stage-clear/page';
+import StageIntroPage from './pages/stage-intro/page';
+// import StartPage from './pages/start/page';
+import StartPage from '@/pages/start/page';
+
+type Page = 'start' | 'stage-intro' | 'play' | 'stage-clear' | 'dead' | 'ranking';
 
 function App() {
-  const [count, setCount] = useState(0);
-
+  const [status, setStatus] = useState<Page>('start');
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>count is {count}</button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">Click on the Vite and React logos to learn more</p>
-    </>
+    <SwitchCase
+      value={status}
+      caseBy={{
+        start: (
+          <StartPage
+            onChangeStageIntroPage={() => {
+              setStatus('stage-intro');
+            }}
+            onChangeRankingPage={() => {
+              setStatus('ranking');
+            }}
+          />
+        ),
+        'stage-intro': (
+          <StageIntroPage
+            onChangePlayPage={() => {
+              setStatus('play');
+            }}
+          />
+        ),
+        play: (
+          <PlayPage
+            onChangeStageClearPage={() => {
+              setStatus('stage-clear');
+            }}
+          />
+        ),
+        'stage-clear': (
+          <StageClearPage
+            onChangeStageIntroPage={() => {
+              setStatus('stage-intro');
+            }}
+          />
+        ),
+        dead: (
+          <DeadPage
+            onChangeStartPage={() => {
+              setStatus('start');
+            }}
+            onChangeRankingPage={() => {
+              setStatus('ranking');
+            }}
+          />
+        ),
+        ranking: (
+          <RankingPage
+            onChangeStartPage={() => {
+              setStatus('start');
+            }}
+          />
+        ),
+      }}
+    />
   );
 }
 
