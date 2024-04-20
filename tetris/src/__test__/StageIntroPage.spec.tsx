@@ -28,13 +28,22 @@ describe('StageIntroPage', () => {
     });
   });
 
-    it('1초마다 count가 변경된다.', async () => {
-      await renderStageIntroPage();
+  it('1초마다 count가 변경된다.', async () => {
+    await renderStageIntroPage();
 
     await waitFor(() => expect(screen.getByText(/3/)).toBeInTheDocument(), { timeout: 1000 });
     await waitFor(() => expect(screen.getByText(/2/)).toBeInTheDocument(), { timeout: 2000 });
     await waitFor(() => expect(screen.getByText(/1/)).toBeInTheDocument(), { timeout: 3000 });
   });
+
+  describe('현재 stage가 렌더링된다.', () => {
+    it('1 stage가 렌더린된다.', async () => {
+      await renderStageIntroPage();
+      await screen.findByText(/Current Stage: 1/);
+    });
+    it('5 stage가 렌더린된다.', async () => {
+      await renderStageIntroPage(5);
+      await screen.findByText(/Current Stage: 5/);
     });
   });
 });
