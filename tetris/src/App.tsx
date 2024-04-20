@@ -5,8 +5,7 @@ import PlayPage from './pages/play/page';
 import RankingPage from './pages/ranking/page';
 import StageClearPage from './pages/stage-clear/page';
 import StageIntroPage from './pages/stage-intro/page';
-// import StartPage from './pages/start/page';
-import StartPage from '@/pages/start/page';
+import StartPage from './pages/start/page';
 
 type Page = 'start' | 'stage-intro' | 'play' | 'stage-clear' | 'dead' | 'ranking';
 
