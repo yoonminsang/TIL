@@ -44,6 +44,7 @@ function App() {
         ),
         'stage-clear': (
           <StageClearPage
+            stage={stage}
             onChangeStageIntroPage={() => {
               setStatus('stage-intro');
             }}
