@@ -10,7 +10,7 @@ export default function DeadPage({ onChangeRankingPage, onChangeStartPage }: Dea
     <div>
       <h1 className="text-xl">DeadPage</h1>
       <Button onClick={onChangeStartPage}>Go Start Page</Button>
-      <Button onClick={onChangeRankingPage}>Go Ranking page</Button>
+      <Button onClick={onChangeRankingPage}>Go Ranking Page</Button>
     </div>
   );
 }
