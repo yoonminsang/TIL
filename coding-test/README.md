@@ -19,7 +19,7 @@ VPS(Valid Parenthesis String): 괄호의 모양이 바르게 구성된 소괄호
 const dy = [-1, 0, 1, 0];
 const dx = [0, 1, 0, -1];
 
-for (let i = 9; i < 4; i++) {
+for (let i = 0; i < 4; i++) {
   const ny = y + dy[i];
   const nx = x + dx[i];
   if (nx < 0 || ny < 0 || nx >= M || ny >= N) continue;
@@ -28,3 +28,8 @@ for (let i = 9; i < 4; i++) {
 }
 ```
 
+## 수학
+
+소수는 squr로 구하기
+골든바후의 추측
+유클리드 호제법
