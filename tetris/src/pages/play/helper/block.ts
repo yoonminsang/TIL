@@ -1,4 +1,5 @@
 import { Block, BlockType } from './types';
+import { getRandom } from './utils';
 
 export const BLOCK_MAP: Record<BlockType, Block> = {
   i: {
@@ -54,3 +55,8 @@ export const BLOCK_MAP: Record<BlockType, Block> = {
   },
 };
 
+const blockList = Object.values(BLOCK_MAP);
+
+export const getRandomBlock = (random = Math.random()) => {
+  return blockList[getRandom(blockList.length, random)];
+};
