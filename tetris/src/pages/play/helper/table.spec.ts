@@ -1,4 +1,5 @@
-import { getEmptyTable } from './table';
+import { BLOCK_MAP } from './block';
+import { combineBlockWithPosition, getEmptyTable } from './table';
 
 describe('getEmptyTable', () => {
   it('col이 3이고 row가 2인 empty table을 만든다.', () => {
@@ -10,3 +11,39 @@ describe('getEmptyTable', () => {
   });
 });
 
+describe('combineBlockWithPosition', () => {
+  describe('col이 0이고 row가 2일 때', () => {
+    it('i블록이 성공적으로 변환된다.', () => {
+      expect(combineBlockWithPosition(BLOCK_MAP.i, { col: 0, row: 2 })).toEqual([
+        [null, null, null, 'i', null, null],
+        [null, null, null, 'i', null, null],
+        [null, null, null, 'i', null, null],
+        [null, null, null, 'i', null, null],
+      ]);
+    });
+    it('o블록이 성공적으로 변환된다.', () => {
+      expect(combineBlockWithPosition(BLOCK_MAP.o, { col: 0, row: 2 })).toEqual([
+        [null, 'o', 'o', null],
+        [null, 'o', 'o', null],
+      ]);
+    });
+    it('l블록이 성공적으로 변환된다.', () => {
+      expect(combineBlockWithPosition(BLOCK_MAP.l, { col: 0, row: 2 })).toEqual([
+        [null, null, null, 'l', null],
+        [null, 'l', 'l', 'l', null],
+      ]);
+    });
+    it('t블록이 성공적으로 변환된다.', () => {
+      expect(combineBlockWithPosition(BLOCK_MAP.t, { col: 0, row: 2 })).toEqual([
+        [null, null, 't', null, null],
+        [null, 't', 't', 't', null],
+      ]);
+    });
+    it('s블록이 성공적으로 변환된다.', () => {
+      expect(combineBlockWithPosition(BLOCK_MAP.s, { col: 0, row: 2 })).toEqual([
+        [null, null, 's', 's', null],
+        [null, 's', 's', null, null],
+      ]);
+    });
+  });
+});
