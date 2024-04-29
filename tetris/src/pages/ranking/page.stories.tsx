@@ -3,7 +3,7 @@ import { fn } from '@storybook/test';
 import RankingPage from './page';
 
 const meta = {
-  title: 'Pages/RankingPage',
+  title: 'pages / Ranking',
   component: RankingPage,
   // This component will have an automatically generated Autodocs entry: https://storybook.js.org/docs/writing-docs/autodocs
   tags: ['autodocs'],

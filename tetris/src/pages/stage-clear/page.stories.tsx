@@ -3,7 +3,7 @@ import { fn } from '@storybook/test';
 import StageClearPage from './page';
 
 const meta = {
-  title: 'Pages/StageClearPage',
+  title: 'pages / StageClear',
   component: StageClearPage,
   // This component will have an automatically generated Autodocs entry: https://storybook.js.org/docs/writing-docs/autodocs
   tags: ['autodocs'],
