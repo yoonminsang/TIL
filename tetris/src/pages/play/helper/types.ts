@@ -5,6 +5,7 @@ export interface Block {
   shape: BlockShape;
 }
 
-export type Table = (string | null)[][];
+export type Cell = BlockType | null;
+export type Table = Cell[][];
 
 export type Position = { row: number; col: number };
