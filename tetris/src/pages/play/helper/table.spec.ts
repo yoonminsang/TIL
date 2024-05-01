@@ -1,5 +1,5 @@
 import { BLOCK_MAP } from './block';
-import { combineBlockToTable, combineBlockWithPosition, getEmptyTable } from './table';
+import { combineBlockToTable, combineBlockWithPosition, findCompletedLines, getEmptyTable } from './table';
 
 describe('getEmptyTable', () => {
   it('col이 3이고 row가 2인 empty table을 만든다.', () => {
@@ -108,4 +108,25 @@ it('combineBlockToTable', () => {
     [null, null, null, null, null],
     [null, null, null, null, null],
   ]);
+});
+
+describe('findCompletedLines', () => {
+  it('한줄이 완성됐을 때 해당 line의 index를 return한다.', () => {
+    expect(
+      findCompletedLines([
+        [null, 'j', null, null],
+        ['j', 'j', 'j', 'j'],
+        [null, 'j', null, null],
+      ]),
+    ).toEqual([1]);
+  });
+  it('두줄이 완성됐을 때 두 line의 index를 return한다.', () => {
+    expect(
+      findCompletedLines([
+        ['i', 'j', 'l', 'z'],
+        ['j', 'j', 'j', 'j'],
+        [null, 'j', null, null],
+      ]),
+    ).toEqual([0, 1]);
+  });
 });

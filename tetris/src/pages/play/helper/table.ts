@@ -37,3 +37,12 @@ export const combineBlockToTable = (table: Table, block: Block, blockPosition: P
   });
   return nextTable;
 };
+
+export const findCompletedLines = (table: Table) => {
+  return table.reduce<number[]>((acc, cur, index) => {
+    if (cur.every((v) => v !== null)) {
+      acc.push(index);
+    }
+    return acc;
+  }, []);
+};
