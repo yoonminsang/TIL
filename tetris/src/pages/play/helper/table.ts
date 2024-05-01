@@ -46,3 +46,15 @@ export const findCompletedLines = (table: Table) => {
     return acc;
   }, []);
 };
+
+export const getIsPossibleRender = (table: Table, block: Block, blockPosition: Position) => {
+  const blockWithPosition = combineBlockWithPosition(block, blockPosition);
+  for (let col = 0; col < blockWithPosition.length; col++) {
+    for (let row = 0; row < blockWithPosition[0].length; row++) {
+      if (blockWithPosition[col][row] !== null && table[col][row] !== null) {
+        return false;
+      }
+    }
+  }
+  return true;
+};

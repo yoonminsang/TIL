@@ -1,5 +1,11 @@
 import { BLOCK_MAP } from './block';
-import { combineBlockToTable, combineBlockWithPosition, findCompletedLines, getEmptyTable } from './table';
+import {
+  combineBlockToTable,
+  combineBlockWithPosition,
+  findCompletedLines,
+  getEmptyTable,
+  getIsPossibleRender,
+} from './table';
 
 describe('getEmptyTable', () => {
   it('col이 3이고 row가 2인 empty table을 만든다.', () => {
@@ -128,5 +134,36 @@ describe('findCompletedLines', () => {
         [null, 'j', null, null],
       ]),
     ).toEqual([0, 1]);
+  });
+});
+
+describe('getIsPossibleRender', () => {
+  it('한줄이 남아있을 때 o블록은 렌더링이 가능하지 않다.', () => {
+    expect(
+      getIsPossibleRender(
+        [
+          [null, null, null, null, null, null],
+          [null, 'i', 'i', 'i', null, null],
+          [null, 'i', 'i', 'i', null, null],
+          [null, 'i', 'i', 'i', null, null],
+        ],
+        BLOCK_MAP['o'],
+        { col: 0, row: 2 },
+      ),
+    ).toBe(false);
+  });
+  it('한줄이 남아있을 때 i블록은 렌더링이 가능하다. ', () => {
+    expect(
+      getIsPossibleRender(
+        [
+          [null, null, null, null, null, null],
+          [null, 'i', 'i', 'i', null, null],
+          [null, 'i', 'i', 'i', null, null],
+          [null, 'i', 'i', 'i', null, null],
+        ],
+        BLOCK_MAP['i'],
+        { col: 0, row: 2 },
+      ),
+    ).toBe(true);
   });
 });
