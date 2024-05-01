@@ -27,9 +27,9 @@ export const combineBlockToTable = (table: Table, block: Block, blockPosition: P
   const blockTable = combineBlockWithPosition(block, blockPosition);
   const nextTable = produce(table, (draft) => {
     blockTable.forEach((blockShapeCol, col) => {
-      blockShapeCol.forEach((isExistBlock, row) => {
-        if (isExistBlock) {
-          draft[col][row];
+      blockShapeCol.forEach((blockShape, row) => {
+        if (blockShape) {
+          draft[col][row] = blockShape;
         }
       });
     });
