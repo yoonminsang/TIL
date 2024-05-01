@@ -17,10 +17,10 @@ import {
 const blockMaxSize = getBlockMaxSize();
 const blockEmptyTable = getEmptyTable(blockMaxSize, blockMaxSize);
 
-const getInitialPosition = () => {
+const getInitialPosition = (block: Block) => {
   return {
     col: 0,
-    row: Math.floor(SETTINGS.row / 2),
+    row: Math.floor((SETTINGS.row - block.shape[0].length) / 2),
   };
 };
 
@@ -29,8 +29,8 @@ export const useTetrisGame = (
   onChangeStageClearPage: VoidFunction,
   onChangeStageDeadPage: VoidFunction,
 ) => {
-  const [currentBlockPosition, setCurrentBlockPosition] = useState<Position>(getInitialPosition());
   const [currentBlock, setCurrentBlock] = useState<Block>(getRandomBlock());
+  const [currentBlockPosition, setCurrentBlockPosition] = useState<Position>(getInitialPosition(currentBlock));
   const [nextBlock, setNextBlock] = useState<Block>(getRandomBlock());
   const [clearLine, setClearLine] = useState<number>(0);
   const [table, setTable] = useState<Table>(getEmptyTable(SETTINGS.col, SETTINGS.row));
@@ -49,7 +49,7 @@ export const useTetrisGame = (
       return;
     }
 
-    const isDead = !getIsPossibleRender(tableForRender, nextBlock, getInitialPosition());
+    const isDead = !getIsPossibleRender(tableForRender, nextBlock, getInitialPosition(nextBlock));
     if (isDead) {
       onChangeStageDeadPage();
       return;
@@ -77,10 +77,7 @@ export const useTetrisGame = (
 
     setCurrentBlock(nextBlock);
     setNextBlock(getRandomBlock());
-    setCurrentBlockPosition({
-      col: 0,
-      row: Math.floor(SETTINGS.row / 2),
-    });
+    setCurrentBlockPosition(getInitialPosition(nextBlock));
     setTable(tableForRender);
   };
 
