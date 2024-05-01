@@ -21,7 +21,7 @@ describe('combineBlockWithPosition', () => {
   describe('col이 0이고 row가 2일 때', () => {
     it('i블록이 성공적으로 변환된다.', () => {
       expect(combineBlockWithPosition(BLOCK_MAP.i, { col: 0, row: 2 })).toEqual([
-        [null, 'i', 'i', 'i', 'i', null],
+        [null, null, 'i', 'i', 'i', 'i'],
         [null, null, null, null, null, null],
         [null, null, null, null, null, null],
         [null, null, null, null, null, null],
@@ -29,26 +29,26 @@ describe('combineBlockWithPosition', () => {
     });
     it('o블록이 성공적으로 변환된다.', () => {
       expect(combineBlockWithPosition(BLOCK_MAP.o, { col: 0, row: 2 })).toEqual([
-        [null, 'o', 'o', null],
-        [null, 'o', 'o', null],
+        [null, null, 'o', 'o'],
+        [null, null, 'o', 'o'],
       ]);
     });
     it('l블록이 성공적으로 변환된다.', () => {
       expect(combineBlockWithPosition(BLOCK_MAP.l, { col: 0, row: 2 })).toEqual([
-        [null, null, null, 'l', null],
-        [null, 'l', 'l', 'l', null],
+        [null, null, null, null, 'l'],
+        [null, null, 'l', 'l', 'l'],
       ]);
     });
     it('t블록이 성공적으로 변환된다.', () => {
       expect(combineBlockWithPosition(BLOCK_MAP.t, { col: 0, row: 2 })).toEqual([
-        [null, null, 't', null, null],
-        [null, 't', 't', 't', null],
+        [null, null, null, 't', null],
+        [null, null, 't', 't', 't'],
       ]);
     });
     it('s블록이 성공적으로 변환된다.', () => {
       expect(combineBlockWithPosition(BLOCK_MAP.s, { col: 0, row: 2 })).toEqual([
+        [null, null, null, 's', 's'],
         [null, null, 's', 's', null],
-        [null, 's', 's', null, null],
       ]);
     });
   });
@@ -62,7 +62,7 @@ describe('combineBlockWithPosition', () => {
   });
   it('col이 0이고 row가 10일 때 i블록이 성공적으로 변환된다.', () => {
     expect(combineBlockWithPosition(BLOCK_MAP.i, { col: 0, row: 10 })).toEqual([
-      [null, null, null, null, null, 'i', 'i', 'i', 'i', null, null, null, null, null],
+      [null, null, null, null, null, null, null, null, null, null, 'i', 'i', 'i', 'i'],
       [null, null, null, null, null, null, null, null, null, null, null, null, null, null],
       [null, null, null, null, null, null, null, null, null, null, null, null, null, null],
       [null, null, null, null, null, null, null, null, null, null, null, null, null, null],
@@ -98,7 +98,7 @@ describe('combineBlockWithPosition', () => {
       [null, null, null, null, null, null, null, null, null, null, null, null, null, null],
       [null, null, null, null, null, null, null, null, null, null, null, null, null, null],
       [null, null, null, null, null, null, null, null, null, null, null, null, null, null],
-      [null, null, null, null, null, 'i', 'i', 'i', 'i', null, null, null, null, null],
+      [null, null, null, null, null, null, null, null, null, null, 'i', 'i', 'i', 'i'],
       [null, null, null, null, null, null, null, null, null, null, null, null, null, null],
       [null, null, null, null, null, null, null, null, null, null, null, null, null, null],
       [null, null, null, null, null, null, null, null, null, null, null, null, null, null],
@@ -108,8 +108,8 @@ describe('combineBlockWithPosition', () => {
 
 it('combineBlockToTable', () => {
   expect(combineBlockToTable(getEmptyTable(5, 5), BLOCK_MAP['j'], { col: 0, row: 2 })).toEqual([
-    [null, 'j', null, null, null],
-    [null, 'j', 'j', 'j', null],
+    [null, null, 'j', null, null],
+    [null, null, 'j', 'j', 'j'],
     [null, null, null, null, null],
     [null, null, null, null, null],
     [null, null, null, null, null],

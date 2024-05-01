@@ -13,7 +13,7 @@ export const combineBlockWithPosition = (block: Block, blockPosition: Position) 
     Array(blockPosition.row + blockRowLength).fill(null),
   ) as Table;
   const addCol = blockPosition.col;
-  const addRow = Math.floor(blockPosition.row / 2);
+  const addRow = blockPosition.row;
   block.shape.forEach((blockShapeCol, col) => {
     blockShapeCol.forEach((isExistBlock, row) => {
       if (isExistBlock) {
