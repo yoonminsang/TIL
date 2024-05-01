@@ -12,7 +12,7 @@ export const combineBlockWithPosition = (block: Block, blockPosition: Position) 
   const table = [...Array(blockPosition.col + blockColLength)].map(() =>
     Array(blockPosition.row + blockRowLength).fill(null),
   ) as Table;
-  const addCol = Math.floor(blockPosition.col / 2);
+  const addCol = blockPosition.col;
   const addRow = Math.floor(blockPosition.row / 2);
   block.shape.forEach((blockShapeCol, col) => {
     blockShapeCol.forEach((isExistBlock, row) => {
