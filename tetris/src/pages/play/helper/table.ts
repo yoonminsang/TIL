@@ -12,11 +12,12 @@ export const combineBlockWithPosition = (block: Block, blockPosition: Position) 
   const table = [...Array(blockPosition.col + blockColLength)].map(() =>
     Array(blockPosition.row + blockRowLength).fill(null),
   ) as Table;
-  const addRow = Math.floor(blockRowLength / 2);
+  const addCol = Math.floor(blockPosition.col / 2);
+  const addRow = Math.floor(blockPosition.row / 2);
   block.shape.forEach((blockShapeCol, col) => {
     blockShapeCol.forEach((isExistBlock, row) => {
       if (isExistBlock) {
-        table[col][row + addRow] = block.type;
+        table[col + addCol][row + addRow] = block.type;
       }
     });
   });
