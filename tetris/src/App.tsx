@@ -43,6 +43,7 @@ function App() {
         ),
         play: (
           <PlayPage
+            stage={stage}
             onChangeStageClearPage={() => {
               increaseStage();
               setStatus('stage-clear');
