@@ -3,4 +3,5 @@ export const SETTINGS = {
   row: 10,
   minSpeedTime: 1000,
   maxSpeedTime: 100,
+  maxStage: 100,
 };
