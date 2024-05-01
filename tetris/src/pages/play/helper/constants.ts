@@ -1,6 +1,6 @@
 export const SETTINGS = {
-  row: 20,
-  col: 10,
+  col: 20,
+  row: 10,
   minSpeedTime: 1000,
   maxSpeedTime: 100,
 };
