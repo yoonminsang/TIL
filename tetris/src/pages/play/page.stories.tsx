@@ -3,7 +3,7 @@ import { fn } from '@storybook/test';
 import PlayPage from './page';
 
 const meta = {
-  title: 'Pages/PlayPage',
+  title: 'pages / Play',
   component: PlayPage,
   // This component will have an automatically generated Autodocs entry: https://storybook.js.org/docs/writing-docs/autodocs
   tags: ['autodocs'],
@@ -21,5 +21,7 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
-  args: {},
+  args: {
+    stage: 1,
+  },
 };

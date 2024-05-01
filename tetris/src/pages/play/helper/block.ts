@@ -5,10 +5,10 @@ export const BLOCK_MAP: Record<BlockType, Block> = {
   i: {
     type: 'i',
     shape: [
-      [false, true, false, false],
-      [false, true, false, false],
-      [false, true, false, false],
-      [false, true, false, false],
+      [true, true, true, true],
+      [false, false, false, false],
+      [false, false, false, false],
+      [false, false, false, false],
     ],
   },
   o: {
@@ -56,6 +56,12 @@ export const BLOCK_MAP: Record<BlockType, Block> = {
 };
 
 const blockList = Object.values(BLOCK_MAP);
+
+export const getBlockMaxSize = () => {
+  return blockList.reduce((acc, cur) => {
+    return Math.max(acc, cur.shape.length, cur.shape[0].length);
+  }, 0);
+};
 
 export const getRandomBlock = (random = Math.random()) => {
   return blockList[getRandom(blockList.length, random)];

@@ -1,0 +1,1 @@
+export { useTetrisGame } from './useTetrisGame';
