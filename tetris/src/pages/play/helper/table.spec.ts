@@ -166,4 +166,34 @@ describe('getIsPossibleRender', () => {
       ),
     ).toBe(true);
   });
+  describe('position을 벗어나는 경우', () => {
+    it('column이 넘친다면 렌더링이 가능하지 않다.', () => {
+      expect(
+        getIsPossibleRender(
+          [
+            [null, null, null, null, null, null],
+            [null, null, null, null, null, null],
+            [null, null, null, null, null, null],
+            [null, null, null, null, null, null],
+          ],
+          BLOCK_MAP['i'],
+          { col: 3, row: 2 },
+        ),
+      ).toBe(false);
+    });
+    it('row가 넘친다면 렌더링이 가능하지 않다.', () => {
+      expect(
+        getIsPossibleRender(
+          [
+            [null, null, null, null, null, null],
+            [null, null, null, null, null, null],
+            [null, null, null, null, null, null],
+            [null, null, null, null, null, null],
+          ],
+          BLOCK_MAP['o'],
+          { col: 0, row: 5 },
+        ),
+      ).toBe(false);
+    });
+  });
 });
