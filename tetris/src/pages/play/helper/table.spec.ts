@@ -1,5 +1,5 @@
 import { BLOCK_MAP } from './block';
-import { combineBlockToTable, findCompletedLines, getEmptyTable, getIsPossibleRender } from './table';
+import { combineBlockWithTable, findCompletedLines, getEmptyTable, getIsPossibleRender } from './table';
 
 describe('getEmptyTable', () => {
   it('col이 3이고 row가 2인 empty table을 만든다.', () => {
@@ -11,8 +11,8 @@ describe('getEmptyTable', () => {
   });
 });
 
-it('combineBlockToTable', () => {
-  expect(combineBlockToTable(getEmptyTable(5, 5), BLOCK_MAP['j'], { col: 0, row: 2 })).toEqual([
+it('combineBlockWithTable', () => {
+  expect(combineBlockWithTable(getEmptyTable(5, 5), BLOCK_MAP['j'], { col: 0, row: 2 })).toEqual([
     [null, null, 'j', null, null],
     [null, null, 'j', 'j', 'j'],
     [null, null, null, null, null],

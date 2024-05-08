@@ -7,7 +7,7 @@ export const getEmptyTable = (col = SETTINGS.col, row = SETTINGS.row) => {
   return [...Array(col)].map(() => Array(row).fill(null)) as Table;
 };
 
-export const combineBlockToTable = (table: Table, block: Block, blockPosition: Position) => {
+export const combineBlockWithTable = (table: Table, block: Block, blockPosition: Position) => {
   const blockTable = combineBlockWithPosition(block, blockPosition);
   const nextTable = produce(table, (draft) => {
     blockTable.forEach((blockShapeCol, col) => {
