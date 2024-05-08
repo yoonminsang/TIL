@@ -1,4 +1,5 @@
-import { Block, BlockType } from './types';
+import { combineBlockWithPosition } from './table';
+import { Block, BlockType, Position } from './types';
 import { getRandom } from './utils';
 
 export const BLOCK_MAP: Record<BlockType, Block> = {
@@ -65,4 +66,17 @@ export const getBlockMaxSize = () => {
 
 export const getRandomBlock = (random = Math.random()) => {
   return blockList[getRandom(blockList.length, random)];
+};
+
+export const getBlockBottomPosition = (block: Block, blockPosition: Position) => {
+  const blockTable = combineBlockWithPosition(block, blockPosition);
+  let max = -Infinity;
+  blockTable.forEach((col, colIndex) => {
+    col.forEach((row) => {
+      if (row !== null) {
+        max = Math.max(max, colIndex);
+      }
+    });
+  });
+  return max;
 };
