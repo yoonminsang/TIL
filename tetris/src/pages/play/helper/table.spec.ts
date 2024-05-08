@@ -177,7 +177,7 @@ describe('getIsPossibleRender', () => {
             [null, null, null, null, null, null],
           ],
           BLOCK_MAP['i'],
-          { col: 3, row: 2 },
+          { col: 4, row: 2 },
         ),
       ).toBe(false);
     });
