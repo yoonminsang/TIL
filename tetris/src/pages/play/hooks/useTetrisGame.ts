@@ -1,18 +1,20 @@
-import { produce } from 'immer';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   Block,
   Position,
   SETTINGS,
   Table,
-  combineBlockToTable,
+  combineBlockWithTable,
   findCompletedLines,
   getBlockMaxSize,
   getEmptyTable,
   getGoalClearLine,
   getIsPossibleRender,
   getRandomBlock,
+  getUpdateTableByCompletedLines,
+  rotateClockWiseIn2DArr,
 } from '../helper';
+import { usePreservedCallback } from '@toss/react';
 
 const blockMaxSize = getBlockMaxSize();
 const blockEmptyTable = getEmptyTable(blockMaxSize, blockMaxSize);
@@ -34,17 +36,18 @@ export const useTetrisGame = (
   const [nextBlock, setNextBlock] = useState<Block>(getRandomBlock());
   const [clearLine, setClearLine] = useState<number>(0);
   const [table, setTable] = useState<Table>(getEmptyTable(SETTINGS.col, SETTINGS.row));
+  const [isCrashed, setIsCrashed] = useState<boolean>(false);
 
   const goalClearLine = getGoalClearLine(stage);
-  const blockForRender = combineBlockToTable(blockEmptyTable, nextBlock, { col: 0, row: 0 });
-  const tableForRender = combineBlockToTable(table, currentBlock, currentBlockPosition);
+  const blockForRender = combineBlockWithTable(blockEmptyTable, nextBlock, { col: 0, row: 0 });
+  const tableForRender = combineBlockWithTable(table, currentBlock, currentBlockPosition);
 
   const intervalCallback = () => {
-    const isPossibleRender = getIsPossibleRender(table, currentBlock, {
+    const isPossibleDownRender = getIsPossibleRender(table, currentBlock, {
       col: currentBlockPosition.col + 1,
       row: currentBlockPosition.row,
     });
-    if (isPossibleRender) {
+    if (isPossibleDownRender) {
       setCurrentBlockPosition((position) => ({ col: position.col + 1, row: position.row }));
       return;
     }
@@ -55,25 +58,30 @@ export const useTetrisGame = (
       return;
     }
 
+    setIsCrashed(true);
+  };
+
     const completedLines = findCompletedLines(table);
-    if (completedLines.length > 0) {
-      const nextClearLine = clearLine + completedLines.length;
-      setClearLine(nextClearLine);
-      setTable(
-        produce((table) =>
-          table.map((cellList, cellListIndex) => {
-            if (completedLines.includes(cellListIndex)) {
-              return Array(cellList.length).fill(null);
-            } else {
-              return cellList;
-            }
-          }),
-        ),
-      );
-      if (nextClearLine >= goalClearLine) {
-        onChangeStageClearPage();
+
+  useEffect(() => {
+    if (isCrashed) {
+      setCurrentBlock(nextBlock);
+      setNextBlock(getRandomBlock());
+      setCurrentBlockPosition(getInitialPosition(nextBlock));
+      setTable(tableForRender);
+      setIsCrashed(false);
+
+      const completedLines = findCompletedLines(tableForRender);
+      if (completedLines.length > 0) {
+        const nextClearLine = clearLine + completedLines.length;
+        setClearLine(nextClearLine);
+        setTable(getUpdateTableByCompletedLines(tableForRender, completedLines));
+        if (nextClearLine >= goalClearLine) {
+          onChangeStageClearPage();
+        }
       }
     }
+  }, [isCrashed]);
 
     setCurrentBlock(nextBlock);
     setNextBlock(getRandomBlock());
