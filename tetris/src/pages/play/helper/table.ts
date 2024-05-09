@@ -1,7 +1,7 @@
 import { produce } from 'immer';
 import { combineBlockWithPosition, getBlockBottomPosition } from './block';
 import { SETTINGS } from './constants';
-import { Block, Position, Table } from './types';
+import { Block, Cell, Position, Table } from './types';
 
 export const getEmptyTable = (col = SETTINGS.col, row = SETTINGS.row) => {
   return [...Array(col)].map(() => Array(row).fill(null)) as Table;
@@ -57,5 +57,29 @@ export const getIsPossibleRender = (table: Table, block: Block, blockPosition: P
     return true;
   } catch (err) {
     return false;
+  }
+};
+
+export const getUpdateTableByCompletedLines = (table: Table, completedLines: number[]) => {
+  const result = initTable(table, completedLines);
+  shiftRowsDown(result, completedLines);
+  return result;
+
+  function initTable(table: Table, completedLines: number[]) {
+    return table.map((cellList, cellListIndex) => {
+      if (completedLines.includes(cellListIndex)) {
+        return Array(cellList.length).fill(null) as Cell[];
+      } else {
+        return [...cellList];
+      }
+    });
+  }
+
+  function shiftRowsDown(result: Table, completedLines: number[]) {
+    completedLines.forEach((completedLine) => {
+      for (let col = completedLine - 1; col >= 0; col--) {
+        result[col + 1] = [...result[col]];
+      }
+    });
   }
 };

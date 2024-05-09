@@ -1,5 +1,12 @@
 import { BLOCK_MAP } from './block';
-import { combineBlockWithTable, findCompletedLines, getEmptyTable, getIsPossibleRender } from './table';
+import {
+  combineBlockWithTable,
+  findCompletedLines,
+  getEmptyTable,
+  getIsPossibleRender,
+  getUpdateTableByCompletedLines,
+} from './table';
+import { Table } from './types';
 
 describe('getEmptyTable', () => {
   it('col이 3이고 row가 2인 empty table을 만든다.', () => {
@@ -100,5 +107,100 @@ describe('getIsPossibleRender', () => {
         ),
       ).toBe(false);
     });
+  });
+});
+
+describe('getUpdateTableByCompletedLines', () => {
+  it('1줄을 정상적으로 제거한다.', () => {
+    const table: Table = [
+      [null, null, null, null, null, null, null, null, null, null],
+      [null, null, null, null, null, null, null, null, null, null],
+      [null, null, null, null, null, null, null, null, null, null],
+      [null, null, null, null, null, null, null, null, null, null],
+      [null, null, null, null, null, null, null, null, null, null],
+      [null, null, null, null, null, null, null, null, null, null],
+      [null, null, null, null, null, null, null, null, null, null],
+      [null, null, null, null, null, null, null, null, null, null],
+      [null, null, null, null, null, null, null, null, null, null],
+      [null, null, null, null, null, null, null, null, null, null],
+      [null, null, null, null, null, null, null, null, null, null],
+      [null, null, null, null, null, null, null, null, null, null],
+      [null, null, null, null, null, null, null, null, null, null],
+      [null, null, null, null, null, null, null, null, null, null],
+      [null, null, null, null, null, null, null, null, null, null],
+      [null, null, null, null, null, null, null, null, null, null],
+      [null, null, null, null, null, null, null, null, 'i', 'i'],
+      [null, null, null, null, null, null, null, null, 'i', 'i'],
+      [null, null, null, null, null, null, null, null, 'i', 'i'],
+      ['i', 'i', 'i', 'i', 'i', 'i', 'i', 'i', 'i', 'i'],
+    ];
+    expect(getUpdateTableByCompletedLines(table, [19])).toEqual([
+      [null, null, null, null, null, null, null, null, null, null],
+      [null, null, null, null, null, null, null, null, null, null],
+      [null, null, null, null, null, null, null, null, null, null],
+      [null, null, null, null, null, null, null, null, null, null],
+      [null, null, null, null, null, null, null, null, null, null],
+      [null, null, null, null, null, null, null, null, null, null],
+      [null, null, null, null, null, null, null, null, null, null],
+      [null, null, null, null, null, null, null, null, null, null],
+      [null, null, null, null, null, null, null, null, null, null],
+      [null, null, null, null, null, null, null, null, null, null],
+      [null, null, null, null, null, null, null, null, null, null],
+      [null, null, null, null, null, null, null, null, null, null],
+      [null, null, null, null, null, null, null, null, null, null],
+      [null, null, null, null, null, null, null, null, null, null],
+      [null, null, null, null, null, null, null, null, null, null],
+      [null, null, null, null, null, null, null, null, null, null],
+      [null, null, null, null, null, null, null, null, null, null],
+      [null, null, null, null, null, null, null, null, 'i', 'i'],
+      [null, null, null, null, null, null, null, null, 'i', 'i'],
+      [null, null, null, null, null, null, null, null, 'i', 'i'],
+    ]);
+  });
+  it('2줄을 정상적으로 제거한다.', () => {
+    const table: Table = [
+      [null, null, null, null, null, null, null, null, null, null],
+      [null, null, null, null, null, null, null, null, null, null],
+      [null, null, null, null, null, null, null, null, null, null],
+      [null, null, null, null, null, null, null, null, null, null],
+      [null, null, null, null, null, null, null, null, null, null],
+      [null, null, null, null, null, null, null, null, null, null],
+      [null, null, null, null, null, null, null, null, null, null],
+      [null, null, null, null, null, null, null, null, null, null],
+      [null, null, null, null, null, null, null, null, null, null],
+      [null, null, null, null, null, null, null, null, null, null],
+      [null, null, null, null, null, null, null, null, null, null],
+      [null, null, null, null, null, null, null, null, null, null],
+      [null, null, null, null, null, null, null, null, null, null],
+      [null, null, null, null, null, null, null, null, null, null],
+      [null, null, null, null, null, null, null, null, null, null],
+      [null, null, null, null, null, null, null, null, null, null],
+      [null, null, null, null, null, null, null, null, 'i', 'i'],
+      [null, null, null, null, null, null, null, null, 'i', 'i'],
+      ['i', 'i', 'i', 'i', 'i', 'i', 'i', 'i', 'i', 'i'],
+      ['i', 'i', 'i', 'i', 'i', 'i', 'i', 'i', 'i', 'i'],
+    ];
+    expect(getUpdateTableByCompletedLines(table, [18, 19])).toEqual([
+      [null, null, null, null, null, null, null, null, null, null],
+      [null, null, null, null, null, null, null, null, null, null],
+      [null, null, null, null, null, null, null, null, null, null],
+      [null, null, null, null, null, null, null, null, null, null],
+      [null, null, null, null, null, null, null, null, null, null],
+      [null, null, null, null, null, null, null, null, null, null],
+      [null, null, null, null, null, null, null, null, null, null],
+      [null, null, null, null, null, null, null, null, null, null],
+      [null, null, null, null, null, null, null, null, null, null],
+      [null, null, null, null, null, null, null, null, null, null],
+      [null, null, null, null, null, null, null, null, null, null],
+      [null, null, null, null, null, null, null, null, null, null],
+      [null, null, null, null, null, null, null, null, null, null],
+      [null, null, null, null, null, null, null, null, null, null],
+      [null, null, null, null, null, null, null, null, null, null],
+      [null, null, null, null, null, null, null, null, null, null],
+      [null, null, null, null, null, null, null, null, null, null],
+      [null, null, null, null, null, null, null, null, null, null],
+      [null, null, null, null, null, null, null, null, 'i', 'i'],
+      [null, null, null, null, null, null, null, null, 'i', 'i'],
+    ]);
   });
 });
