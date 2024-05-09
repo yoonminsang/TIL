@@ -61,7 +61,39 @@ export const useTetrisGame = (
     setIsCrashed(true);
   };
 
-    const completedLines = findCompletedLines(table);
+  const handleChangePosition = usePreservedCallback((nextPosition: Position) => {
+    if (getIsPossibleRender(table, currentBlock, { ...nextPosition })) {
+      setCurrentBlockPosition({ ...nextPosition });
+    }
+  });
+
+  const handleChangeLeftPosition = usePreservedCallback(() => {
+    handleChangePosition({ col: currentBlockPosition.col, row: currentBlockPosition.row - 1 });
+  });
+
+  const handleChangeRightPosition = usePreservedCallback(() => {
+    handleChangePosition({ col: currentBlockPosition.col, row: currentBlockPosition.row + 1 });
+  });
+
+  const handleChangeDownPosition = usePreservedCallback(() => {
+    handleChangePosition({ col: currentBlockPosition.col + 1, row: currentBlockPosition.row });
+  });
+
+  const handleChangeRotateBlock = usePreservedCallback(() => {
+    const nextBlock = { ...currentBlock, shape: rotateClockWiseIn2DArr(currentBlock.shape) };
+    if (getIsPossibleRender(table, nextBlock, currentBlockPosition)) {
+      setCurrentBlock(nextBlock);
+    }
+  });
+
+  const handleChangeLastBottomPosition = usePreservedCallback(() => {
+    let nextCol = currentBlockPosition.col;
+    while (getIsPossibleRender(table, currentBlock, { col: nextCol, row: currentBlockPosition.row })) {
+      nextCol += 1;
+    }
+    setCurrentBlockPosition({ col: nextCol - 1, row: currentBlockPosition.row });
+    setIsCrashed(true);
+  });
 
   useEffect(() => {
     if (isCrashed) {
@@ -83,11 +115,15 @@ export const useTetrisGame = (
     }
   }, [isCrashed]);
 
-    setCurrentBlock(nextBlock);
-    setNextBlock(getRandomBlock());
-    setCurrentBlockPosition(getInitialPosition(nextBlock));
-    setTable(tableForRender);
+  return {
+    blockForRender,
+    tableForRender,
+    clearLine,
+    intervalCallback,
+    handleChangeLeftPosition,
+    handleChangeRightPosition,
+    handleChangeDownPosition,
+    handleChangeRotateBlock,
+    handleChangeLastBottomPosition,
   };
-
-  return { blockForRender, tableForRender, clearLine, intervalCallback };
 };
