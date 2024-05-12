@@ -26,12 +26,7 @@ export async function renderRankingPage() {
   await userEvent.click(button);
 }
 
-export async function renderPlayPage(stage?: number) {
-  if (stage) {
-    useStage.setState({
-      stage,
-    });
-  }
+export async function renderPlayPage() {
   await renderStageIntroPage();
   const button = await screen.findByRole('button', { name: /Go Play Page/ });
   await userEvent.click(button);
