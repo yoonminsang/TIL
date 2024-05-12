@@ -5,7 +5,9 @@ interface CellProps {
 }
 
 function CellBlock({ blockType }: CellProps) {
-  return <div className="w-[20px] h-[20px]" style={{ backgroundColor: getBlocStyle(blockType) }} />;
+  return (
+    <div className="w-[20px] h-[20px]" style={{ backgroundColor: getBlocStyle(blockType), border: '1px solid gray' }} />
+  );
 }
 
 export default CellBlock;

@@ -1,5 +1,6 @@
 import { Button } from '@/components/ui/button';
 import { useInterval } from '@/hooks/useInterval';
+import { useEffect } from 'react';
 import { Renderer, Timer } from './_components';
 import { SETTINGS, getGameSpeed } from './helper';
 import { useTetrisGame } from './hooks';
@@ -11,11 +12,17 @@ interface PlayPageProps {
 }
 
 export default function PlayPage({ stage, onChangeStageClearPage, onChangeStageDeadPage }: PlayPageProps) {
-  const { blockForRender, tableForRender, clearLine, intervalCallback } = useTetrisGame(
-    stage,
-    onChangeStageClearPage,
-    onChangeStageDeadPage,
-  );
+  const {
+    blockForRender,
+    tableForRender,
+    clearLine,
+    intervalCallback,
+    handleChangeLeftPosition,
+    handleChangeRightPosition,
+    handleChangeDownPosition,
+    handleChangeRotateBlock,
+    handleChangeLastBottomPosition,
+  } = useTetrisGame(stage, onChangeStageClearPage, onChangeStageDeadPage);
 
   const gameSpeed = getGameSpeed({
     currentStage: stage,
@@ -26,7 +33,32 @@ export default function PlayPage({ stage, onChangeStageClearPage, onChangeStageD
 
   useInterval(intervalCallback, gameSpeed);
 
-  // TODO: 키보드이벤트로 블록 조작
+  useEffect(() => {
+    const handleKeydown = (e: KeyboardEvent) => {
+      switch (e.key) {
+        case 'ArrowRight':
+          return handleChangeRightPosition();
+        case 'ArrowLeft':
+          return handleChangeLeftPosition();
+        case 'ArrowDown':
+          return handleChangeDownPosition();
+        case 'ArrowUp':
+          return handleChangeRotateBlock();
+        case ' ':
+          return handleChangeLastBottomPosition();
+      }
+    };
+    document.addEventListener('keydown', handleKeydown);
+    return () => {
+      document.removeEventListener('keydown', handleKeydown);
+    };
+  }, [
+    handleChangeDownPosition,
+    handleChangeLastBottomPosition,
+    handleChangeLeftPosition,
+    handleChangeRightPosition,
+    handleChangeRotateBlock,
+  ]);
 
   return (
     <div>

@@ -1,30 +1,13 @@
 import { produce } from 'immer';
+import { combineBlockWithPosition, getBlockBottomPosition } from './block';
 import { SETTINGS } from './constants';
-import { Block, Position, Table } from './types';
+import { Block, Cell, Position, Table } from './types';
 
 export const getEmptyTable = (col = SETTINGS.col, row = SETTINGS.row) => {
   return [...Array(col)].map(() => Array(row).fill(null)) as Table;
 };
 
-export const combineBlockWithPosition = (block: Block, blockPosition: Position) => {
-  const blockColLength = block.shape.length;
-  const blockRowLength = block.shape[0].length;
-  const table = [...Array(blockPosition.col + blockColLength)].map(() =>
-    Array(blockPosition.row + blockRowLength).fill(null),
-  ) as Table;
-  const addCol = blockPosition.col;
-  const addRow = Math.floor(blockPosition.row / 2);
-  block.shape.forEach((blockShapeCol, col) => {
-    blockShapeCol.forEach((isExistBlock, row) => {
-      if (isExistBlock) {
-        table[col + addCol][row + addRow] = block.type;
-      }
-    });
-  });
-  return table;
-};
-
-export const combineBlockToTable = (table: Table, block: Block, blockPosition: Position) => {
+export const combineBlockWithTable = (table: Table, block: Block, blockPosition: Position) => {
   const blockTable = combineBlockWithPosition(block, blockPosition);
   const nextTable = produce(table, (draft) => {
     blockTable.forEach((blockShapeCol, col) => {
@@ -48,9 +31,17 @@ export const findCompletedLines = (table: Table) => {
 };
 
 export const getIsPossibleRender = (table: Table, block: Block, blockPosition: Position) => {
-  const isOutOfCol = blockPosition.col < 0 || blockPosition.col >= table.length - 1;
-  const isOutOfRow = blockPosition.row < 0 || blockPosition.row >= table[0].length - 1;
-  if (isOutOfCol || isOutOfRow) {
+  const invalidBlockPosition =
+    blockPosition.col < 0 ||
+    blockPosition.row < 0 ||
+    blockPosition.col > table.length ||
+    blockPosition.row > table[0].length;
+  if (invalidBlockPosition) {
+    return false;
+  }
+  const bottom = getBlockBottomPosition(block, blockPosition);
+  const isOutOfCol = blockPosition.col < 0 || bottom >= table.length;
+  if (isOutOfCol) {
     return false;
   }
 
@@ -63,4 +54,28 @@ export const getIsPossibleRender = (table: Table, block: Block, blockPosition: P
     }
   }
   return true;
+};
+
+export const getUpdateTableByCompletedLines = (table: Table, completedLines: number[]) => {
+  const result = initTable(table, completedLines);
+  shiftRowsDown(result, completedLines);
+  return result;
+
+  function initTable(table: Table, completedLines: number[]) {
+    return table.map((cellList, cellListIndex) => {
+      if (completedLines.includes(cellListIndex)) {
+        return Array(cellList.length).fill(null) as Cell[];
+      } else {
+        return [...cellList];
+      }
+    });
+  }
+
+  function shiftRowsDown(result: Table, completedLines: number[]) {
+    completedLines.forEach((completedLine) => {
+      for (let col = completedLine - 1; col >= 0; col--) {
+        result[col + 1] = [...result[col]];
+      }
+    });
+  }
 };

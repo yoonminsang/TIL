@@ -7,7 +7,6 @@ interface State {
 
 interface Action {
   increase: VoidFunction;
-  reset: VoidFunction;
 }
 
 type Integrate = State & Action;
@@ -20,6 +19,5 @@ export const useStage = create<Integrate>()(
   devtools((set) => ({
     ...initialState,
     increase: () => set((state) => ({ stage: state.stage + 1 })),
-    reset: () => set(initialState),
   })),
 );
