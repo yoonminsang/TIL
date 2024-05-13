@@ -83,8 +83,8 @@ export const getBlockBottomPosition = (block: Block, blockPosition: Position) =>
 export const combineBlockWithPosition = (block: Block, blockPosition: Position) => {
   const blockColLength = block.shape.length;
   const blockRowLength = block.shape[0].length;
-  const table = [...Array(blockPosition.col + blockColLength)].map(() =>
-    Array(blockPosition.row + blockRowLength).fill(null),
+  const table = [...Array(Math.max(blockPosition.col, 0) + blockColLength)].map(() =>
+    Array(Math.max(blockPosition.row, 0) + blockRowLength).fill(null),
   ) as Table;
   const addCol = blockPosition.col;
   const addRow = blockPosition.row;
