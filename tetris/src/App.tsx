@@ -8,6 +8,8 @@ import StageIntroPage from './pages/stage-intro/page';
 import StartPage from './pages/start/page';
 import { useStage } from './stores/stage';
 import { useShallow } from 'zustand/react/shallow';
+import { ErrorBoundary } from 'react-error-boundary';
+import { Button } from './components/ui/button';
 
 type Page = 'start' | 'stage-intro' | 'play' | 'stage-clear' | 'dead' | 'ranking';
 
@@ -20,67 +22,79 @@ function App() {
   );
 
   return (
-    <SwitchCase
-      value={status}
-      caseBy={{
-        start: (
-          <StartPage
-            onChangeStageIntroPage={() => {
-              setStatus('stage-intro');
-            }}
-            onChangeRankingPage={() => {
-              setStatus('ranking');
-            }}
-          />
-        ),
-        'stage-intro': (
-          <StageIntroPage
-            stage={stage}
-            onChangePlayPage={() => {
-              setStatus('play');
-            }}
-          />
-        ),
-        play: (
-          <PlayPage
-            stage={stage}
-            onChangeStageClearPage={() => {
-              increaseStage();
-              setStatus('stage-clear');
-            }}
-            onChangeStageDeadPage={() => {
-              setStatus('dead');
-            }}
-          />
-        ),
-        'stage-clear': (
-          <StageClearPage
-            stage={stage}
-            onChangeStageIntroPage={() => {
-              setStatus('stage-intro');
-            }}
-          />
-        ),
-        dead: (
-          <DeadPage
-            stage={stage}
-            onChangeStartPage={() => {
-              setStatus('start');
-            }}
-            onChangeRankingPage={() => {
-              setStatus('ranking');
-            }}
-          />
-        ),
-        ranking: (
-          <RankingPage
-            onChangeStartPage={() => {
-              setStatus('start');
-            }}
-          />
-        ),
+    <ErrorBoundary
+      FallbackComponent={({ resetErrorBoundary, error }) => {
+        console.error(error);
+        return (
+          <div>
+            <div>예상치 못한 에러가 발생햇습니다.</div>
+            <Button onClick={resetErrorBoundary}>초기화하기</Button>
+          </div>
+        );
       }}
-    />
+    >
+      <SwitchCase
+        value={status}
+        caseBy={{
+          start: (
+            <StartPage
+              onChangeStageIntroPage={() => {
+                setStatus('stage-intro');
+              }}
+              onChangeRankingPage={() => {
+                setStatus('ranking');
+              }}
+            />
+          ),
+          'stage-intro': (
+            <StageIntroPage
+              stage={stage}
+              onChangePlayPage={() => {
+                setStatus('play');
+              }}
+            />
+          ),
+          play: (
+            <PlayPage
+              stage={stage}
+              onChangeStageClearPage={() => {
+                increaseStage();
+                setStatus('stage-clear');
+              }}
+              onChangeStageDeadPage={() => {
+                setStatus('dead');
+              }}
+            />
+          ),
+          'stage-clear': (
+            <StageClearPage
+              stage={stage}
+              onChangeStageIntroPage={() => {
+                setStatus('stage-intro');
+              }}
+            />
+          ),
+          dead: (
+            <DeadPage
+              stage={stage}
+              onChangeStartPage={() => {
+                setStatus('start');
+              }}
+              onChangeRankingPage={() => {
+                setStatus('ranking');
+              }}
+            />
+          ),
+          ranking: (
+            <RankingPage
+              onChangeStartPage={() => {
+                setStatus('start');
+              }}
+            />
+          ),
+        }}
+      />
+    </ErrorBoundary>
   );
 }
 

@@ -91,7 +91,7 @@ export const useTetrisGame = (
     while (getIsPossibleRender(table, currentBlock, { col: nextCol, row: currentBlockPosition.row })) {
       nextCol += 1;
     }
-    setCurrentBlockPosition({ col: nextCol - 1, row: currentBlockPosition.row });
+    setCurrentBlockPosition({ col: Math.max(nextCol - 1, 0), row: currentBlockPosition.row });
     setIsCrashed(true);
   });
 
