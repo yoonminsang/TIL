@@ -152,26 +152,42 @@ describe('useTetrisGame', () => {
   it('블록이 회전할 수 없는 경우 블록이 회전되지 않는다.', () => {
     function getMockTable() {
       const result = helperModule.getEmptyTable();
-      for (let col = 0; col < result.length; col++) {
-        for (let row = 0; row < result[0].length / 2 - 1; row++) {
+      for (let col = 3; col < result.length; col++) {
+        for (let row = 0; row < result[0].length / 2 - 2; row++) {
           result[col][row] = 'i';
         }
-        for (let row = result[0].length / 2 + 1; row < result[0].length; row++) {
+        for (let row = result[0].length / 2; row < result[0].length; row++) {
           result[col][row] = 'i';
         }
       }
       return result;
     }
     jest.spyOn(helperModule, 'getEmptyTable').mockReturnValue(getMockTable());
-    jest.spyOn(helperModule, 'getRandomBlock').mockReturnValue(helperModule.getRandomBlock(0));
-
+    // NOTE: l 블록 모킹(7개중 3번째)
+    jest.spyOn(helperModule, 'getRandomBlock').mockReturnValue(helperModule.getRandomBlock(5 / 14));
     const { result } = renderHook(() => useTetrisGame(1, onChangeStageClearPage, onChangeStageDeadPage));
+
+    // NOTE: setState batching 때문에 여러 act로 처리
+    act(() => {
+      result.current.handleChangeRotateBlock();
+    });
+    act(() => {
+      result.current.handleChangeDownPosition();
+    });
+    act(() => {
+      result.current.handleChangeDownPosition();
+    });
+    act(() => {
+      result.current.handleChangeDownPosition();
+    });
+    act(() => {
+      result.current.handleChangeDownPosition();
+    });
 
     const beforeTableForRender = result.current.tableForRender;
     act(() => {
       result.current.handleChangeRotateBlock();
     });
-
     expect(beforeTableForRender).toEqual(result.current.tableForRender);
   });
 
