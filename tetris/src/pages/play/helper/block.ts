@@ -21,6 +21,7 @@ export const BLOCK_MAP: Record<BlockType, Block> = {
   l: {
     type: 'l',
     shape: [
+      [false, false, false],
       [false, false, true],
       [true, true, true],
     ],
@@ -28,6 +29,7 @@ export const BLOCK_MAP: Record<BlockType, Block> = {
   j: {
     type: 'j',
     shape: [
+      [false, false, false],
       [true, false, false],
       [true, true, true],
     ],

@@ -35,6 +35,7 @@ describe('combineBlockWithPosition', () => {
       expect(combineBlockWithPosition(BLOCK_MAP.l, { col: 0, row: 2 })).toEqual([
         [null, null, null, null, 'l'],
         [null, null, 'l', 'l', 'l'],
+        [null, null, null, null, null],
       ]);
     });
     it('t블록이 성공적으로 변환된다.', () => {
