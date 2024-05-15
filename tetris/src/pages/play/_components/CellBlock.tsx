@@ -1,4 +1,4 @@
-import { BlockType, Cell } from '../helper';
+import { Cell } from '../helper';
 
 interface CellProps {
   blockType: Cell;
@@ -12,7 +12,7 @@ function CellBlock({ blockType }: CellProps) {
 
 export default CellBlock;
 
-const getBlocStyle = (cell: BlockType | null) => {
+const getBlocStyle = (cell: Cell) => {
   switch (cell) {
     case 'i':
       return 'red';
@@ -28,6 +28,8 @@ const getBlocStyle = (cell: BlockType | null) => {
       return 'indigo';
     case 'z':
       return 'purple';
+    case 'shadow':
+      return 'lightgray';
     case null:
     default:
       return undefined;
