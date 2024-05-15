@@ -83,6 +83,29 @@ export const useTetrisGame = (
     const nextBlock = { ...currentBlock, shape: rotateClockWiseIn2DArr(currentBlock.shape) };
     if (getIsPossibleRender(table, nextBlock, currentBlockPosition)) {
       setCurrentBlock(nextBlock);
+      return;
+    }
+
+    const leftEmptyRowCount = currentBlock.shape.reduce((acc, cur) => {
+      const currentCount = cur.findIndex((v) => v === true);
+      return Math.min(acc, currentCount);
+    }, Infinity);
+    const leftChangedPosition = { col: currentBlockPosition.col, row: currentBlockPosition.row + leftEmptyRowCount };
+    if (getIsPossibleRender(table, nextBlock, leftChangedPosition)) {
+      setCurrentBlockPosition(leftChangedPosition);
+      setCurrentBlock(nextBlock);
+      return;
+    }
+
+    const rightEmptyRowCount = currentBlock.shape.reduce((acc, cur) => {
+      const currentCount = cur.reverse().findIndex((v) => v === true);
+      return Math.min(acc, currentCount);
+    }, Infinity);
+    const rightChangedPosition = { col: currentBlockPosition.col, row: currentBlockPosition.row - rightEmptyRowCount };
+    if (getIsPossibleRender(table, nextBlock, rightChangedPosition)) {
+      setCurrentBlockPosition(rightChangedPosition);
+      setCurrentBlock(nextBlock);
+      return;
     }
   });
 
