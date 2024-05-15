@@ -4,6 +4,7 @@ export { SETTINGS } from './constants';
 export { getGameSpeed } from './speed';
 export {
   combineBlockWithTable,
+  getTableForRenderer,
   getEmptyTable,
   findCompletedLines,
   getIsPossibleRender,
