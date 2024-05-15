@@ -11,6 +11,7 @@ import {
   getGoalClearLine,
   getIsPossibleRender,
   getRandomBlock,
+  getTableForRenderer,
   getUpdateTableByCompletedLines,
   rotateClockWiseIn2DArr,
 } from '../helper';
@@ -40,7 +41,7 @@ export const useTetrisGame = (
 
   const goalClearLine = getGoalClearLine(stage);
   const blockForRender = combineBlockWithTable(blockEmptyTable, nextBlock, { col: 0, row: 0 });
-  const tableForRender = combineBlockWithTable(table, currentBlock, currentBlockPosition);
+  const { tableForRender, nextCol } = getTableForRenderer(table, currentBlock, currentBlockPosition);
 
   const intervalCallback = () => {
     const isPossibleDownRender = getIsPossibleRender(table, currentBlock, {
@@ -110,11 +111,7 @@ export const useTetrisGame = (
   });
 
   const handleChangeLastBottomPosition = usePreservedCallback(() => {
-    let nextCol = currentBlockPosition.col;
-    while (getIsPossibleRender(table, currentBlock, { col: nextCol, row: currentBlockPosition.row })) {
-      nextCol += 1;
-    }
-    setCurrentBlockPosition({ col: Math.max(nextCol - 1, 0), row: currentBlockPosition.row });
+    setCurrentBlockPosition((position) => ({ col: nextCol, row: position.row }));
     setIsCrashed(true);
   });
 
