@@ -41,12 +41,14 @@ describe('combineBlockWithPosition', () => {
       expect(combineBlockWithPosition(BLOCK_MAP.t, { col: 0, row: 2 })).toEqual([
         [null, null, null, 't', null],
         [null, null, 't', 't', 't'],
+        [null, null, null, null, null],
       ]);
     });
     it('s블록이 성공적으로 변환된다.', () => {
       expect(combineBlockWithPosition(BLOCK_MAP.s, { col: 0, row: 2 })).toEqual([
         [null, null, null, 's', 's'],
         [null, null, 's', 's', null],
+        [null, null, null, null, null],
       ]);
     });
   });
