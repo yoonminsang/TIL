@@ -87,6 +87,11 @@
 - 블록이 맨 왼쪽이나 오른쪽에 있을 때 회전되지 않는 문제 해결
   - 다른 테트리스 게임을 해보니 position을 변경시켜서 회전을 시켜주고 있었다. currentBlock.shape를 이용해서 변경할 position을 구하고 기존에 만들어둔 getIsPossibleRender을 이용해서 렌더링가능 여부를 확인한 후 position과 block을 동시에 변경시켰다.
 
+## 게임4(그림자)
+
+- ux가 크게 개선되는 그림자 작업을 추가했다.
+- 기존에 handleChangeLastBottomPosition에서 하는 코드를 거의 그대로 옮긴거라서 작업은 어렵지 않다.
+
 # React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
