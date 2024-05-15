@@ -29,7 +29,7 @@
 - block을 rotate하는 로직이 필요하다. 이건 결국 행렬의 90도 변환이다. 2x3행렬이 3x2행렬로 변할 수 있음도 고려하자.
   - 이런 독립적이고 복잡한 케이스는 TDD로 구현하면 좋다.
 
-## 게임-1
+## 게임-1(UI 컴포넌트, useTetrisGame 훅 생성)
 
 - 먼저 UI부터 생각하자
   - 게임이 진행되는 테이블과 다음 블록을 그려줘야한다.
@@ -49,7 +49,7 @@
   - useEffect의 사용은 최대한 지양하는게 좋다. 그렇기 때문에 useEffect를 최대한 사용하지 않다보니 if if if와 같은 문법이 나왔다. 가독성을 위해 early return 형태로 개선했다.
   - 아무리 역할과 책임으로 분리해도 리액트에서는 UI와 데이터를 다루는 로직이 섞이기 마련이다. 그래서 useTetrisGame으로 최대한 데이터를 다루는 부분을 추상화했다. 또한 UI를 다루는쪽에서 불필요한 코드는 외부로 노출시키지 않았다.
 
-## 게임-2
+## 게임-2(기본적인 게임 형태 구현)
 
 - combineBlockWithPosition에 오류가 있는것을 발견했다.
   - 이건 내가 잘못 생각한거라 테스트코드로도 방어할 수 없다.
@@ -68,6 +68,24 @@
       - 생각나는 방법으로는 setState를 훅의 인터페이스에 노출시키기, clearLine상태를 외부에서 주입받기가 있다. 둘다 별로 원하는 방식은 아니다...
       - getGoalClearLine이라는 함수를 만들었는데 이걸 모킹하면 훅의 변화없이도 가능하다는 것을 깨달았다! 이렇게 해야겠다.
     - 기본적인 테스트만 작성했는데 꽤 많은 테스트케이스가 나왔다. 엄청 어렵지는 않지만 엄청 쉽지도 않다. 연습이 필요할 것 같다.
+
+## 게임-3(ux 개선)
+
+- block row position이 음수일때도 가능하게 개선
+  - 항상 i블록이 말썽이다.. i 블록 케이스를 대응하기 위해서 작업을 했는데 생각보다 시간이 많이 걸렸다.. 그래도 TDD 방식으로 개선하다보니 훨씬 수월했다.
+  - i블록의 경우 rotate상태에 따라서 맨 왼쪽 혹은 맨 오른쪽으로 이동할 수 없는 문제가 존재했다. (row position이 0이여도 실제 ui는 맨 왼쪽에 있지 않기 때문에)
+  ```
+  [
+    [false,false,true,false],
+    [false,false,true,false],
+    [false,false,true,false],
+    [false,false,true,false],
+  ]
+  ```
+- 블록 shape 변경
+  - ux 개선 및 양끝에서 회전을 쉽게 구현하기 위해서 블록 shape를 변경했다.(https://tetr.io/, https://tetris.com/play-tetris 참고)
+- 블록이 맨 왼쪽이나 오른쪽에 있을 때 회전되지 않는 문제 해결
+  - 다른 테트리스 게임을 해보니 position을 변경시켜서 회전을 시켜주고 있었다. currentBlock.shape를 이용해서 변경할 position을 구하고 기존에 만들어둔 getIsPossibleRender을 이용해서 렌더링가능 여부를 확인한 후 position과 block을 동시에 변경시켰다.
 
 # React + TypeScript + Vite
 

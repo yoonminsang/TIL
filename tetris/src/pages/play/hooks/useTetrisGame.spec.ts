@@ -136,46 +136,106 @@ describe('useTetrisGame', () => {
     expect(beforeBlockForRender).not.toEqual(result.current.blockForRender);
   });
 
-  it('블록이 회전할 수 있는 경우 블록이 정상적으로 회전한다.', () => {
-    // NOTE: o블록은 회전해도 변하지 않아서 모킹이 필요함
-    jest.spyOn(helperModule, 'getRandomBlock').mockReturnValue(helperModule.getRandomBlock(0));
-    const { result } = renderHook(() => useTetrisGame(1, onChangeStageClearPage, onChangeStageDeadPage));
+  describe('블록 회전', () => {
+    it('블록이 정상적으로 회전한다.', () => {
+      // NOTE: o블록은 회전해도 변하지 않아서 모킹이 필요함
+      jest.spyOn(helperModule, 'getRandomBlock').mockReturnValue(helperModule.getRandomBlock(0));
+      const { result } = renderHook(() => useTetrisGame(1, onChangeStageClearPage, onChangeStageDeadPage));
 
-    const beforeTableForRender = result.current.tableForRender;
-    act(() => {
-      result.current.handleChangeRotateBlock();
+      const beforeTableForRender = result.current.tableForRender;
+      act(() => {
+        result.current.handleChangeRotateBlock();
+      });
+
+      expect(beforeTableForRender).not.toEqual(result.current.tableForRender);
     });
 
-    expect(beforeTableForRender).not.toEqual(result.current.tableForRender);
-  });
+    it('i블록을 회전하고 position을 맨 왼쪽으로 이동했을 때 블록이 정상적으로 회전한다.', () => {
+      jest.spyOn(helperModule, 'getRandomBlock').mockReturnValue(helperModule.getRandomBlock(0));
+      const { result } = renderHook(() => useTetrisGame(1, onChangeStageClearPage, onChangeStageDeadPage));
 
-  it('블록이 회전할 수 없는 경우 블록이 회전되지 않는다.', () => {
-    function getMockTable() {
-      const result = helperModule.getEmptyTable();
-      for (let col = 0; col < result.length; col++) {
-        for (let row = 0; row < result[0].length / 2 - 1; row++) {
-          result[col][row] = 'i';
-        }
-        for (let row = result[0].length / 2 + 1; row < result[0].length; row++) {
-          result[col][row] = 'i';
-        }
+      act(() => {
+        result.current.handleChangeRotateBlock();
+      });
+      for (let i = 0; i < helperModule.SETTINGS.row / 2; i++) {
+        act(() => {
+          result.current.handleChangeLeftPosition();
+        });
       }
-      return result;
-    }
-    jest.spyOn(helperModule, 'getEmptyTable').mockReturnValue(getMockTable());
-    jest.spyOn(helperModule, 'getRandomBlock').mockReturnValue(helperModule.getRandomBlock(0));
 
-    const { result } = renderHook(() => useTetrisGame(1, onChangeStageClearPage, onChangeStageDeadPage));
+      const beforeTableForRender = result.current.tableForRender;
+      act(() => {
+        result.current.handleChangeRotateBlock();
+      });
 
-    const beforeTableForRender = result.current.tableForRender;
-    act(() => {
-      result.current.handleChangeRotateBlock();
+      expect(beforeTableForRender).not.toEqual(result.current.tableForRender);
     });
 
-    expect(beforeTableForRender).toEqual(result.current.tableForRender);
+    it('i블록을 회전하고 position을 맨 오른쪽으로 이동했을 때 블록이 정상적으로 회전한다.', () => {
+      jest.spyOn(helperModule, 'getRandomBlock').mockReturnValue(helperModule.getRandomBlock(0));
+      const { result } = renderHook(() => useTetrisGame(1, onChangeStageClearPage, onChangeStageDeadPage));
+
+      act(() => {
+        result.current.handleChangeRotateBlock();
+      });
+      for (let i = 0; i < helperModule.SETTINGS.row / 2; i++) {
+        act(() => {
+          result.current.handleChangeRightPosition();
+        });
+      }
+
+      const beforeTableForRender = result.current.tableForRender;
+      act(() => {
+        result.current.handleChangeRotateBlock();
+      });
+
+      expect(beforeTableForRender).not.toEqual(result.current.tableForRender);
+    });
+
+    it('블록이 회전할 수 없는 경우 블록이 회전되지 않는다.', () => {
+      function getMockTable() {
+        const result = helperModule.getEmptyTable();
+        for (let col = 3; col < result.length; col++) {
+          for (let row = 0; row < result[0].length / 2 - 2; row++) {
+            result[col][row] = 'i';
+          }
+          for (let row = result[0].length / 2; row < result[0].length; row++) {
+            result[col][row] = 'i';
+          }
+        }
+        return result;
+      }
+      jest.spyOn(helperModule, 'getEmptyTable').mockReturnValue(getMockTable());
+      // NOTE: l 블록 모킹(7개중 3번째)
+      jest.spyOn(helperModule, 'getRandomBlock').mockReturnValue(helperModule.getRandomBlock(5 / 14));
+      const { result } = renderHook(() => useTetrisGame(1, onChangeStageClearPage, onChangeStageDeadPage));
+
+      // NOTE: setState batching 때문에 여러 act로 처리
+      act(() => {
+        result.current.handleChangeRotateBlock();
+      });
+      act(() => {
+        result.current.handleChangeDownPosition();
+      });
+      act(() => {
+        result.current.handleChangeDownPosition();
+      });
+      act(() => {
+        result.current.handleChangeDownPosition();
+      });
+      act(() => {
+        result.current.handleChangeDownPosition();
+      });
+
+      const beforeTableForRender = result.current.tableForRender;
+      act(() => {
+        result.current.handleChangeRotateBlock();
+      });
+      expect(beforeTableForRender).toEqual(result.current.tableForRender);
+    });
   });
 
-  describe('interval callback 테스트', () => {
+  describe('interval callback', () => {
     it('블록 아래 position이 비어있다면 아래로 이동한다.', () => {
       const { result } = renderHook(() => useTetrisGame(1, onChangeStageClearPage, onChangeStageDeadPage));
 

@@ -5,8 +5,8 @@ export const BLOCK_MAP: Record<BlockType, Block> = {
   i: {
     type: 'i',
     shape: [
-      [true, true, true, true],
       [false, false, false, false],
+      [true, true, true, true],
       [false, false, false, false],
       [false, false, false, false],
     ],
@@ -21,6 +21,7 @@ export const BLOCK_MAP: Record<BlockType, Block> = {
   l: {
     type: 'l',
     shape: [
+      [false, false, false],
       [false, false, true],
       [true, true, true],
     ],
@@ -28,6 +29,7 @@ export const BLOCK_MAP: Record<BlockType, Block> = {
   j: {
     type: 'j',
     shape: [
+      [false, false, false],
       [true, false, false],
       [true, true, true],
     ],
@@ -35,6 +37,7 @@ export const BLOCK_MAP: Record<BlockType, Block> = {
   t: {
     type: 't',
     shape: [
+      [false, false, false],
       [false, true, false],
       [true, true, true],
     ],
@@ -42,6 +45,7 @@ export const BLOCK_MAP: Record<BlockType, Block> = {
   s: {
     type: 's',
     shape: [
+      [false, false, false],
       [false, true, true],
       [true, true, false],
     ],
@@ -49,6 +53,7 @@ export const BLOCK_MAP: Record<BlockType, Block> = {
   z: {
     type: 'z',
     shape: [
+      [false, false, false],
       [true, true, false],
       [false, true, true],
     ],
@@ -83,12 +88,14 @@ export const getBlockBottomPosition = (block: Block, blockPosition: Position) =>
 export const combineBlockWithPosition = (block: Block, blockPosition: Position) => {
   const blockColLength = block.shape.length;
   const blockRowLength = block.shape[0].length;
-  const table = [...Array(blockPosition.col + blockColLength)].map(() =>
-    Array(blockPosition.row + blockRowLength).fill(null),
+  const table = [...Array(Math.max(blockPosition.col, 0) + blockColLength)].map(() =>
+    Array(Math.max(blockPosition.row, 0) + blockRowLength).fill(null),
   ) as Table;
   const addCol = blockPosition.col;
   const addRow = blockPosition.row;
-  block.shape.forEach((blockShapeCol, col) => {
+  // NOTE: 맨 위 block이 비어있는 경우 제거해줍니다. ex) i블록
+  const filteredBlockShape = block.shape.filter((shapeCol) => !shapeCol.every((isExist) => !isExist));
+  filteredBlockShape.forEach((blockShapeCol, col) => {
     blockShapeCol.forEach((isExistBlock, row) => {
       if (isExistBlock) {
         table[col + addCol][row + addRow] = block.type;

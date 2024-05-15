@@ -6,7 +6,8 @@ import {
   getIsPossibleRender,
   getUpdateTableByCompletedLines,
 } from './table';
-import { Table } from './types';
+import { Block, Table } from './types';
+import { rotateClockWiseIn2DArr } from './utils';
 
 describe('getEmptyTable', () => {
   it('col이 3이고 row가 2인 empty table을 만든다.', () => {
@@ -77,6 +78,36 @@ describe('getIsPossibleRender', () => {
         { col: 0, row: 2 },
       ),
     ).toBe(true);
+  });
+  it('row가 -1인 경우 i블록은 렌더링이 가능하다.', () => {
+    const block: Block = { type: 'i', shape: rotateClockWiseIn2DArr(BLOCK_MAP['i'].shape) };
+    expect(
+      getIsPossibleRender(
+        [
+          [null, null, null, null, null, null],
+          [null, null, null, null, null, null],
+          [null, null, null, null, null, null],
+          [null, null, null, null, null, null],
+        ],
+        block,
+        { col: 0, row: -1 },
+      ),
+    ).toBe(true);
+  });
+  it('row가 -4인 경우 i블록은 렌더링이 가능하지 않다.', () => {
+    const block: Block = { type: 'i', shape: rotateClockWiseIn2DArr(BLOCK_MAP['i'].shape) };
+    expect(
+      getIsPossibleRender(
+        [
+          [null, null, null, null, null, null],
+          [null, null, null, null, null, null],
+          [null, null, null, null, null, null],
+          [null, null, null, null, null, null],
+        ],
+        block,
+        { col: 0, row: -4 },
+      ),
+    ).toBe(false);
   });
   describe('position을 벗어나는 경우', () => {
     it('column이 넘친다면 렌더링이 가능하지 않다.', () => {

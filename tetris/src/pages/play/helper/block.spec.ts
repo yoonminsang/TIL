@@ -35,18 +35,21 @@ describe('combineBlockWithPosition', () => {
       expect(combineBlockWithPosition(BLOCK_MAP.l, { col: 0, row: 2 })).toEqual([
         [null, null, null, null, 'l'],
         [null, null, 'l', 'l', 'l'],
+        [null, null, null, null, null],
       ]);
     });
     it('t블록이 성공적으로 변환된다.', () => {
       expect(combineBlockWithPosition(BLOCK_MAP.t, { col: 0, row: 2 })).toEqual([
         [null, null, null, 't', null],
         [null, null, 't', 't', 't'],
+        [null, null, null, null, null],
       ]);
     });
     it('s블록이 성공적으로 변환된다.', () => {
       expect(combineBlockWithPosition(BLOCK_MAP.s, { col: 0, row: 2 })).toEqual([
         [null, null, null, 's', 's'],
         [null, null, 's', 's', null],
+        [null, null, null, null, null],
       ]);
     });
   });
@@ -100,6 +103,24 @@ describe('combineBlockWithPosition', () => {
       [null, null, null, null, null, null, null, null, null, null, null, null, null, null],
       [null, null, null, null, null, null, null, null, null, null, null, null, null, null],
       [null, null, null, null, null, null, null, null, null, null, null, null, null, null],
+    ]);
+  });
+  it('col이 0이고 row가 -1일 때 i 블록이 성공적으로 변환된다.', () => {
+    const block: Block = { type: 'i', shape: rotateClockWiseIn2DArr(BLOCK_MAP['i'].shape) };
+    expect(combineBlockWithPosition(block, { col: 0, row: -1 })).toEqual([
+      [null, 'i', null, null],
+      [null, 'i', null, null],
+      [null, 'i', null, null],
+      [null, 'i', null, null],
+    ]);
+  });
+  it('col이 0이고 row가 -2일 때 i 블록이 성공적으로 변환된다.', () => {
+    const block: Block = { type: 'i', shape: rotateClockWiseIn2DArr(BLOCK_MAP['i'].shape) };
+    expect(combineBlockWithPosition(block, { col: 0, row: -2 })).toEqual([
+      ['i', null, null, null],
+      ['i', null, null, null],
+      ['i', null, null, null],
+      ['i', null, null, null],
     ]);
   });
 });
