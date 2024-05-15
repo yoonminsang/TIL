@@ -21,6 +21,28 @@ export const combineBlockWithTable = (table: Table, block: Block, blockPosition:
   return nextTable;
 };
 
+export const getTableForRenderer = (table: Table, block: Block, blockPosition: Position) => {
+  let nextCol = blockPosition.col;
+  while (getIsPossibleRender(table, block, { col: nextCol, row: blockPosition.row })) {
+    nextCol += 1;
+  }
+  nextCol = Math.max(nextCol - 1, 0);
+
+  const blockWithTable = combineBlockWithTable(table, block, blockPosition);
+  const shadowTable = combineBlockWithPosition(block, { col: nextCol, row: blockPosition.row });
+
+  const tableForRender = produce(blockWithTable, (draft) => {
+    shadowTable.forEach((blockShapeCol, col) => {
+      blockShapeCol.forEach((blockShape, row) => {
+        if (draft[col]?.[row] === null && blockShape) {
+          draft[col][row] = 'shadow';
+        }
+      });
+    });
+  });
+  return { tableForRender, nextCol };
+};
+
 export const findCompletedLines = (table: Table) => {
   return table.reduce<number[]>((acc, cur, index) => {
     if (cur.every((v) => v !== null)) {

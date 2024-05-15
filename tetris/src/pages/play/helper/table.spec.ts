@@ -4,6 +4,7 @@ import {
   findCompletedLines,
   getEmptyTable,
   getIsPossibleRender,
+  getTableForRenderer,
   getUpdateTableByCompletedLines,
 } from './table';
 import { Block, Table } from './types';
@@ -27,6 +28,19 @@ it('combineBlockWithTable', () => {
     [null, null, null, null, null],
     [null, null, null, null, null],
   ]);
+});
+
+it('getTableForRenderer', () => {
+  expect(getTableForRenderer(getEmptyTable(5, 5), BLOCK_MAP['j'], { col: 0, row: 2 })).toEqual({
+    nextCol: 3,
+    tableForRender: [
+      [null, null, 'j', null, null],
+      [null, null, 'j', 'j', 'j'],
+      [null, null, null, null, null],
+      [null, null, 'shadow', null, null],
+      [null, null, 'shadow', 'shadow', 'shadow'],
+    ],
+  });
 });
 
 describe('findCompletedLines', () => {
