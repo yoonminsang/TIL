@@ -5,8 +5,8 @@ export const BLOCK_MAP: Record<BlockType, Block> = {
   i: {
     type: 'i',
     shape: [
-      [true, true, true, true],
       [false, false, false, false],
+      [true, true, true, true],
       [false, false, false, false],
       [false, false, false, false],
     ],
@@ -88,7 +88,9 @@ export const combineBlockWithPosition = (block: Block, blockPosition: Position) 
   ) as Table;
   const addCol = blockPosition.col;
   const addRow = blockPosition.row;
-  block.shape.forEach((blockShapeCol, col) => {
+  // NOTE: 맨 위 block이 비어있는 경우 제거해줍니다. ex) i블록
+  const filteredBlockShape = block.shape.filter((shapeCol) => !shapeCol.every((isExist) => !isExist));
+  filteredBlockShape.forEach((blockShapeCol, col) => {
     blockShapeCol.forEach((isExistBlock, row) => {
       if (isExistBlock) {
         table[col + addCol][row + addRow] = block.type;

@@ -105,15 +105,15 @@ describe('combineBlockWithPosition', () => {
   it('col이 0이고 row가 -1일 때 i 블록이 성공적으로 변환된다.', () => {
     const block: Block = { type: 'i', shape: rotateClockWiseIn2DArr(BLOCK_MAP['i'].shape) };
     expect(combineBlockWithPosition(block, { col: 0, row: -1 })).toEqual([
-      [null, null, 'i', null],
-      [null, null, 'i', null],
-      [null, null, 'i', null],
-      [null, null, 'i', null],
+      [null, 'i', null, null],
+      [null, 'i', null, null],
+      [null, 'i', null, null],
+      [null, 'i', null, null],
     ]);
   });
-  it('col이 0이고 row가 -3일 때 i 블록이 성공적으로 변환된다.', () => {
+  it('col이 0이고 row가 -2일 때 i 블록이 성공적으로 변환된다.', () => {
     const block: Block = { type: 'i', shape: rotateClockWiseIn2DArr(BLOCK_MAP['i'].shape) };
-    expect(combineBlockWithPosition(block, { col: 0, row: -3 })).toEqual([
+    expect(combineBlockWithPosition(block, { col: 0, row: -2 })).toEqual([
       ['i', null, null, null],
       ['i', null, null, null],
       ['i', null, null, null],
