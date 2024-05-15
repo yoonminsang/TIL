@@ -235,7 +235,7 @@ describe('useTetrisGame', () => {
     });
   });
 
-  describe('interval callback 테스트', () => {
+  describe('interval callback', () => {
     it('블록 아래 position이 비어있다면 아래로 이동한다.', () => {
       const { result } = renderHook(() => useTetrisGame(1, onChangeStageClearPage, onChangeStageDeadPage));
 
