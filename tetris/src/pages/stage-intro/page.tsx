@@ -1,6 +1,7 @@
 import { Button } from '@/components/ui/button';
 import { useInterval } from '@/hooks/useInterval';
 import { useEffect, useState } from 'react';
+import RootLayout from '../layout';
 
 interface StageIntroPageProps {
   stage: number;
@@ -21,11 +22,15 @@ export default function StageIntroPage({ stage, onChangePlayPage }: StageIntroPa
   }, [count, onChangePlayPage]);
 
   return (
-    <div>
-      <h1 className="text-xl">StageIntroPage</h1>
-      <div className="text-l">Current Stage: {stage}</div>
-      <div className="text-l">{count}</div>
-      <Button onClick={onChangePlayPage}>Go Play Page</Button>
-    </div>
+    <RootLayout>
+      <div className="flex flex-col items-center justify-center gap-[16px]">
+        <h1 className="text-2xl">StageIntroPage</h1>
+        <div className="flex flex-col items-center justify-center">
+          <div className="text-l">Current Stage: {stage}</div>
+          <div className="text-l animate-ping p-[16px]">{count}</div>
+          <Button onClick={onChangePlayPage}>Go Play Page</Button>
+        </div>
+      </div>
+    </RootLayout>
   );
 }
