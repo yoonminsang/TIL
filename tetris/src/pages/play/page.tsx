@@ -1,6 +1,6 @@
-import { Button } from '@/components/ui/button';
 import { useInterval } from '@/hooks/useInterval';
 import { useEffect } from 'react';
+import RootLayout from '../layout';
 import { Renderer, Timer } from './_components';
 import { SETTINGS, getGameSpeed, getGoalClearLine } from './helper';
 import { useTetrisGame } from './hooks';
@@ -62,24 +62,26 @@ export default function PlayPage({ stage, onChangeStageClearPage, onChangeStageD
   ]);
 
   return (
-    <div>
-      <h1 className="text-xl">PlayPage</h1>
-      <Button onClick={onChangeStageClearPage}>Go Stage Clear Page</Button>
-      <Button onClick={onChangeStageDeadPage}>Go Stage Dead Page</Button>
-      <div>
-        <div>
-          time: <Timer />
-        </div>
-        <div>
-          clear lines: {clearLine} / {goalClearLine}
-        </div>
-        <div>
-          <Renderer cellList={tableForRender} />
-        </div>
-        <div>
-          <Renderer cellList={blockForRender} />
+    <RootLayout>
+      <div className="flex flex-col items-center justify-center gap-[16px]">
+        <h1 className="text-2xl">PlayPage</h1>
+        <div className="flex gap-[16px]">
+          <div className="flex w-[150px] flex-col">
+            <div>
+              time: <Timer />
+            </div>
+            <div>
+              clear lines: {clearLine} / {goalClearLine}
+            </div>
+          </div>
+          <div className="flex flex-col">
+            <Renderer cellList={tableForRender} />
+          </div>
+          <div className="flex w-[150px] flex-col">
+            <Renderer cellList={blockForRender} />
+          </div>
         </div>
       </div>
-    </div>
+    </RootLayout>
   );
 }
