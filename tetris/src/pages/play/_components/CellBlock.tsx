@@ -1,15 +1,23 @@
 import { Cell } from '../helper';
 import colors from 'tailwindcss/colors';
+import { cn } from '@/lib/utils';
 
 interface CellProps {
   blockType: Cell;
+  hasBorder?: boolean;
 }
 
-function CellBlock({ blockType }: CellProps) {
+function CellBlock({ blockType, hasBorder = true }: CellProps) {
   const style = getBlockStyle(blockType);
   return (
-    <div className="relative h-[20px] w-[20px] border border-gray-500" style={{ backgroundColor: style.background }}>
-      <div className="absolute inset-0 m-0.5 border border-gray-700" style={{ background: style.gradient }} />
+    <div
+      className={cn('relative h-[20px] w-[20px]', hasBorder && 'border border-gray-500')}
+      style={{ backgroundColor: style.background }}
+    >
+      <div
+        className={cn('absolute inset-0 m-0.5', hasBorder && 'border border-gray-700')}
+        style={{ background: style.gradient }}
+      />
     </div>
   );
 }
