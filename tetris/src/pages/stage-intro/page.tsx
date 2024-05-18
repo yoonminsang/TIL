@@ -1,4 +1,3 @@
-import { Button } from '@/components/ui/button';
 import { useInterval } from '@/hooks/useInterval';
 import { useEffect, useState } from 'react';
 import RootLayout from '../layout';
@@ -28,7 +27,6 @@ export default function StageIntroPage({ stage, onChangePlayPage }: StageIntroPa
         <div className="flex flex-col items-center justify-center">
           <div className="text-l">Current Stage: {stage}</div>
           <div className="text-l animate-ping p-[16px]">{count}</div>
-          <Button onClick={onChangePlayPage}>Go Play Page</Button>
         </div>
       </div>
     </RootLayout>
