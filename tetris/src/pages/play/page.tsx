@@ -66,7 +66,7 @@ export default function PlayPage({ stage, onChangeStageClearPage, onChangeStageD
       <div className="flex flex-col items-center justify-center gap-[16px]">
         <h1 className="text-2xl">PlayPage</h1>
         <div className="flex gap-[16px]">
-          <div className="flex w-[150px] flex-col">
+          <div className="mt-auto flex w-[150px] flex-col">
             <div>
               time: <Timer />
             </div>
