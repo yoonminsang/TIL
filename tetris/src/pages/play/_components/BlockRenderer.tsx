@@ -1,17 +1,17 @@
 import { Table } from '../helper';
 import CellBlock from './CellBlock';
 
-interface RendererProps {
+interface BlockRendererProps {
   cellList: Table;
 }
 
-function Renderer({ cellList }: RendererProps) {
+function BlockRenderer({ cellList }: BlockRendererProps) {
   return (
     <div>
       {cellList.map((col, colIndex) => (
         <div className="flex" key={colIndex}>
           {col.map((row, rowIndex) => (
-            <CellBlock blockType={row} key={rowIndex} />
+            <CellBlock blockType={row} hasBorder={false} key={rowIndex} />
           ))}
         </div>
       ))}
@@ -19,4 +19,4 @@ function Renderer({ cellList }: RendererProps) {
   );
 }
 
-export default Renderer;
+export default BlockRenderer;

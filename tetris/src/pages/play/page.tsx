@@ -1,7 +1,7 @@
 import { useInterval } from '@/hooks/useInterval';
 import { useEffect } from 'react';
 import RootLayout from '../layout';
-import { Renderer, Timer } from './_components';
+import { BlockRenderer, TableRenderer, Timer } from './_components';
 import { SETTINGS, getGameSpeed, getGoalClearLine } from './helper';
 import { useTetrisGame } from './hooks';
 
@@ -75,10 +75,10 @@ export default function PlayPage({ stage, onChangeStageClearPage, onChangeStageD
             </div>
           </div>
           <div className="flex flex-col">
-            <Renderer cellList={tableForRender} />
+            <TableRenderer cellList={tableForRender} />
           </div>
           <div className="flex w-[150px] flex-col">
-            <Renderer cellList={blockForRender} />
+            <BlockRenderer cellList={blockForRender} />
           </div>
         </div>
       </div>
