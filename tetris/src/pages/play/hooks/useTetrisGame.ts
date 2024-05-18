@@ -17,7 +17,6 @@ import {
 } from '../helper';
 
 const blockMaxSize = getBlockMaxSize();
-const blockEmptyTable = getEmptyTable(blockMaxSize, blockMaxSize);
 
 const getInitialPosition = (block: Block) => {
   return {
@@ -38,7 +37,10 @@ export const useTetrisGame = (
   const [table, setTable] = useState<Table>(getEmptyTable(SETTINGS.col, SETTINGS.row));
   const [isCrashed, setIsCrashed] = useState<boolean>(false);
 
-  const blockForRender = combineBlockWithTable(blockEmptyTable, nextBlock, { col: 0, row: 0 });
+  const blockForRender = combineBlockWithTable(getEmptyTable(blockMaxSize, blockMaxSize + 2), nextBlock, {
+    col: 1,
+    row: 1,
+  });
   const { tableForRender, nextCol } = getTableForRenderer(table, currentBlock, currentBlockPosition);
 
   const intervalCallback = () => {

@@ -78,6 +78,7 @@ export default function PlayPage({ stage, onChangeStageClearPage, onChangeStageD
             <TableRenderer cellList={tableForRender} />
           </div>
           <div className="flex w-[150px] flex-col">
+            <div className="text-l">Next Block</div>
             <BlockRenderer cellList={blockForRender} />
           </div>
         </div>
