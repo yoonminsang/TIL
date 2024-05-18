@@ -37,3 +37,9 @@ export const TCellBlock: Story = {
 export const ZCellBlock: Story = {
   args: { blockType: 'z' },
 };
+export const ShadowCellBlock: Story = {
+  args: { blockType: 'shadow' },
+};
+export const EmptyCellBlock: Story = {
+  args: { blockType: null },
+};
