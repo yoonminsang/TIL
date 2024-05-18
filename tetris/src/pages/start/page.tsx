@@ -1,4 +1,5 @@
 import { Button } from '@/components/ui/button';
+import RootLayout from '../layout';
 
 interface StartPageProps {
   onChangeStageIntroPage: VoidFunction;
@@ -7,10 +8,14 @@ interface StartPageProps {
 
 export default function StartPage({ onChangeRankingPage, onChangeStageIntroPage }: StartPageProps) {
   return (
-    <div>
-      <h1 className="text-xl">StartPage</h1>
-      <Button onClick={onChangeStageIntroPage}>Game Start</Button>
-      <Button onClick={onChangeRankingPage}>Go Ranking Page</Button>
-    </div>
+    <RootLayout>
+      <div className="flex flex-col items-center justify-center gap-[16px]">
+        <h1 className="text-2xl">StartPage</h1>
+        <div className="flex gap-[8px]">
+          <Button onClick={onChangeStageIntroPage}>Game Start</Button>
+          <Button onClick={onChangeRankingPage}>Go Ranking Page</Button>
+        </div>
+      </div>
+    </RootLayout>
   );
 }
