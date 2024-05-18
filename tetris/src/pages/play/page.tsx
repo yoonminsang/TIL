@@ -2,7 +2,7 @@ import { Button } from '@/components/ui/button';
 import { useInterval } from '@/hooks/useInterval';
 import { useEffect } from 'react';
 import { Renderer, Timer } from './_components';
-import { SETTINGS, getGameSpeed } from './helper';
+import { SETTINGS, getGameSpeed, getGoalClearLine } from './helper';
 import { useTetrisGame } from './hooks';
 
 interface PlayPageProps {
@@ -12,6 +12,14 @@ interface PlayPageProps {
 }
 
 export default function PlayPage({ stage, onChangeStageClearPage, onChangeStageDeadPage }: PlayPageProps) {
+  const goalClearLine = getGoalClearLine(stage);
+  const gameSpeed = getGameSpeed({
+    currentStage: stage,
+    maxSpeedTime: SETTINGS.maxSpeedTime,
+    minSpeedTime: SETTINGS.minSpeedTime,
+    maxStage: SETTINGS.maxStage,
+  });
+
   const {
     blockForRender,
     tableForRender,
@@ -22,14 +30,7 @@ export default function PlayPage({ stage, onChangeStageClearPage, onChangeStageD
     handleChangeDownPosition,
     handleChangeRotateBlock,
     handleChangeLastBottomPosition,
-  } = useTetrisGame(stage, onChangeStageClearPage, onChangeStageDeadPage);
-
-  const gameSpeed = getGameSpeed({
-    currentStage: stage,
-    maxSpeedTime: SETTINGS.maxSpeedTime,
-    minSpeedTime: SETTINGS.minSpeedTime,
-    maxStage: SETTINGS.maxStage,
-  });
+  } = useTetrisGame(goalClearLine, onChangeStageClearPage, onChangeStageDeadPage);
 
   useInterval(intervalCallback, gameSpeed);
 
@@ -69,7 +70,9 @@ export default function PlayPage({ stage, onChangeStageClearPage, onChangeStageD
         <div>
           time: <Timer />
         </div>
-        <div>clear lines: {clearLine}</div>
+        <div>
+          clear lines: {clearLine} / {goalClearLine}
+        </div>
         <div>
           <Renderer cellList={tableForRender} />
         </div>
