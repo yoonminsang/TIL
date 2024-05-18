@@ -8,7 +8,7 @@ interface Props {
 export default function StageClearPage({ stage, onChangeStageIntroPage }: Props) {
   return (
     <div>
-      <h1 className="text-xl">StageClearPage</h1>
+      <h1 className="text-2xl">StageClearPage</h1>
       <div className="text-l">{stage} Stage Clear</div>
       <Button onClick={onChangeStageIntroPage}>Go Stage Intro Page</Button>
     </div>
