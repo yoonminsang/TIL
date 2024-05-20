@@ -5,6 +5,7 @@ import { renderRankingPage } from './utils/renderPage';
 describe('RankingPage', () => {
   it('RankingPage가 렌더링된다.', async () => {
     await renderRankingPage();
+    await screen.findByText(/RankingPage/);
   });
 
   describe('페이지 변경', () => {
