@@ -1,5 +1,5 @@
 import { useInterval } from '@/hooks/useInterval';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import RootLayout from '../layout';
 import { BlockRenderer, TableRenderer, Timer } from './_components';
 import { SETTINGS, getGameSpeed, getGoalClearLine } from './helper';
@@ -32,6 +32,7 @@ export default function PlayPage({ stage, onChangeStageClearPage, onChangeStageD
     handleChangeLastBottomPosition,
   } = useTetrisGame(goalClearLine, onChangeStageClearPage, onChangeStageDeadPage);
 
+  const isSpacePressed = useRef<boolean>(false);
   useInterval(intervalCallback, gameSpeed);
 
   useEffect(() => {
@@ -46,12 +47,24 @@ export default function PlayPage({ stage, onChangeStageClearPage, onChangeStageD
         case 'ArrowUp':
           return handleChangeRotateBlock();
         case ' ':
-          return handleChangeLastBottomPosition();
+          if (isSpacePressed.current) {
+            return;
+          }
+          handleChangeLastBottomPosition();
+          isSpacePressed.current = true;
+          return;
+      }
+    };
+    const handleKeyup = (e: KeyboardEvent) => {
+      if (e.key === ' ') {
+        isSpacePressed.current = false;
       }
     };
     document.addEventListener('keydown', handleKeydown);
+    document.addEventListener('keyup', handleKeyup);
     return () => {
       document.removeEventListener('keydown', handleKeydown);
+      document.removeEventListener('keyup', handleKeyup);
     };
   }, [
     handleChangeDownPosition,
