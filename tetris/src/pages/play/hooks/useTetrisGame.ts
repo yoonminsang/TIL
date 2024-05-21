@@ -1,5 +1,5 @@
 import { usePreservedCallback } from '@toss/react';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import {
   Block,
   Position,
@@ -15,6 +15,7 @@ import {
   getUpdateTableByCompletedLines,
   rotateClockWiseIn2DArr,
 } from '../helper';
+import { BLOCK_MAP } from '../helper/block';
 
 const blockMaxSize = getBlockMaxSize();
 
@@ -42,6 +43,13 @@ const useCrash = (initGameSpeed: number) => {
   return { gameSpeed, isCrashed, handleCrash, handleRecoverCrash };
 };
 
+const holdBlockForRenderWhenBlockEmpty: Table = [
+  [null, null, null, null, null, null],
+  [null, null, null, null, null, null],
+  [null, null, null, null, null, null],
+  [null, null, null, null, null, null],
+];
+
 export const useTetrisGame = (
   initGameSpeed: number,
   goalClearLine: number,
@@ -50,9 +58,12 @@ export const useTetrisGame = (
 ) => {
   const { gameSpeed, isCrashed, handleCrash, handleRecoverCrash } = useCrash(initGameSpeed);
 
+  const isChangedHoldBlock = useRef<boolean>(false);
+
   const [currentBlock, setCurrentBlock] = useState<Block>(getRandomBlock());
   const [currentBlockPosition, setCurrentBlockPosition] = useState<Position>(getInitialPosition(currentBlock));
   const [nextBlock, setNextBlock] = useState<Block>(getRandomBlock());
+  const [holdBlock, setHoldBlock] = useState<Block | null>(null);
   const [clearLine, setClearLine] = useState<number>(0);
   const [table, setTable] = useState<Table>(getEmptyTable(SETTINGS.col, SETTINGS.row));
 
@@ -60,6 +71,12 @@ export const useTetrisGame = (
     col: 1,
     row: 1,
   });
+  const holdBlockForRender = holdBlock
+    ? combineBlockWithTable(getEmptyTable(blockMaxSize, blockMaxSize + 2), holdBlock, {
+        col: 1,
+        row: 1,
+      })
+    : holdBlockForRenderWhenBlockEmpty;
   const { tableForRender, nextCol } = getTableForRenderer(table, currentBlock, currentBlockPosition);
 
   const intervalCallback = usePreservedCallback(() => {
@@ -127,6 +144,24 @@ export const useTetrisGame = (
     handleCrash();
   });
 
+  // TODO: hold를 변경해서 겹치는 케이스 생각하기
+  const handleChangeHoldBlock = () => {
+    if (isChangedHoldBlock.current) {
+      return;
+    }
+
+    if (holdBlock) {
+      setHoldBlock(BLOCK_MAP[currentBlock.type]);
+      setCurrentBlock(holdBlock);
+    } else {
+      setHoldBlock(BLOCK_MAP[currentBlock.type]);
+      setCurrentBlock(nextBlock);
+      setNextBlock(getRandomBlock());
+      setCurrentBlockPosition(getInitialPosition(nextBlock));
+    }
+    isChangedHoldBlock.current = true;
+  };
+
   useEffect(() => {
     if (isCrashed) {
       setCurrentBlock(nextBlock);
@@ -135,6 +170,7 @@ export const useTetrisGame = (
       setNextBlock(nextBlockFor);
       setCurrentBlockPosition({ ...nextCurrentBlockPosition });
       setTable(tableForRender);
+      isChangedHoldBlock.current = false;
       handleRecoverCrash();
 
       const completedLines = findCompletedLines(tableForRender);
@@ -158,6 +194,7 @@ export const useTetrisGame = (
   return {
     gameSpeed,
     blockForRender,
+    holdBlockForRender,
     tableForRender,
     clearLine,
     intervalCallback,
@@ -166,5 +203,6 @@ export const useTetrisGame = (
     handleChangeDownPosition,
     handleChangeRotateBlock,
     handleChangeLastBottomPosition,
+    handleChangeHoldBlock,
   };
 };

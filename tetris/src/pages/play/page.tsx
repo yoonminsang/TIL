@@ -23,6 +23,7 @@ export default function PlayPage({ stage, onChangeStageClearPage, onChangeStageD
   const {
     gameSpeed,
     blockForRender,
+    holdBlockForRender,
     tableForRender,
     clearLine,
     intervalCallback,
@@ -31,6 +32,7 @@ export default function PlayPage({ stage, onChangeStageClearPage, onChangeStageD
     handleChangeDownPosition,
     handleChangeRotateBlock,
     handleChangeLastBottomPosition,
+    handleChangeHoldBlock,
   } = useTetrisGame(initGameSpeed, goalClearLine, onChangeStageClearPage, onChangeStageDeadPage);
 
   const isSpacePressed = useRef<boolean>(false);
@@ -47,6 +49,8 @@ export default function PlayPage({ stage, onChangeStageClearPage, onChangeStageD
           return handleChangeDownPosition();
         case 'ArrowUp':
           return handleChangeRotateBlock();
+        case 'c':
+          return handleChangeHoldBlock();
         case ' ':
           if (isSpacePressed.current) {
             return;
@@ -69,6 +73,7 @@ export default function PlayPage({ stage, onChangeStageClearPage, onChangeStageD
     };
   }, [
     handleChangeDownPosition,
+    handleChangeHoldBlock,
     handleChangeLastBottomPosition,
     handleChangeLeftPosition,
     handleChangeRightPosition,
@@ -80,12 +85,16 @@ export default function PlayPage({ stage, onChangeStageClearPage, onChangeStageD
       <div className="flex flex-col items-center justify-center gap-[16px]">
         <h1 className="text-2xl">PlayPage</h1>
         <div className="flex gap-[16px]">
-          <div className="mt-auto flex w-[150px] flex-col">
-            <div>
-              time: <Timer />
-            </div>
-            <div>
-              clear lines: {clearLine} / {goalClearLine}
+          <div className="flex w-[150px] flex-col">
+            <div className="text-l">Hold Block</div>
+            <BlockRenderer cellList={holdBlockForRender} />
+            <div className="mt-auto flex flex-col">
+              <div>
+                time: <Timer />
+              </div>
+              <div>
+                clear lines: {clearLine} / {goalClearLine}
+              </div>
             </div>
           </div>
           <div className="flex flex-col">
