@@ -5,9 +5,7 @@ import {
   Position,
   SETTINGS,
   Table,
-  combineBlockWithTable,
   findCompletedLines,
-  getBlockMaxSize,
   getEmptyTable,
   getIsPossibleRender,
   getRandomBlock,
@@ -16,8 +14,6 @@ import {
   rotateClockWiseIn2DArr,
 } from '../helper';
 import { BLOCK_MAP } from '../helper/block';
-
-const blockMaxSize = getBlockMaxSize();
 
 const getInitialPosition = (block: Block) => {
   return {
@@ -43,13 +39,6 @@ const useCrash = (initGameSpeed: number) => {
   return { gameSpeed, isCrashed, handleCrash, handleRecoverCrash };
 };
 
-const holdBlockForRenderWhenBlockEmpty: Table = [
-  [null, null, null, null, null, null],
-  [null, null, null, null, null, null],
-  [null, null, null, null, null, null],
-  [null, null, null, null, null, null],
-];
-
 export const useTetrisGame = (
   initGameSpeed: number,
   goalClearLine: number,
@@ -67,12 +56,6 @@ export const useTetrisGame = (
   const [clearLine, setClearLine] = useState<number>(0);
   const [table, setTable] = useState<Table>(getEmptyTable(SETTINGS.col, SETTINGS.row));
 
-  const holdBlockForRender = holdBlock
-    ? combineBlockWithTable(getEmptyTable(blockMaxSize, blockMaxSize + 2), holdBlock, {
-        col: 1,
-        row: 1,
-      })
-    : holdBlockForRenderWhenBlockEmpty;
   const { tableForRender, nextCol } = getTableForRenderer(table, currentBlock, currentBlockPosition);
 
   const intervalCallback = usePreservedCallback(() => {
@@ -190,7 +173,7 @@ export const useTetrisGame = (
   return {
     gameSpeed,
     nextBlock,
-    holdBlockForRender,
+    holdBlock,
     tableForRender,
     clearLine,
     intervalCallback,

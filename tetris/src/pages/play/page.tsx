@@ -2,7 +2,15 @@ import { useInterval } from '@/hooks/useInterval';
 import { useEffect, useRef } from 'react';
 import RootLayout from '../layout';
 import { BlockRenderer, TableRenderer, Timer } from './_components';
-import { SETTINGS, getGameSpeed, getGoalClearLine } from './helper';
+import {
+  SETTINGS,
+  Table,
+  combineBlockWithTable,
+  getBlockMaxSize,
+  getEmptyTable,
+  getGameSpeed,
+  getGoalClearLine,
+} from './helper';
 import { useTetrisGame } from './hooks';
 
 interface PlayPageProps {
@@ -10,6 +18,15 @@ interface PlayPageProps {
   onChangeStageClearPage: VoidFunction;
   onChangeStageDeadPage: VoidFunction;
 }
+
+const blockMaxSize = getBlockMaxSize();
+
+const holdBlockForRenderWhenBlockEmpty: Table = [
+  [null, null, null, null, null, null],
+  [null, null, null, null, null, null],
+  [null, null, null, null, null, null],
+  [null, null, null, null, null, null],
+];
 
 export default function PlayPage({ stage, onChangeStageClearPage, onChangeStageDeadPage }: PlayPageProps) {
   const goalClearLine = getGoalClearLine(stage);
@@ -22,8 +39,8 @@ export default function PlayPage({ stage, onChangeStageClearPage, onChangeStageD
 
   const {
     gameSpeed,
-    blockForRender,
-    holdBlockForRender,
+    nextBlock,
+    holdBlock,
     tableForRender,
     clearLine,
     intervalCallback,
@@ -34,6 +51,18 @@ export default function PlayPage({ stage, onChangeStageClearPage, onChangeStageD
     handleChangeLastBottomPosition,
     handleChangeHoldBlock,
   } = useTetrisGame(initGameSpeed, goalClearLine, onChangeStageClearPage, onChangeStageDeadPage);
+
+  const blockForRender = combineBlockWithTable(getEmptyTable(blockMaxSize, blockMaxSize + 2), nextBlock, {
+    col: 1,
+    row: 1,
+  });
+
+  const holdBlockForRender = holdBlock
+    ? combineBlockWithTable(getEmptyTable(blockMaxSize, blockMaxSize + 2), holdBlock, {
+        col: 1,
+        row: 1,
+      })
+    : holdBlockForRenderWhenBlockEmpty;
 
   const isSpacePressed = useRef<boolean>(false);
   useInterval(intervalCallback, gameSpeed);
