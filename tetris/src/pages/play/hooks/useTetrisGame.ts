@@ -43,13 +43,12 @@ export const useTetrisGame = (
   });
   const { tableForRender, nextCol } = getTableForRenderer(table, currentBlock, currentBlockPosition);
 
-  const intervalCallback = () => {
-    const isPossibleDownRender = getIsPossibleRender(table, currentBlock, {
-      col: currentBlockPosition.col + 1,
-      row: currentBlockPosition.row,
-    });
+  const intervalCallback = usePreservedCallback(() => {
+    const nextPosition = { col: currentBlockPosition.col + 1, row: currentBlockPosition.row };
+    const isPossibleDownRender = getIsPossibleRender(table, currentBlock, nextPosition);
+
     if (isPossibleDownRender) {
-      setCurrentBlockPosition((position) => ({ col: position.col + 1, row: position.row }));
+      setCurrentBlockPosition(nextPosition);
       return;
     }
 
@@ -60,7 +59,7 @@ export const useTetrisGame = (
     }
 
     setIsCrashed(true);
-  };
+  });
 
   const handleChangePosition = usePreservedCallback((nextPosition: Position) => {
     if (getIsPossibleRender(table, currentBlock, { ...nextPosition })) {
