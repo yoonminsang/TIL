@@ -71,12 +71,6 @@ export const useTetrisGame = (
       return;
     }
 
-    const isDead = !getIsPossibleRender(tableForRender, nextBlock, getInitialPosition(nextBlock));
-    if (isDead) {
-      onChangeStageDeadPage();
-      return;
-    }
-
     handleCrash();
   });
 
@@ -136,8 +130,10 @@ export const useTetrisGame = (
   useEffect(() => {
     if (isCrashed) {
       setCurrentBlock(nextBlock);
-      setNextBlock(getRandomBlock());
-      setCurrentBlockPosition(getInitialPosition(nextBlock));
+      const nextBlockFor = getRandomBlock();
+      const nextCurrentBlockPosition = getInitialPosition(nextBlock);
+      setNextBlock(nextBlockFor);
+      setCurrentBlockPosition({ ...nextCurrentBlockPosition });
       setTable(tableForRender);
       handleRecoverCrash();
 
@@ -149,6 +145,12 @@ export const useTetrisGame = (
         if (nextClearLine >= goalClearLine) {
           onChangeStageClearPage();
         }
+      }
+
+      const isDead = !getIsPossibleRender(tableForRender, nextBlockFor, getInitialPosition(nextBlockFor));
+      if (isDead) {
+        onChangeStageDeadPage();
+        return;
       }
     }
   }, [isCrashed]);
