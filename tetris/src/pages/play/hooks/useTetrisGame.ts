@@ -67,10 +67,6 @@ export const useTetrisGame = (
   const [clearLine, setClearLine] = useState<number>(0);
   const [table, setTable] = useState<Table>(getEmptyTable(SETTINGS.col, SETTINGS.row));
 
-  const blockForRender = combineBlockWithTable(getEmptyTable(blockMaxSize, blockMaxSize + 2), nextBlock, {
-    col: 1,
-    row: 1,
-  });
   const holdBlockForRender = holdBlock
     ? combineBlockWithTable(getEmptyTable(blockMaxSize, blockMaxSize + 2), holdBlock, {
         col: 1,
@@ -193,7 +189,7 @@ export const useTetrisGame = (
 
   return {
     gameSpeed,
-    blockForRender,
+    nextBlock,
     holdBlockForRender,
     tableForRender,
     clearLine,

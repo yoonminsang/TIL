@@ -20,7 +20,7 @@ describe('useTetrisGame', () => {
     const { result } = renderHook(() => useTetrisGame(1000, 1, onChangeStageClearPage, onChangeStageDeadPage));
 
     expect(result.current.clearLine).toBe(0);
-    expect(isExistCell(result.current.blockForRender)).toBe(true);
+    expect(!!result.current.nextBlock).toBe(true);
     expect(isExistCell(result.current.tableForRender)).toBe(true);
   });
 
@@ -127,13 +127,13 @@ describe('useTetrisGame', () => {
     jest.clearAllMocks();
     jest.restoreAllMocks();
     jest.spyOn(helperModule, 'getRandomBlock').mockReturnValue(helperModule.getRandomBlock(0.5));
-    const beforeBlockForRender = result.current.blockForRender;
+    const nextBlock = result.current.nextBlock;
 
     act(() => {
       result.current.handleChangeLastBottomPosition();
     });
 
-    expect(beforeBlockForRender).not.toEqual(result.current.blockForRender);
+    expect(nextBlock).not.toEqual(result.current.nextBlock);
   });
 
   describe('블록 회전', () => {
@@ -274,7 +274,7 @@ describe('useTetrisGame', () => {
 
       const { result } = renderHook(() => useTetrisGame(1000, 1, onChangeStageClearPage, onChangeStageDeadPage));
 
-      const beforeBlockForRender = result.current.blockForRender;
+      const nextBlock = result.current.nextBlock;
 
       jest.clearAllMocks();
       jest.restoreAllMocks();
@@ -286,7 +286,7 @@ describe('useTetrisGame', () => {
         });
       }
 
-      expect(beforeBlockForRender).not.toEqual(result.current.blockForRender);
+      expect(nextBlock).not.toEqual(result.current.nextBlock);
     });
 
     it('crash했을 때 clear한 line이 있다면 table과 clearLine이 변경된다.', () => {
