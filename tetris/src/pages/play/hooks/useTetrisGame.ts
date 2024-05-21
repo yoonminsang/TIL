@@ -1,3 +1,4 @@
+import { usePreservedCallback } from '@toss/react';
 import { useEffect, useState } from 'react';
 import {
   Block,
@@ -8,17 +9,14 @@ import {
   findCompletedLines,
   getBlockMaxSize,
   getEmptyTable,
-  getGoalClearLine,
   getIsPossibleRender,
   getRandomBlock,
   getTableForRenderer,
   getUpdateTableByCompletedLines,
   rotateClockWiseIn2DArr,
 } from '../helper';
-import { usePreservedCallback } from '@toss/react';
 
 const blockMaxSize = getBlockMaxSize();
-const blockEmptyTable = getEmptyTable(blockMaxSize, blockMaxSize);
 
 const getInitialPosition = (block: Block) => {
   return {
@@ -28,9 +26,9 @@ const getInitialPosition = (block: Block) => {
 };
 
 export const useTetrisGame = (
-  stage: number,
+  goalClearLine: number,
   onChangeStageClearPage: VoidFunction,
-  onChangeStageDeadPage: VoidFunction,
+  onChangeStageDeadPage: VoidFunction
 ) => {
   const [currentBlock, setCurrentBlock] = useState<Block>(getRandomBlock());
   const [currentBlockPosition, setCurrentBlockPosition] = useState<Position>(getInitialPosition(currentBlock));
@@ -39,8 +37,10 @@ export const useTetrisGame = (
   const [table, setTable] = useState<Table>(getEmptyTable(SETTINGS.col, SETTINGS.row));
   const [isCrashed, setIsCrashed] = useState<boolean>(false);
 
-  const goalClearLine = getGoalClearLine(stage);
-  const blockForRender = combineBlockWithTable(blockEmptyTable, nextBlock, { col: 0, row: 0 });
+  const blockForRender = combineBlockWithTable(getEmptyTable(blockMaxSize, blockMaxSize + 2), nextBlock, {
+    col: 1,
+    row: 1,
+  });
   const { tableForRender, nextCol } = getTableForRenderer(table, currentBlock, currentBlockPosition);
 
   const intervalCallback = () => {

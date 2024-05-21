@@ -1,8 +1,8 @@
-import { Button } from '@/components/ui/button';
 import { useInterval } from '@/hooks/useInterval';
 import { useEffect } from 'react';
-import { Renderer, Timer } from './_components';
-import { SETTINGS, getGameSpeed } from './helper';
+import RootLayout from '../layout';
+import { BlockRenderer, TableRenderer, Timer } from './_components';
+import { SETTINGS, getGameSpeed, getGoalClearLine } from './helper';
 import { useTetrisGame } from './hooks';
 
 interface PlayPageProps {
@@ -12,6 +12,14 @@ interface PlayPageProps {
 }
 
 export default function PlayPage({ stage, onChangeStageClearPage, onChangeStageDeadPage }: PlayPageProps) {
+  const goalClearLine = getGoalClearLine(stage);
+  const gameSpeed = getGameSpeed({
+    currentStage: stage,
+    maxSpeedTime: SETTINGS.maxSpeedTime,
+    minSpeedTime: SETTINGS.minSpeedTime,
+    maxStage: SETTINGS.maxStage,
+  });
+
   const {
     blockForRender,
     tableForRender,
@@ -22,14 +30,7 @@ export default function PlayPage({ stage, onChangeStageClearPage, onChangeStageD
     handleChangeDownPosition,
     handleChangeRotateBlock,
     handleChangeLastBottomPosition,
-  } = useTetrisGame(stage, onChangeStageClearPage, onChangeStageDeadPage);
-
-  const gameSpeed = getGameSpeed({
-    currentStage: stage,
-    maxSpeedTime: SETTINGS.maxSpeedTime,
-    minSpeedTime: SETTINGS.minSpeedTime,
-    maxStage: SETTINGS.maxStage,
-  });
+  } = useTetrisGame(goalClearLine, onChangeStageClearPage, onChangeStageDeadPage);
 
   useInterval(intervalCallback, gameSpeed);
 
@@ -61,22 +62,27 @@ export default function PlayPage({ stage, onChangeStageClearPage, onChangeStageD
   ]);
 
   return (
-    <div>
-      <h1 className="text-xl">PlayPage</h1>
-      <Button onClick={onChangeStageClearPage}>Go Stage Clear Page</Button>
-      <Button onClick={onChangeStageDeadPage}>Go Stage Dead Page</Button>
-      <div>
-        <div>
-          time: <Timer />
-        </div>
-        <div>clear lines: {clearLine}</div>
-        <div>
-          <Renderer cellList={tableForRender} />
-        </div>
-        <div>
-          <Renderer cellList={blockForRender} />
+    <RootLayout>
+      <div className="flex flex-col items-center justify-center gap-[16px]">
+        <h1 className="text-2xl">PlayPage</h1>
+        <div className="flex gap-[16px]">
+          <div className="mt-auto flex w-[150px] flex-col">
+            <div>
+              time: <Timer />
+            </div>
+            <div>
+              clear lines: {clearLine} / {goalClearLine}
+            </div>
+          </div>
+          <div className="flex flex-col">
+            <TableRenderer cellList={tableForRender} />
+          </div>
+          <div className="flex w-[150px] flex-col">
+            <div className="text-l">Next Block</div>
+            <BlockRenderer cellList={blockForRender} />
+          </div>
         </div>
       </div>
-    </div>
+    </RootLayout>
   );
 }

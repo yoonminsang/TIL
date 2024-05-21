@@ -1,56 +1,106 @@
 import App from '@/App';
-import { useStage } from '@/stores/stage';
-import { render, screen } from '@testing-library/react';
+import * as helperModule from '@/pages/play/helper';
+import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 export function renderApp() {
   render(<App />);
 }
 
-export async function renderStageIntroPage(stage?: number) {
-  if (stage) {
-    useStage.setState({
-      stage,
-    });
-  }
+export async function renderStageIntroPage() {
   renderApp();
-  await screen.findByText(/StartPage/);
   const button = await screen.findByRole('button', { name: /Game Start/ });
   await userEvent.click(button);
 }
 
 export async function renderRankingPage() {
   renderApp();
-  await screen.findByText(/StartPage/);
   const button = await screen.findByRole('button', { name: /Go Ranking Page/ });
   await userEvent.click(button);
 }
 
 export async function renderPlayPage() {
   await renderStageIntroPage();
-  const button = await screen.findByRole('button', { name: /Go Play Page/ });
-  await userEvent.click(button);
+
+  await waitFor(
+    async () => {
+      await new Promise((_) => setTimeout(_, 4000));
+      const messageAfter = screen.queryByText(/StageIntroPage/);
+      expect(messageAfter).toBeNull();
+      await screen.findByText(/PlayPage/);
+    },
+    { timeout: 5000 }
+  );
 }
 
-export async function renderStageClearPage(stage?: number) {
-  if (stage) {
-    useStage.setState({
-      // NOTE: stage를 clear하면 1단계가 오르기 때문에 -1을 해줌
-      stage: stage - 1,
+/**
+ * 함수 모킹이 포함되어 있습니다. 하나의 파일에서 여러 테스트 코드를 작성한다면 아래 주석을 추가해주세요
+ * ```
+   afterEach(() => {
+    jest.clearAllMocks();
+    jest.restoreAllMocks();
+   });
+ * ```
+ */
+export async function renderStageClearPage() {
+  function getMockTable() {
+    const result = helperModule.getEmptyTable();
+    for (let row = 0; row < result[0].length - 4; row++) {
+      result[helperModule.SETTINGS.col - 1][row] = 'i';
+    }
+    return result;
+  }
+  jest.spyOn(helperModule, 'getEmptyTable').mockReturnValue(getMockTable());
+  jest.spyOn(helperModule, 'getRandomBlock').mockReturnValue(helperModule.getRandomBlock(0));
+  jest.spyOn(helperModule, 'getGoalClearLine').mockReturnValue(1);
+
+  await renderPlayPage();
+
+  for (let i = 0; i < helperModule.SETTINGS.row; i++) {
+    act(() => {
+      fireEvent.keyDown(document, { key: 'ArrowRight' });
     });
   }
-  await renderPlayPage();
-  const button = await screen.findByRole('button', { name: /Go Stage Clear Page/ });
-  await userEvent.click(button);
+
+  act(() => {
+    fireEvent.keyDown(document, { key: ' ' });
+  });
 }
 
-export async function renderDeadPage(stage?: number) {
-  if (stage) {
-    useStage.setState({
-      stage,
-    });
+/**
+ * 함수 모킹이 포함되어 있습니다. 하나의 파일에서 여러 테스트 코드를 작성한다면 아래 주석을 추가해주세요
+ * ```
+   afterEach(() => {
+    jest.clearAllMocks();
+    jest.restoreAllMocks();
+   });
+ * ```
+ */
+// TODO: 테스트코드에 오류가 있음
+export async function renderDeadPage() {
+  function getMockTable() {
+    const result = helperModule.getEmptyTable();
+    for (let col = 1; col < result.length; col++) {
+      for (let row = result[0].length / 2 - 2; row < result[0].length / 2 + 2; row++) {
+        result[helperModule.SETTINGS.col - 1][row] = 'i';
+      }
+    }
+    return result;
   }
+  jest.spyOn(helperModule, 'getEmptyTable').mockReturnValue(getMockTable());
+  jest.spyOn(helperModule, 'getRandomBlock').mockReturnValue(helperModule.getRandomBlock(0));
+
   await renderPlayPage();
-  const button = await screen.findByRole('button', { name: /Go Stage Dead Page/ });
-  await userEvent.click(button);
+
+  // act(() => {
+  //   fireEvent.keyDown(document, { key: ' ' });
+  // });
+
+  // await delay(3000);
 }
+
+// async function delay(ms: number) {
+//   return new Promise((resolve) => {
+//     setTimeout(resolve, ms);
+//   });
+// }

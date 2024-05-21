@@ -1,9 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import Renderer from './Renderer';
+import BlockRenderer from './BlockRenderer';
 
 const meta = {
-  title: 'pages / Play / Renderer',
-  component: Renderer,
+  title: 'pages / Play / BlockRenderer',
+  component: BlockRenderer,
   // This component will have an automatically generated Autodocs entry: https://storybook.js.org/docs/writing-docs/autodocs
   tags: ['autodocs'],
   parameters: {
@@ -11,7 +11,7 @@ const meta = {
     layout: 'fullscreen',
   },
   args: {},
-} satisfies Meta<typeof Renderer>;
+} satisfies Meta<typeof BlockRenderer>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
