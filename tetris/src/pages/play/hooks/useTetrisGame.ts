@@ -25,17 +25,36 @@ const getInitialPosition = (block: Block) => {
   };
 };
 
+const useCrash = (initGameSpeed: number) => {
+  const [gameSpeed, setGameSpeed] = useState<number | null>(initGameSpeed);
+  const [isCrashed, _setIsCrashed] = useState<boolean>(false);
+
+  const handleCrash = () => {
+    _setIsCrashed(true);
+    setGameSpeed(null);
+  };
+
+  const handleRecoverCrash = () => {
+    _setIsCrashed(false);
+    setGameSpeed(initGameSpeed);
+  };
+
+  return { gameSpeed, isCrashed, handleCrash, handleRecoverCrash };
+};
+
 export const useTetrisGame = (
+  initGameSpeed: number,
   goalClearLine: number,
   onChangeStageClearPage: VoidFunction,
   onChangeStageDeadPage: VoidFunction
 ) => {
+  const { gameSpeed, isCrashed, handleCrash, handleRecoverCrash } = useCrash(initGameSpeed);
+
   const [currentBlock, setCurrentBlock] = useState<Block>(getRandomBlock());
   const [currentBlockPosition, setCurrentBlockPosition] = useState<Position>(getInitialPosition(currentBlock));
   const [nextBlock, setNextBlock] = useState<Block>(getRandomBlock());
   const [clearLine, setClearLine] = useState<number>(0);
   const [table, setTable] = useState<Table>(getEmptyTable(SETTINGS.col, SETTINGS.row));
-  const [isCrashed, setIsCrashed] = useState<boolean>(false);
 
   const blockForRender = combineBlockWithTable(getEmptyTable(blockMaxSize, blockMaxSize + 2), nextBlock, {
     col: 1,
@@ -58,7 +77,7 @@ export const useTetrisGame = (
       return;
     }
 
-    setIsCrashed(true);
+    handleCrash();
   });
 
   const handleChangePosition = usePreservedCallback((nextPosition: Position) => {
@@ -111,7 +130,7 @@ export const useTetrisGame = (
 
   const handleChangeLastBottomPosition = usePreservedCallback(() => {
     setCurrentBlockPosition((position) => ({ col: nextCol, row: position.row }));
-    setIsCrashed(true);
+    handleCrash();
   });
 
   useEffect(() => {
@@ -120,7 +139,7 @@ export const useTetrisGame = (
       setNextBlock(getRandomBlock());
       setCurrentBlockPosition(getInitialPosition(nextBlock));
       setTable(tableForRender);
-      setIsCrashed(false);
+      handleRecoverCrash();
 
       const completedLines = findCompletedLines(tableForRender);
       if (completedLines.length > 0) {
@@ -135,6 +154,7 @@ export const useTetrisGame = (
   }, [isCrashed]);
 
   return {
+    gameSpeed,
     blockForRender,
     tableForRender,
     clearLine,

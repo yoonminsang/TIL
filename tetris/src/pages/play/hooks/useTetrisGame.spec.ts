@@ -1,4 +1,4 @@
-import { act, renderHook } from '@testing-library/react';
+import { act, renderHook, waitFor } from '@testing-library/react';
 import * as helperModule from '../helper';
 import { useTetrisGame } from './useTetrisGame';
 
@@ -17,7 +17,7 @@ describe('useTetrisGame', () => {
   });
 
   it('정상적으로 초기화된다.', () => {
-    const { result } = renderHook(() => useTetrisGame(1, onChangeStageClearPage, onChangeStageDeadPage));
+    const { result } = renderHook(() => useTetrisGame(1000, 1, onChangeStageClearPage, onChangeStageDeadPage));
 
     expect(result.current.clearLine).toBe(0);
     expect(isExistCell(result.current.blockForRender)).toBe(true);
@@ -25,7 +25,7 @@ describe('useTetrisGame', () => {
   });
 
   it('블록을 움직이지 않고 n개 이상 쌓인다면 onChangeStageDeadPage가 실행된다.', () => {
-    const { result } = renderHook(() => useTetrisGame(1, onChangeStageClearPage, onChangeStageDeadPage));
+    const { result } = renderHook(() => useTetrisGame(1000, 1, onChangeStageClearPage, onChangeStageDeadPage));
 
     for (let i = 0; i < helperModule.SETTINGS.row * helperModule.SETTINGS.col; i++) {
       act(() => {
@@ -40,7 +40,7 @@ describe('useTetrisGame', () => {
   });
 
   it('블록이 왼쪽으로 이동할 수 있는 경우 왼쪽으로 이동한다.', () => {
-    const { result } = renderHook(() => useTetrisGame(1, onChangeStageClearPage, onChangeStageDeadPage));
+    const { result } = renderHook(() => useTetrisGame(1000, 1, onChangeStageClearPage, onChangeStageDeadPage));
 
     const beforeTableForRender = result.current.tableForRender;
     act(() => {
@@ -51,7 +51,7 @@ describe('useTetrisGame', () => {
   });
 
   it('블록이 왼쪽으로 이동할 수 없는 경우 왼쪽으로 이동하지 않는다.', () => {
-    const { result } = renderHook(() => useTetrisGame(1, onChangeStageClearPage, onChangeStageDeadPage));
+    const { result } = renderHook(() => useTetrisGame(1000, 1, onChangeStageClearPage, onChangeStageDeadPage));
 
     for (let i = 0; i < helperModule.SETTINGS.row; i++) {
       act(() => result.current.handleChangeLeftPosition());
@@ -66,7 +66,7 @@ describe('useTetrisGame', () => {
   });
 
   it('블록이 오른쪽으로 이동할 수 있는 경우 오른쪽으로 이동한다.', () => {
-    const { result } = renderHook(() => useTetrisGame(1, onChangeStageClearPage, onChangeStageDeadPage));
+    const { result } = renderHook(() => useTetrisGame(1000, 1, onChangeStageClearPage, onChangeStageDeadPage));
 
     const beforeTableForRender = result.current.tableForRender;
     act(() => {
@@ -77,7 +77,7 @@ describe('useTetrisGame', () => {
   });
 
   it('블록이 오른쪽으로 이동할 수 없는 경우 오른쪽으로 이동하지 않는다.', () => {
-    const { result } = renderHook(() => useTetrisGame(1, onChangeStageClearPage, onChangeStageDeadPage));
+    const { result } = renderHook(() => useTetrisGame(1000, 1, onChangeStageClearPage, onChangeStageDeadPage));
 
     for (let i = 0; i < helperModule.SETTINGS.row; i++) {
       act(() => {
@@ -94,7 +94,7 @@ describe('useTetrisGame', () => {
   });
 
   it('블록이 아래로 이동할 수 있는 경우 아래로 이동한다.', () => {
-    const { result } = renderHook(() => useTetrisGame(1, onChangeStageClearPage, onChangeStageDeadPage));
+    const { result } = renderHook(() => useTetrisGame(1000, 1, onChangeStageClearPage, onChangeStageDeadPage));
 
     const beforeTableForRender = result.current.tableForRender;
     act(() => {
@@ -105,7 +105,7 @@ describe('useTetrisGame', () => {
   });
 
   it('블록이 아래로 이동할 수 없는 경우 아래로 이동하지 않는다.', () => {
-    const { result } = renderHook(() => useTetrisGame(1, onChangeStageClearPage, onChangeStageDeadPage));
+    const { result } = renderHook(() => useTetrisGame(1000, 1, onChangeStageClearPage, onChangeStageDeadPage));
 
     for (let i = 0; i < 1000; i++) {
       act(() => {
@@ -122,7 +122,7 @@ describe('useTetrisGame', () => {
 
   it('블록이 맨 아래로 이동한다.', () => {
     jest.spyOn(helperModule, 'getRandomBlock').mockReturnValue(helperModule.getRandomBlock(0));
-    const { result } = renderHook(() => useTetrisGame(1, onChangeStageClearPage, onChangeStageDeadPage));
+    const { result } = renderHook(() => useTetrisGame(1000, 1, onChangeStageClearPage, onChangeStageDeadPage));
 
     jest.clearAllMocks();
     jest.restoreAllMocks();
@@ -140,7 +140,7 @@ describe('useTetrisGame', () => {
     it('블록이 정상적으로 회전한다.', () => {
       // NOTE: o블록은 회전해도 변하지 않아서 모킹이 필요함
       jest.spyOn(helperModule, 'getRandomBlock').mockReturnValue(helperModule.getRandomBlock(0));
-      const { result } = renderHook(() => useTetrisGame(1, onChangeStageClearPage, onChangeStageDeadPage));
+      const { result } = renderHook(() => useTetrisGame(1000, 1, onChangeStageClearPage, onChangeStageDeadPage));
 
       const beforeTableForRender = result.current.tableForRender;
       act(() => {
@@ -152,7 +152,7 @@ describe('useTetrisGame', () => {
 
     it('i블록을 회전하고 position을 맨 왼쪽으로 이동했을 때 블록이 정상적으로 회전한다.', () => {
       jest.spyOn(helperModule, 'getRandomBlock').mockReturnValue(helperModule.getRandomBlock(0));
-      const { result } = renderHook(() => useTetrisGame(1, onChangeStageClearPage, onChangeStageDeadPage));
+      const { result } = renderHook(() => useTetrisGame(1000, 1, onChangeStageClearPage, onChangeStageDeadPage));
 
       act(() => {
         result.current.handleChangeRotateBlock();
@@ -173,7 +173,7 @@ describe('useTetrisGame', () => {
 
     it('i블록을 회전하고 position을 맨 오른쪽으로 이동했을 때 블록이 정상적으로 회전한다.', () => {
       jest.spyOn(helperModule, 'getRandomBlock').mockReturnValue(helperModule.getRandomBlock(0));
-      const { result } = renderHook(() => useTetrisGame(1, onChangeStageClearPage, onChangeStageDeadPage));
+      const { result } = renderHook(() => useTetrisGame(1000, 1, onChangeStageClearPage, onChangeStageDeadPage));
 
       act(() => {
         result.current.handleChangeRotateBlock();
@@ -208,7 +208,7 @@ describe('useTetrisGame', () => {
       jest.spyOn(helperModule, 'getEmptyTable').mockReturnValue(getMockTable());
       // NOTE: l 블록 모킹(7개중 3번째)
       jest.spyOn(helperModule, 'getRandomBlock').mockReturnValue(helperModule.getRandomBlock(5 / 14));
-      const { result } = renderHook(() => useTetrisGame(1, onChangeStageClearPage, onChangeStageDeadPage));
+      const { result } = renderHook(() => useTetrisGame(1000, 1, onChangeStageClearPage, onChangeStageDeadPage));
 
       // NOTE: setState batching 때문에 여러 act로 처리
       act(() => {
@@ -237,7 +237,7 @@ describe('useTetrisGame', () => {
 
   describe('interval callback', () => {
     it('블록 아래 position이 비어있다면 아래로 이동한다.', () => {
-      const { result } = renderHook(() => useTetrisGame(1, onChangeStageClearPage, onChangeStageDeadPage));
+      const { result } = renderHook(() => useTetrisGame(1000, 1, onChangeStageClearPage, onChangeStageDeadPage));
 
       const beforeTableForRender = result.current.tableForRender;
       act(() => {
@@ -260,7 +260,7 @@ describe('useTetrisGame', () => {
       jest.spyOn(helperModule, 'getEmptyTable').mockReturnValue(getMockTable());
       jest.spyOn(helperModule, 'getRandomBlock').mockReturnValue(helperModule.getRandomBlock(0));
 
-      const { result } = renderHook(() => useTetrisGame(1, onChangeStageClearPage, onChangeStageDeadPage));
+      const { result } = renderHook(() => useTetrisGame(1000, 1, onChangeStageClearPage, onChangeStageDeadPage));
 
       act(() => {
         result.current.intervalCallback();
@@ -272,7 +272,7 @@ describe('useTetrisGame', () => {
     it('crash했을 때 새로운 nextBlock이 생성된다.', () => {
       jest.spyOn(helperModule, 'getRandomBlock').mockReturnValue(helperModule.getRandomBlock(0));
 
-      const { result } = renderHook(() => useTetrisGame(1, onChangeStageClearPage, onChangeStageDeadPage));
+      const { result } = renderHook(() => useTetrisGame(1000, 1, onChangeStageClearPage, onChangeStageDeadPage));
 
       const beforeBlockForRender = result.current.blockForRender;
 
@@ -300,7 +300,7 @@ describe('useTetrisGame', () => {
       jest.spyOn(helperModule, 'getEmptyTable').mockReturnValue(getMockTable());
       jest.spyOn(helperModule, 'getRandomBlock').mockReturnValue(helperModule.getRandomBlock(0));
 
-      const { result } = renderHook(() => useTetrisGame(1, onChangeStageClearPage, onChangeStageDeadPage));
+      const { result } = renderHook(() => useTetrisGame(1000, 1, onChangeStageClearPage, onChangeStageDeadPage));
 
       for (let i = 0; i < helperModule.SETTINGS.row; i++) {
         act(() => {
@@ -329,7 +329,7 @@ describe('useTetrisGame', () => {
       jest.spyOn(helperModule, 'getRandomBlock').mockReturnValue(helperModule.getRandomBlock(0));
       jest.spyOn(helperModule, 'getGoalClearLine').mockReturnValue(1);
 
-      const { result } = renderHook(() => useTetrisGame(1, onChangeStageClearPage, onChangeStageDeadPage));
+      const { result } = renderHook(() => useTetrisGame(1000, 1, onChangeStageClearPage, onChangeStageDeadPage));
 
       for (let i = 0; i < helperModule.SETTINGS.row; i++) {
         act(() => {
@@ -345,6 +345,23 @@ describe('useTetrisGame', () => {
 
       expect(result.current.clearLine).toBe(1);
       expect(onChangeStageClearPage).toHaveBeenCalled();
+    });
+  });
+
+  it('handleChangeLastBottomPosition이 실행되면 gameSpeed가 변경된다.', async () => {
+    const { result } = renderHook(() => useTetrisGame(1000, 1, onChangeStageClearPage, onChangeStageDeadPage));
+
+    expect(result.current.gameSpeed).toBe(1000);
+
+    act(async () => {
+      result.current.handleChangeLastBottomPosition();
+      await waitFor(() => {
+        expect(result.current.gameSpeed).toBe(null);
+      });
+    });
+
+    await waitFor(() => {
+      expect(result.current.gameSpeed).toBe(1000);
     });
   });
 });

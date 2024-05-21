@@ -13,7 +13,7 @@ interface PlayPageProps {
 
 export default function PlayPage({ stage, onChangeStageClearPage, onChangeStageDeadPage }: PlayPageProps) {
   const goalClearLine = getGoalClearLine(stage);
-  const gameSpeed = getGameSpeed({
+  const initGameSpeed = getGameSpeed({
     currentStage: stage,
     maxSpeedTime: SETTINGS.maxSpeedTime,
     minSpeedTime: SETTINGS.minSpeedTime,
@@ -21,6 +21,7 @@ export default function PlayPage({ stage, onChangeStageClearPage, onChangeStageD
   });
 
   const {
+    gameSpeed,
     blockForRender,
     tableForRender,
     clearLine,
@@ -30,7 +31,7 @@ export default function PlayPage({ stage, onChangeStageClearPage, onChangeStageD
     handleChangeDownPosition,
     handleChangeRotateBlock,
     handleChangeLastBottomPosition,
-  } = useTetrisGame(goalClearLine, onChangeStageClearPage, onChangeStageDeadPage);
+  } = useTetrisGame(initGameSpeed, goalClearLine, onChangeStageClearPage, onChangeStageDeadPage);
 
   const isSpacePressed = useRef<boolean>(false);
   useInterval(intervalCallback, gameSpeed);
