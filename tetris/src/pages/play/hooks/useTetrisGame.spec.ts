@@ -2,6 +2,16 @@ import { act, renderHook, waitFor } from '@testing-library/react';
 import * as helperModule from '../helper';
 import { useTetrisGame } from './useTetrisGame';
 
+// NOTE
+// 아래와 같은 코드를 썼을 때 훅의 결과값이 null이 되는 버그가 있어서 불필요한 async를 제거함
+// act(async () => {
+//   result.current.handleChangeLastBottomPosition();
+// });
+
+// `handleChangeLastBottomPosition이 실행되면 gameSpeed가 변경된다.` 아래에 있는 테스트 코드는 훅의 결과값이 null이 되는 버그가 존재함.
+// act를 사용하게 되면 상태 변경이후가 찍히는데 위 테스트케이스에서는 상태가 변경되는 과정을 테스트해야하기 때문에 act 내부에 await waitFor로직이 들어가있음.
+// 임시로 맨 아래로 테스트를 이동해서 해겨함
+
 describe('useTetrisGame', () => {
   let onChangeStageClearPage: jest.Mock;
   let onChangeStageDeadPage: jest.Mock;
@@ -348,6 +358,81 @@ describe('useTetrisGame', () => {
     });
   });
 
+  describe('hold 테스트', () => {
+    it('hold가 비어있을 때 hold에 currentBlock을 넣는다.', () => {
+      const { result } = renderHook(() => useTetrisGame(1000, 1, onChangeStageClearPage, onChangeStageDeadPage));
+      expect(result.current.holdBlock).toBe(null);
+      act(() => {
+        result.current.handleChangeHoldBlock();
+      });
+      expect(!!result.current.holdBlock).toBe(true);
+    });
+
+    it('hold에 블록을 넣고 바로 시도하면 hold가 변경되지 않는다.', () => {
+      jest.spyOn(helperModule, 'getRandomBlock').mockReturnValue(helperModule.getRandomBlock(0));
+      const { result } = renderHook(() => useTetrisGame(1000, 1, onChangeStageClearPage, onChangeStageDeadPage));
+      jest.spyOn(helperModule, 'getRandomBlock').mockReturnValue(helperModule.getRandomBlock(0.5));
+
+      act(() => {
+        result.current.handleChangeHoldBlock();
+      });
+
+      const firstHoldBlock = result.current.holdBlock;
+
+      act(() => {
+        result.current.handleChangeHoldBlock();
+      });
+
+      expect(firstHoldBlock).toEqual(result.current.holdBlock);
+    });
+
+    it('hold블록이 정상적으로 교환된다.', () => {
+      jest.spyOn(helperModule, 'getRandomBlock').mockReturnValue(helperModule.getRandomBlock(0));
+      const { result } = renderHook(() => useTetrisGame(1000, 1, onChangeStageClearPage, onChangeStageDeadPage));
+      jest.spyOn(helperModule, 'getRandomBlock').mockReturnValue(helperModule.getRandomBlock(0.5));
+
+      act(() => {
+        result.current.handleChangeHoldBlock();
+      });
+
+      const firstHoldBlock = result.current.holdBlock;
+
+      act(() => {
+        result.current.handleChangeLastBottomPosition();
+      });
+
+      act(() => {
+        result.current.handleChangeHoldBlock();
+      });
+
+      waitFor(() => {
+        expect(firstHoldBlock).not.toEqual(result.current.holdBlock);
+      });
+    });
+
+    it('다음 블록이 바뀌지 않았을때는 hold를 변경할 수 없다.', () => {
+      jest.spyOn(helperModule, 'getRandomBlock').mockReturnValue(helperModule.getRandomBlock(0));
+      const { result } = renderHook(() => useTetrisGame(1000, 1, onChangeStageClearPage, onChangeStageDeadPage));
+
+      act(() => {
+        result.current.handleChangeHoldBlock();
+      });
+
+      act(() => {
+        result.current.handleChangeDownPosition();
+      });
+
+      const firstTableForRender = result.current.tableForRender;
+
+      act(() => {
+        result.current.handleChangeHoldBlock();
+      });
+
+      expect(result.current.tableForRender).toBe(firstTableForRender);
+    });
+  });
+
+  // 최상단 주석 참고
   it('handleChangeLastBottomPosition이 실행되면 gameSpeed가 변경된다.', async () => {
     const { result } = renderHook(() => useTetrisGame(1000, 1, onChangeStageClearPage, onChangeStageDeadPage));
 
