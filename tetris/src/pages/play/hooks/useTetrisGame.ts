@@ -132,6 +132,7 @@ export const useTetrisGame = (
     if (holdBlock) {
       setHoldBlock(BLOCK_MAP[currentBlock.type]);
       setCurrentBlock(holdBlock);
+      setCurrentBlockPosition(getInitialPosition(nextBlock));
     } else {
       setHoldBlock(BLOCK_MAP[currentBlock.type]);
       setCurrentBlock(nextBlock);
