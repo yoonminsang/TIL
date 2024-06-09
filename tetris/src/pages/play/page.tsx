@@ -49,6 +49,7 @@ export default function PlayPage({ stage, onChangeStageClearPage, onChangeStageD
     handleChangeRightPosition,
     handleChangeDownPosition,
     handleChangeClockWiseRotateBlock,
+    handleChangeCounterClockWiseRotateBlock,
     handleChangeLastBottomPosition,
     handleChangeHoldBlock,
   } = useTetrisGame(initGameSpeed, goalClearLine, onChangeStageClearPage, onChangeStageDeadPage);
@@ -84,6 +85,8 @@ export default function PlayPage({ stage, onChangeStageClearPage, onChangeStageD
           return handleChangeDownPosition();
         case 'ArrowUp':
           return handleChangeClockWiseRotateBlock();
+        case 'Control':
+          return handleChangeCounterClockWiseRotateBlock();
         case 'c':
           return handleChangeHoldBlock();
         case ' ':
