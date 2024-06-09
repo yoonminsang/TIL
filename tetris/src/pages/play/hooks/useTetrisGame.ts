@@ -13,6 +13,7 @@ import {
   getTableForRenderer,
   getUpdateTableByCompletedLines,
   rotateClockWiseIn2DArr,
+  rotateCounterClockWiseIn2DArr,
 } from '../helper';
 
 const getInitialPosition = (block: Block) => {
@@ -88,8 +89,7 @@ export const useTetrisGame = (
     handleChangePosition({ col: currentBlockPosition.col + 1, row: currentBlockPosition.row });
   });
 
-  const handleChangeClockWiseRotateBlock = usePreservedCallback(() => {
-    const nextBlock = { ...currentBlock, shape: rotateClockWiseIn2DArr(currentBlock.shape) };
+  const changeRotateBlock = (nextBlock: Block) => {
     if (getIsPossibleRender(table, nextBlock, currentBlockPosition)) {
       setCurrentBlock(nextBlock);
       return;
@@ -116,6 +116,14 @@ export const useTetrisGame = (
       setCurrentBlock(nextBlock);
       return;
     }
+  };
+
+  const handleChangeClockWiseRotateBlock = usePreservedCallback(() => {
+    changeRotateBlock({ ...currentBlock, shape: rotateClockWiseIn2DArr(currentBlock.shape) });
+  });
+
+  const handleChangeCounterClockWiseRotateBlock = usePreservedCallback(() => {
+    changeRotateBlock({ ...currentBlock, shape: rotateCounterClockWiseIn2DArr(currentBlock.shape) });
   });
 
   const handleChangeLastBottomPosition = usePreservedCallback(() => {
@@ -183,6 +191,7 @@ export const useTetrisGame = (
     handleChangeRightPosition,
     handleChangeDownPosition,
     handleChangeClockWiseRotateBlock,
+    handleChangeCounterClockWiseRotateBlock,
     handleChangeLastBottomPosition,
     handleChangeHoldBlock,
   };

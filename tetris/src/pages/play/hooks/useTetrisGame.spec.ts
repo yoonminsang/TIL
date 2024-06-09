@@ -160,6 +160,19 @@ describe('useTetrisGame', () => {
       expect(beforeTableForRender).not.toEqual(result.current.tableForRender);
     });
 
+    it('블록이 시게반대방향으로 정상적으로 회전한다.', () => {
+      // NOTE: o블록은 회전해도 변하지 않아서 모킹이 필요함
+      jest.spyOn(helperModule, 'getRandomBlock').mockReturnValue(helperModule.getRandomBlock(0));
+      const { result } = renderHook(() => useTetrisGame(1000, 1, onChangeStageClearPage, onChangeStageDeadPage));
+
+      const beforeTableForRender = result.current.tableForRender;
+      act(() => {
+        result.current.handleChangeCounterClockWiseRotateBlock();
+      });
+
+      expect(beforeTableForRender).not.toEqual(result.current.tableForRender);
+    });
+
     it('i블록을 회전하고 position을 맨 왼쪽으로 이동했을 때 블록이 정상적으로 회전한다.', () => {
       jest.spyOn(helperModule, 'getRandomBlock').mockReturnValue(helperModule.getRandomBlock(0));
       const { result } = renderHook(() => useTetrisGame(1000, 1, onChangeStageClearPage, onChangeStageDeadPage));
