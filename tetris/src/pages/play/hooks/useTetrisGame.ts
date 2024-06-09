@@ -12,8 +12,8 @@ import {
   getTableForRenderer,
   getUpdateTableByCompletedLines,
   rotateClockWiseIn2DArr,
+  BLOCK_MAP,
 } from '../helper';
-import { BLOCK_MAP } from '../helper/block';
 
 const getInitialPosition = (block: Block) => {
   return {
