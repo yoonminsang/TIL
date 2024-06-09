@@ -1,6 +1,7 @@
 import { usePreservedCallback } from '@toss/react';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
+  BLOCK_MAP,
   Block,
   Position,
   SETTINGS,
@@ -12,7 +13,6 @@ import {
   getTableForRenderer,
   getUpdateTableByCompletedLines,
   rotateClockWiseIn2DArr,
-  BLOCK_MAP,
 } from '../helper';
 
 const getInitialPosition = (block: Block) => {
@@ -47,7 +47,7 @@ export const useTetrisGame = (
 ) => {
   const { gameSpeed, isCrashed, handleCrash, handleRecoverCrash } = useCrash(initGameSpeed);
 
-  const isChangedHoldBlock = useRef<boolean>(false);
+  const [isChangedHoldBlock, setIsChangedHoldBlock] = useState<boolean>(false);
 
   const [currentBlock, setCurrentBlock] = useState<Block>(getRandomBlock());
   const [currentBlockPosition, setCurrentBlockPosition] = useState<Position>(getInitialPosition(currentBlock));
@@ -125,7 +125,7 @@ export const useTetrisGame = (
 
   // TODO: hold를 변경해서 겹치는 케이스 생각하기
   const handleChangeHoldBlock = () => {
-    if (isChangedHoldBlock.current) {
+    if (isChangedHoldBlock) {
       return;
     }
 
@@ -139,7 +139,7 @@ export const useTetrisGame = (
       setNextBlock(getRandomBlock());
       setCurrentBlockPosition(getInitialPosition(nextBlock));
     }
-    isChangedHoldBlock.current = true;
+    setIsChangedHoldBlock(true);
   };
 
   useEffect(() => {
@@ -150,7 +150,7 @@ export const useTetrisGame = (
       setNextBlock(nextBlockFor);
       setCurrentBlockPosition({ ...nextCurrentBlockPosition });
       setTable(tableForRender);
-      isChangedHoldBlock.current = false;
+      setIsChangedHoldBlock(false);
       handleRecoverCrash();
 
       const completedLines = findCompletedLines(tableForRender);
