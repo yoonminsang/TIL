@@ -31,7 +31,7 @@ describe('rotateClockWiseIn2DArr', () => {
         [1, 2, 3],
         [4, 5, 6],
         [7, 8, 9],
-      ]),
+      ])
     ).toEqual([
       [7, 4, 1],
       [8, 5, 2],
@@ -52,7 +52,7 @@ describe('rotateClockWiseIn2DArr', () => {
       rotateClockWiseIn2DArr([
         [1, 2, 3],
         [4, 5, 6],
-      ]),
+      ])
     ).toEqual([
       [4, 1],
       [5, 2],

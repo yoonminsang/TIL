@@ -50,7 +50,7 @@ describe('findCompletedLines', () => {
         [null, 'j', null, null],
         ['j', 'j', 'j', 'j'],
         [null, 'j', null, null],
-      ]),
+      ])
     ).toEqual([1]);
   });
   it('두줄이 완성됐을 때 두 line의 index를 return한다.', () => {
@@ -59,7 +59,7 @@ describe('findCompletedLines', () => {
         ['i', 'j', 'l', 'z'],
         ['j', 'j', 'j', 'j'],
         [null, 'j', null, null],
-      ]),
+      ])
     ).toEqual([0, 1]);
   });
 });
@@ -75,8 +75,8 @@ describe('getIsPossibleRender', () => {
           [null, 'i', 'i', 'i', null, null],
         ],
         BLOCK_MAP['o'],
-        { col: 0, row: 2 },
-      ),
+        { col: 0, row: 2 }
+      )
     ).toBe(false);
   });
   it('한줄이 남아있을 때 i블록은 렌더링이 가능하다. ', () => {
@@ -89,8 +89,8 @@ describe('getIsPossibleRender', () => {
           [null, 'i', 'i', 'i', null, null],
         ],
         BLOCK_MAP['i'],
-        { col: 0, row: 2 },
-      ),
+        { col: 0, row: 2 }
+      )
     ).toBe(true);
   });
   it('row가 -1인 경우 i블록은 렌더링이 가능하다.', () => {
@@ -104,8 +104,8 @@ describe('getIsPossibleRender', () => {
           [null, null, null, null, null, null],
         ],
         block,
-        { col: 0, row: -1 },
-      ),
+        { col: 0, row: -1 }
+      )
     ).toBe(true);
   });
   it('row가 -4인 경우 i블록은 렌더링이 가능하지 않다.', () => {
@@ -119,8 +119,8 @@ describe('getIsPossibleRender', () => {
           [null, null, null, null, null, null],
         ],
         block,
-        { col: 0, row: -4 },
-      ),
+        { col: 0, row: -4 }
+      )
     ).toBe(false);
   });
   describe('position을 벗어나는 경우', () => {
@@ -134,8 +134,8 @@ describe('getIsPossibleRender', () => {
             [null, null, null, null, null, null],
           ],
           BLOCK_MAP['i'],
-          { col: 4, row: 2 },
-        ),
+          { col: 4, row: 2 }
+        )
       ).toBe(false);
     });
     it('row가 넘친다면 렌더링이 가능하지 않다.', () => {
@@ -148,8 +148,8 @@ describe('getIsPossibleRender', () => {
             [null, null, null, null, null, null],
           ],
           BLOCK_MAP['o'],
-          { col: 0, row: 5 },
-        ),
+          { col: 0, row: 5 }
+        )
       ).toBe(false);
     });
   });

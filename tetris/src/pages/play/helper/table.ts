@@ -62,7 +62,7 @@ function getCellLength<T>(table: T[][]) {
         }
         return ac;
       }, 0),
-    0,
+    0
   );
 }
 
@@ -76,7 +76,7 @@ function getBlockLength<T>(table: T[][]) {
         }
         return ac;
       }, 0),
-    0,
+    0
   );
 }
 
