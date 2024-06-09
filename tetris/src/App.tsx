@@ -18,7 +18,7 @@ function App() {
   const { stage, increase: increaseStage } = useStage(
     useShallow(({ stage, increase }) => {
       return { stage, increase };
-    }),
+    })
   );
 
   return (

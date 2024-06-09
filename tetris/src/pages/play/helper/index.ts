@@ -1,4 +1,4 @@
-export { getRandomBlock, getBlockMaxSize } from './block';
+export { BLOCK_MAP, getRandomBlock, getBlockMaxSize } from './block';
 export { getGoalClearLine } from './clearLine';
 export { SETTINGS } from './constants';
 export { getGameSpeed } from './speed';
@@ -11,4 +11,4 @@ export {
   getUpdateTableByCompletedLines,
 } from './table';
 export * from './types';
-export { getRandom, rotateClockWiseIn2DArr } from './utils';
+export { getRandom, rotateClockWiseIn2DArr, rotateCounterClockWiseIn2DArr } from './utils';

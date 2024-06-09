@@ -40,6 +40,9 @@ export const ZCellBlock: Story = {
 export const ShadowCellBlock: Story = {
   args: { blockType: 'shadow' },
 };
+export const DisabledCellBlock: Story = {
+  args: { blockType: 'disabled' },
+};
 export const EmptyCellBlock: Story = {
   args: { blockType: null },
 };

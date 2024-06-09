@@ -7,13 +7,13 @@ export const getEmptyTable = (col = SETTINGS.col, row = SETTINGS.row) => {
   return [...Array(col)].map(() => Array(row).fill(null)) as Table;
 };
 
-export const combineBlockWithTable = (table: Table, block: Block, blockPosition: Position) => {
+export const combineBlockWithTable = (table: Table, block: Block, blockPosition: Position, customBlockShape?: Cell) => {
   const blockTable = combineBlockWithPosition(block, blockPosition);
   const nextTable = produce(table, (draft) => {
     blockTable.forEach((blockShapeCol, col) => {
       blockShapeCol.forEach((blockShape, row) => {
         if (blockShape) {
-          draft[col][row] = blockShape;
+          draft[col][row] = customBlockShape ?? blockShape;
         }
       });
     });
@@ -62,7 +62,7 @@ function getCellLength<T>(table: T[][]) {
         }
         return ac;
       }, 0),
-    0,
+    0
   );
 }
 
@@ -76,7 +76,7 @@ function getBlockLength<T>(table: T[][]) {
         }
         return ac;
       }, 0),
-    0,
+    0
   );
 }
 

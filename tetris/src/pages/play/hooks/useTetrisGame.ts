@@ -1,22 +1,20 @@
 import { usePreservedCallback } from '@toss/react';
 import { useEffect, useState } from 'react';
 import {
+  BLOCK_MAP,
   Block,
   Position,
   SETTINGS,
   Table,
-  combineBlockWithTable,
   findCompletedLines,
-  getBlockMaxSize,
   getEmptyTable,
   getIsPossibleRender,
   getRandomBlock,
   getTableForRenderer,
   getUpdateTableByCompletedLines,
   rotateClockWiseIn2DArr,
+  rotateCounterClockWiseIn2DArr,
 } from '../helper';
-
-const blockMaxSize = getBlockMaxSize();
 
 const getInitialPosition = (block: Block) => {
   return {
@@ -25,42 +23,53 @@ const getInitialPosition = (block: Block) => {
   };
 };
 
+const useCrash = (initGameSpeed: number) => {
+  const [gameSpeed, setGameSpeed] = useState<number | null>(initGameSpeed);
+  const [isCrashed, _setIsCrashed] = useState<boolean>(false);
+
+  const handleCrash = () => {
+    _setIsCrashed(true);
+    setGameSpeed(null);
+  };
+
+  const handleRecoverCrash = () => {
+    _setIsCrashed(false);
+    setGameSpeed(initGameSpeed);
+  };
+
+  return { gameSpeed, isCrashed, handleCrash, handleRecoverCrash };
+};
+
 export const useTetrisGame = (
+  initGameSpeed: number,
   goalClearLine: number,
   onChangeStageClearPage: VoidFunction,
   onChangeStageDeadPage: VoidFunction
 ) => {
+  const { gameSpeed, isCrashed, handleCrash, handleRecoverCrash } = useCrash(initGameSpeed);
+
+  const [isChangedHoldBlock, setIsChangedHoldBlock] = useState<boolean>(false);
+
   const [currentBlock, setCurrentBlock] = useState<Block>(getRandomBlock());
   const [currentBlockPosition, setCurrentBlockPosition] = useState<Position>(getInitialPosition(currentBlock));
   const [nextBlock, setNextBlock] = useState<Block>(getRandomBlock());
+  const [holdBlock, setHoldBlock] = useState<Block | null>(null);
   const [clearLine, setClearLine] = useState<number>(0);
   const [table, setTable] = useState<Table>(getEmptyTable(SETTINGS.col, SETTINGS.row));
-  const [isCrashed, setIsCrashed] = useState<boolean>(false);
 
-  const blockForRender = combineBlockWithTable(getEmptyTable(blockMaxSize, blockMaxSize + 2), nextBlock, {
-    col: 1,
-    row: 1,
-  });
   const { tableForRender, nextCol } = getTableForRenderer(table, currentBlock, currentBlockPosition);
 
-  const intervalCallback = () => {
-    const isPossibleDownRender = getIsPossibleRender(table, currentBlock, {
-      col: currentBlockPosition.col + 1,
-      row: currentBlockPosition.row,
-    });
+  const intervalCallback = usePreservedCallback(() => {
+    const nextPosition = { col: currentBlockPosition.col + 1, row: currentBlockPosition.row };
+    const isPossibleDownRender = getIsPossibleRender(table, currentBlock, nextPosition);
+
     if (isPossibleDownRender) {
-      setCurrentBlockPosition((position) => ({ col: position.col + 1, row: position.row }));
+      setCurrentBlockPosition(nextPosition);
       return;
     }
 
-    const isDead = !getIsPossibleRender(tableForRender, nextBlock, getInitialPosition(nextBlock));
-    if (isDead) {
-      onChangeStageDeadPage();
-      return;
-    }
-
-    setIsCrashed(true);
-  };
+    handleCrash();
+  });
 
   const handleChangePosition = usePreservedCallback((nextPosition: Position) => {
     if (getIsPossibleRender(table, currentBlock, { ...nextPosition })) {
@@ -80,8 +89,7 @@ export const useTetrisGame = (
     handleChangePosition({ col: currentBlockPosition.col + 1, row: currentBlockPosition.row });
   });
 
-  const handleChangeRotateBlock = usePreservedCallback(() => {
-    const nextBlock = { ...currentBlock, shape: rotateClockWiseIn2DArr(currentBlock.shape) };
+  const changeRotateBlock = (nextBlock: Block) => {
     if (getIsPossibleRender(table, nextBlock, currentBlockPosition)) {
       setCurrentBlock(nextBlock);
       return;
@@ -108,20 +116,50 @@ export const useTetrisGame = (
       setCurrentBlock(nextBlock);
       return;
     }
+  };
+
+  const handleChangeClockWiseRotateBlock = usePreservedCallback(() => {
+    changeRotateBlock({ ...currentBlock, shape: rotateClockWiseIn2DArr(currentBlock.shape) });
+  });
+
+  const handleChangeCounterClockWiseRotateBlock = usePreservedCallback(() => {
+    changeRotateBlock({ ...currentBlock, shape: rotateCounterClockWiseIn2DArr(currentBlock.shape) });
   });
 
   const handleChangeLastBottomPosition = usePreservedCallback(() => {
     setCurrentBlockPosition((position) => ({ col: nextCol, row: position.row }));
-    setIsCrashed(true);
+    handleCrash();
   });
+
+  // TODO: hold를 변경해서 겹치는 케이스 생각하기
+  const handleChangeHoldBlock = () => {
+    if (isChangedHoldBlock) {
+      return;
+    }
+
+    if (holdBlock) {
+      setHoldBlock(BLOCK_MAP[currentBlock.type]);
+      setCurrentBlock(holdBlock);
+      setCurrentBlockPosition(getInitialPosition(nextBlock));
+    } else {
+      setHoldBlock(BLOCK_MAP[currentBlock.type]);
+      setCurrentBlock(nextBlock);
+      setNextBlock(getRandomBlock());
+      setCurrentBlockPosition(getInitialPosition(nextBlock));
+    }
+    setIsChangedHoldBlock(true);
+  };
 
   useEffect(() => {
     if (isCrashed) {
       setCurrentBlock(nextBlock);
-      setNextBlock(getRandomBlock());
-      setCurrentBlockPosition(getInitialPosition(nextBlock));
+      const nextBlockFor = getRandomBlock();
+      const nextCurrentBlockPosition = getInitialPosition(nextBlock);
+      setNextBlock(nextBlockFor);
+      setCurrentBlockPosition({ ...nextCurrentBlockPosition });
       setTable(tableForRender);
-      setIsCrashed(false);
+      setIsChangedHoldBlock(false);
+      handleRecoverCrash();
 
       const completedLines = findCompletedLines(tableForRender);
       if (completedLines.length > 0) {
@@ -132,18 +170,29 @@ export const useTetrisGame = (
           onChangeStageClearPage();
         }
       }
+
+      const isDead = !getIsPossibleRender(tableForRender, nextBlockFor, getInitialPosition(nextBlockFor));
+      if (isDead) {
+        onChangeStageDeadPage();
+        return;
+      }
     }
   }, [isCrashed]);
 
   return {
-    blockForRender,
+    gameSpeed,
+    nextBlock,
+    holdBlock,
+    isChangedHoldBlock,
     tableForRender,
     clearLine,
     intervalCallback,
     handleChangeLeftPosition,
     handleChangeRightPosition,
     handleChangeDownPosition,
-    handleChangeRotateBlock,
+    handleChangeClockWiseRotateBlock,
+    handleChangeCounterClockWiseRotateBlock,
     handleChangeLastBottomPosition,
+    handleChangeHoldBlock,
   };
 };

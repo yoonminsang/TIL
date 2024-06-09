@@ -4,7 +4,9 @@ import { useStage } from '@/stores/stage';
 
 describe('StageIntroPage', () => {
   afterEach(() => {
-    useStage.setState({ stage: 1 });
+    act(() => {
+      useStage.setState({ stage: 1 });
+    });
   });
 
   it('StageIntroPage가 렌더링 된다.', async () => {

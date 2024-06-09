@@ -76,13 +76,12 @@ export async function renderStageClearPage() {
    });
  * ```
  */
-// TODO: 테스트코드에 오류가 있음
 export async function renderDeadPage() {
   function getMockTable() {
     const result = helperModule.getEmptyTable();
     for (let col = 1; col < result.length; col++) {
       for (let row = result[0].length / 2 - 2; row < result[0].length / 2 + 2; row++) {
-        result[helperModule.SETTINGS.col - 1][row] = 'i';
+        result[col][row] = 'i';
       }
     }
     return result;
@@ -92,15 +91,7 @@ export async function renderDeadPage() {
 
   await renderPlayPage();
 
-  // act(() => {
-  //   fireEvent.keyDown(document, { key: ' ' });
-  // });
-
-  // await delay(3000);
+  act(() => {
+    fireEvent.keyDown(document, { key: ' ' });
+  });
 }
-
-// async function delay(ms: number) {
-//   return new Promise((resolve) => {
-//     setTimeout(resolve, ms);
-//   });
-// }

@@ -1,8 +1,16 @@
 import { useInterval } from '@/hooks/useInterval';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import RootLayout from '../layout';
 import { BlockRenderer, TableRenderer, Timer } from './_components';
-import { SETTINGS, getGameSpeed, getGoalClearLine } from './helper';
+import {
+  SETTINGS,
+  Table,
+  combineBlockWithTable,
+  getBlockMaxSize,
+  getEmptyTable,
+  getGameSpeed,
+  getGoalClearLine,
+} from './helper';
 import { useTetrisGame } from './hooks';
 
 interface PlayPageProps {
@@ -11,9 +19,18 @@ interface PlayPageProps {
   onChangeStageDeadPage: VoidFunction;
 }
 
+const blockMaxSize = getBlockMaxSize();
+
+const holdBlockForRenderWhenBlockEmpty: Table = [
+  [null, null, null, null, null, null],
+  [null, null, null, null, null, null],
+  [null, null, null, null, null, null],
+  [null, null, null, null, null, null],
+];
+
 export default function PlayPage({ stage, onChangeStageClearPage, onChangeStageDeadPage }: PlayPageProps) {
   const goalClearLine = getGoalClearLine(stage);
-  const gameSpeed = getGameSpeed({
+  const initGameSpeed = getGameSpeed({
     currentStage: stage,
     maxSpeedTime: SETTINGS.maxSpeedTime,
     minSpeedTime: SETTINGS.minSpeedTime,
@@ -21,17 +38,40 @@ export default function PlayPage({ stage, onChangeStageClearPage, onChangeStageD
   });
 
   const {
-    blockForRender,
+    gameSpeed,
+    nextBlock,
+    holdBlock,
+    isChangedHoldBlock,
     tableForRender,
     clearLine,
     intervalCallback,
     handleChangeLeftPosition,
     handleChangeRightPosition,
     handleChangeDownPosition,
-    handleChangeRotateBlock,
+    handleChangeClockWiseRotateBlock,
+    handleChangeCounterClockWiseRotateBlock,
     handleChangeLastBottomPosition,
-  } = useTetrisGame(goalClearLine, onChangeStageClearPage, onChangeStageDeadPage);
+    handleChangeHoldBlock,
+  } = useTetrisGame(initGameSpeed, goalClearLine, onChangeStageClearPage, onChangeStageDeadPage);
 
+  const blockForRender = combineBlockWithTable(getEmptyTable(blockMaxSize, blockMaxSize + 2), nextBlock, {
+    col: 1,
+    row: 1,
+  });
+
+  const holdBlockForRender = holdBlock
+    ? combineBlockWithTable(
+        getEmptyTable(blockMaxSize, blockMaxSize + 2),
+        holdBlock,
+        {
+          col: 1,
+          row: 1,
+        },
+        isChangedHoldBlock ? 'disabled' : undefined
+      )
+    : holdBlockForRenderWhenBlockEmpty;
+
+  const isSpacePressed = useRef<boolean>(false);
   useInterval(intervalCallback, gameSpeed);
 
   useEffect(() => {
@@ -44,21 +84,38 @@ export default function PlayPage({ stage, onChangeStageClearPage, onChangeStageD
         case 'ArrowDown':
           return handleChangeDownPosition();
         case 'ArrowUp':
-          return handleChangeRotateBlock();
+          return handleChangeClockWiseRotateBlock();
+        case 'Control':
+          return handleChangeCounterClockWiseRotateBlock();
+        case 'c':
+          return handleChangeHoldBlock();
         case ' ':
-          return handleChangeLastBottomPosition();
+          if (isSpacePressed.current) {
+            return;
+          }
+          handleChangeLastBottomPosition();
+          isSpacePressed.current = true;
+          return;
+      }
+    };
+    const handleKeyup = (e: KeyboardEvent) => {
+      if (e.key === ' ') {
+        isSpacePressed.current = false;
       }
     };
     document.addEventListener('keydown', handleKeydown);
+    document.addEventListener('keyup', handleKeyup);
     return () => {
       document.removeEventListener('keydown', handleKeydown);
+      document.removeEventListener('keyup', handleKeyup);
     };
   }, [
     handleChangeDownPosition,
+    handleChangeHoldBlock,
     handleChangeLastBottomPosition,
     handleChangeLeftPosition,
     handleChangeRightPosition,
-    handleChangeRotateBlock,
+    handleChangeClockWiseRotateBlock,
   ]);
 
   return (
@@ -66,12 +123,16 @@ export default function PlayPage({ stage, onChangeStageClearPage, onChangeStageD
       <div className="flex flex-col items-center justify-center gap-[16px]">
         <h1 className="text-2xl">PlayPage</h1>
         <div className="flex gap-[16px]">
-          <div className="mt-auto flex w-[150px] flex-col">
-            <div>
-              time: <Timer />
-            </div>
-            <div>
-              clear lines: {clearLine} / {goalClearLine}
+          <div className="flex w-[150px] flex-col">
+            <div className="text-l">Hold Block</div>
+            <BlockRenderer cellList={holdBlockForRender} />
+            <div className="mt-auto flex flex-col">
+              <div>
+                time: <Timer />
+              </div>
+              <div>
+                clear lines: {clearLine} / {goalClearLine}
+              </div>
             </div>
           </div>
           <div className="flex flex-col">
