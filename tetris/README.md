@@ -92,6 +92,21 @@
 - ux가 크게 개선되는 그림자 작업을 추가했다.
 - 기존에 handleChangeLastBottomPosition에서 하는 코드를 거의 그대로 옮긴거라서 작업은 어렵지 않다.
 
+## 게임5(기타)
+
+- space를 누르고 있을 때 여러번 이벤트가 발생하는 실수를 막는 기능 추가
+- space를 누를 때 시간 delay를 초기화시키는 기능 추가
+  - intervalcallback이 1초마다 실행된다고 가정했을 때 0.9초에 space를 누르면 0.1초후에 다음 블록이 내려오고 있었음. 다른 테트리스 게임으로 테스트를 해보고 delay를 초기화시키는 방법으로 변경함
+- dead를 판단하는 시점 변경
+  - intervalcallback에서 실행하면 계속 space를 누를때 영원히 intervalcallback이 실행되지 않아서 죽지 않는 현상 발생
+  - crash가 발생했을 때 dead여부를 판단해주면 위와같은 버그도 사라지고 더 빠른 진행이 가능하다
+- holdblock 기능 추가
+- 시계반대방향 회전 이벤트 핸들러 추가(control)
+- 블록에 대한 UI와 기능을 분리
+  - 기존에는 훅에서 렌더링하기 위한 변환과정까지 끝내서 넘겨주고 있었는데 이렇게 하면 UI와 데이터가 결합되는 문제가 있다.
+  - tableForRender는 현재 block과 table 두개를 결합해서 사용되고 훅 내부에서도 사용되기 때문에 일단은 훅 내부에서 관리함
+- 테스트코드 오류 전부 수정
+
 # React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
