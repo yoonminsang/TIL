@@ -154,7 +154,7 @@ describe('useTetrisGame', () => {
 
       const beforeTableForRender = result.current.tableForRender;
       act(() => {
-        result.current.handleChangeRotateBlock();
+        result.current.handleChangeClockWiseRotateBlock();
       });
 
       expect(beforeTableForRender).not.toEqual(result.current.tableForRender);
@@ -165,7 +165,7 @@ describe('useTetrisGame', () => {
       const { result } = renderHook(() => useTetrisGame(1000, 1, onChangeStageClearPage, onChangeStageDeadPage));
 
       act(() => {
-        result.current.handleChangeRotateBlock();
+        result.current.handleChangeClockWiseRotateBlock();
       });
       for (let i = 0; i < helperModule.SETTINGS.row / 2; i++) {
         act(() => {
@@ -175,7 +175,7 @@ describe('useTetrisGame', () => {
 
       const beforeTableForRender = result.current.tableForRender;
       act(() => {
-        result.current.handleChangeRotateBlock();
+        result.current.handleChangeClockWiseRotateBlock();
       });
 
       expect(beforeTableForRender).not.toEqual(result.current.tableForRender);
@@ -186,7 +186,7 @@ describe('useTetrisGame', () => {
       const { result } = renderHook(() => useTetrisGame(1000, 1, onChangeStageClearPage, onChangeStageDeadPage));
 
       act(() => {
-        result.current.handleChangeRotateBlock();
+        result.current.handleChangeClockWiseRotateBlock();
       });
       for (let i = 0; i < helperModule.SETTINGS.row / 2; i++) {
         act(() => {
@@ -196,7 +196,7 @@ describe('useTetrisGame', () => {
 
       const beforeTableForRender = result.current.tableForRender;
       act(() => {
-        result.current.handleChangeRotateBlock();
+        result.current.handleChangeClockWiseRotateBlock();
       });
 
       expect(beforeTableForRender).not.toEqual(result.current.tableForRender);
@@ -222,7 +222,7 @@ describe('useTetrisGame', () => {
 
       // NOTE: setState batching 때문에 여러 act로 처리
       act(() => {
-        result.current.handleChangeRotateBlock();
+        result.current.handleChangeClockWiseRotateBlock();
       });
       act(() => {
         result.current.handleChangeDownPosition();
@@ -239,7 +239,7 @@ describe('useTetrisGame', () => {
 
       const beforeTableForRender = result.current.tableForRender;
       act(() => {
-        result.current.handleChangeRotateBlock();
+        result.current.handleChangeClockWiseRotateBlock();
       });
       expect(beforeTableForRender).toEqual(result.current.tableForRender);
     });

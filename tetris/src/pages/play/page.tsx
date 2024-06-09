@@ -48,7 +48,7 @@ export default function PlayPage({ stage, onChangeStageClearPage, onChangeStageD
     handleChangeLeftPosition,
     handleChangeRightPosition,
     handleChangeDownPosition,
-    handleChangeRotateBlock,
+    handleChangeClockWiseRotateBlock,
     handleChangeLastBottomPosition,
     handleChangeHoldBlock,
   } = useTetrisGame(initGameSpeed, goalClearLine, onChangeStageClearPage, onChangeStageDeadPage);
@@ -83,7 +83,7 @@ export default function PlayPage({ stage, onChangeStageClearPage, onChangeStageD
         case 'ArrowDown':
           return handleChangeDownPosition();
         case 'ArrowUp':
-          return handleChangeRotateBlock();
+          return handleChangeClockWiseRotateBlock();
         case 'c':
           return handleChangeHoldBlock();
         case ' ':
@@ -112,7 +112,7 @@ export default function PlayPage({ stage, onChangeStageClearPage, onChangeStageD
     handleChangeLastBottomPosition,
     handleChangeLeftPosition,
     handleChangeRightPosition,
-    handleChangeRotateBlock,
+    handleChangeClockWiseRotateBlock,
   ]);
 
   return (

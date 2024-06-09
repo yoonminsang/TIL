@@ -88,7 +88,7 @@ export const useTetrisGame = (
     handleChangePosition({ col: currentBlockPosition.col + 1, row: currentBlockPosition.row });
   });
 
-  const handleChangeRotateBlock = usePreservedCallback(() => {
+  const handleChangeClockWiseRotateBlock = usePreservedCallback(() => {
     const nextBlock = { ...currentBlock, shape: rotateClockWiseIn2DArr(currentBlock.shape) };
     if (getIsPossibleRender(table, nextBlock, currentBlockPosition)) {
       setCurrentBlock(nextBlock);
@@ -182,7 +182,7 @@ export const useTetrisGame = (
     handleChangeLeftPosition,
     handleChangeRightPosition,
     handleChangeDownPosition,
-    handleChangeRotateBlock,
+    handleChangeClockWiseRotateBlock,
     handleChangeLastBottomPosition,
     handleChangeHoldBlock,
   };
