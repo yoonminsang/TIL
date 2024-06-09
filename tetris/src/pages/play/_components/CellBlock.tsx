@@ -33,6 +33,7 @@ const colorMap = {
   t: colors.indigo[500],
   z: colors.purple[500],
   shadow: colors.gray[400],
+  disabled: colors.gray[700],
   empty: colors.gray[900],
 } satisfies Record<string, string>;
 
