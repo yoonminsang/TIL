@@ -72,19 +72,6 @@ export const getRandomBlock = (random = Math.random()) => {
   return blockList[getRandom(blockList.length, random)];
 };
 
-export const getBlockBottomPosition = (block: Block, blockPosition: Position) => {
-  const blockTable = combineBlockWithPosition(block, blockPosition);
-  let max = -Infinity;
-  blockTable.forEach((col, colIndex) => {
-    col.forEach((row) => {
-      if (row !== null) {
-        max = Math.max(max, colIndex);
-      }
-    });
-  });
-  return max;
-};
-
 export const combineBlockWithPosition = (block: Block, blockPosition: Position) => {
   const blockColLength = block.shape.length;
   const blockRowLength = block.shape[0].length;
@@ -103,4 +90,17 @@ export const combineBlockWithPosition = (block: Block, blockPosition: Position) 
     });
   });
   return table;
+};
+
+export const getBlockBottomPosition = (block: Block, blockPosition: Position) => {
+  const blockTable = combineBlockWithPosition(block, blockPosition);
+  let max = -Infinity;
+  blockTable.forEach((col, colIndex) => {
+    col.forEach((row) => {
+      if (row !== null) {
+        max = Math.max(max, colIndex);
+      }
+    });
+  });
+  return max;
 };
