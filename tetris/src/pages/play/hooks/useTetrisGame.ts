@@ -175,6 +175,7 @@ export const useTetrisGame = (
     gameSpeed,
     nextBlock,
     holdBlock,
+    isChangedHoldBlock,
     tableForRender,
     clearLine,
     intervalCallback,

@@ -41,6 +41,7 @@ export default function PlayPage({ stage, onChangeStageClearPage, onChangeStageD
     gameSpeed,
     nextBlock,
     holdBlock,
+    isChangedHoldBlock,
     tableForRender,
     clearLine,
     intervalCallback,
@@ -58,10 +59,15 @@ export default function PlayPage({ stage, onChangeStageClearPage, onChangeStageD
   });
 
   const holdBlockForRender = holdBlock
-    ? combineBlockWithTable(getEmptyTable(blockMaxSize, blockMaxSize + 2), holdBlock, {
-        col: 1,
-        row: 1,
-      })
+    ? combineBlockWithTable(
+        getEmptyTable(blockMaxSize, blockMaxSize + 2),
+        holdBlock,
+        {
+          col: 1,
+          row: 1,
+        },
+        isChangedHoldBlock ? 'disabled' : undefined
+      )
     : holdBlockForRenderWhenBlockEmpty;
 
   const isSpacePressed = useRef<boolean>(false);
