@@ -20,14 +20,25 @@ describe('getEmptyTable', () => {
   });
 });
 
-it('combineBlockWithTable', () => {
-  expect(combineBlockWithTable(getEmptyTable(5, 5), BLOCK_MAP['j'], { col: 0, row: 2 })).toEqual([
-    [null, null, 'j', null, null],
-    [null, null, 'j', 'j', 'j'],
-    [null, null, null, null, null],
-    [null, null, null, null, null],
-    [null, null, null, null, null],
-  ]);
+describe('combineBlockWithTable', () => {
+  it('basic', () => {
+    expect(combineBlockWithTable(getEmptyTable(5, 5), BLOCK_MAP['j'], { col: 0, row: 2 })).toEqual([
+      [null, null, 'j', null, null],
+      [null, null, 'j', 'j', 'j'],
+      [null, null, null, null, null],
+      [null, null, null, null, null],
+      [null, null, null, null, null],
+    ]);
+  });
+  it('customBlockShape을 넣은 경우 customBlockShape가 들어간다.', () => {
+    expect(combineBlockWithTable(getEmptyTable(5, 5), BLOCK_MAP['j'], { col: 0, row: 2 }, 'disabled')).toEqual([
+      [null, null, 'disabled', null, null],
+      [null, null, 'disabled', 'disabled', 'disabled'],
+      [null, null, null, null, null],
+      [null, null, null, null, null],
+      [null, null, null, null, null],
+    ]);
+  });
 });
 
 it('getTableForRenderer', () => {
