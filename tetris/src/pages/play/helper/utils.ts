@@ -13,3 +13,15 @@ export const rotateClockWiseIn2DArr = <T>(arr: T[][]) => {
   });
   return result;
 };
+
+export const rotateCounterClockWiseIn2DArr = <T>(arr: T[][]) => {
+  const arrColLength = arr.length;
+  const arrRowLength = arr[0].length;
+  const result = [...Array(arrRowLength)].map(() => Array(arrColLength).fill(undefined));
+  arr.forEach((colArr, col) => {
+    colArr.forEach((v, row) => {
+      result[arrRowLength - row - 1][col] = v;
+    });
+  });
+  return result;
+};
