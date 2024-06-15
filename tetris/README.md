@@ -1,6 +1,7 @@
 # 테트리스
 
 - [PR목록보기](https://github.com/yoonminsang/TIL/pulls?q=is%3Apr+is%3Aclosed+label%3Atetris)
+  <img src="./README_image/example.gif"/>
 
 ## 설계와 고민들
 
