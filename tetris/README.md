@@ -1,7 +1,10 @@
 # 테트리스
 
 - [PR목록보기](https://github.com/yoonminsang/TIL/pulls?q=is%3Apr+is%3Aclosed+label%3Atetris)
-  <img src="./README_image/example.gif"/>
+
+- 테트리스 영상
+
+![example](https://github.com/yoonminsang/TIL/assets/57904979/f8139949-054e-49fc-92f6-2800b41a038d)
 
 ## 설계와 고민들
 
