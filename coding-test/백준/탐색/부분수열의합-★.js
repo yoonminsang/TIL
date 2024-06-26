@@ -1,23 +1,25 @@
 // https://www.acmicpc.net/problem/1182
 
-const fs = require('fs');
-const input = fs.readFileSync('/dev/stdin').toString();
-const [oneLine, twoLine] = input.split('\n');
-const [N, S] = oneLine.split(' ').map(Number);
-const integerList = twoLine.split(' ').map(Number);
-// const [N, S] = [5, 0];
-// const integerList = [-7, -3, -2, 5, 8];
-// 답:1
+{
+  const fs = require('fs');
+  const input = fs.readFileSync('/dev/stdin').toString();
+  const [oneLine, twoLine] = input.split('\n');
+  const [N, S] = oneLine.split(' ').map(Number);
+  const integerList = twoLine.split(' ').map(Number);
+  // const [N, S] = [5, 0];
+  // const integerList = [-7, -3, -2, 5, 8];
+  // 답:1
 
-let answer = 0;
-const recursive = (index, sum) => {
-  if (index === N) return;
-  if (sum + integerList[index] === S) answer += 1;
-  recursive(index + 1, sum);
-  recursive(index + 1, sum + integerList[index]);
-};
-recursive(0, 0);
-console.log(answer);
+  let answer = 0;
+  const recursive = (index, sum) => {
+    if (index === N) return;
+    if (sum + integerList[index] === S) answer += 1;
+    recursive(index + 1, sum);
+    recursive(index + 1, sum + integerList[index]);
+  };
+  recursive(0, 0);
+  console.log(answer);
+}
 
 /**
  * @Date 2024.03.21
@@ -64,15 +66,4 @@ console.log(answer);
   };
   recursive(0, 0);
   console.log(answer);
-}
-
-/**
- * @Date 2024.06.26
- */
-{
-  const fs = require('fs');
-  const input = fs.readFileSync('/dev/stdin').toString();
-  const [oneLine, twoLine] = input.split('\n');
-  const [N, S] = oneLine.split(' ').map(Number);
-  const integerList = twoLine.split(' ').map(Number);
 }
