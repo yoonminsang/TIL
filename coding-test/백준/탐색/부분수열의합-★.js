@@ -67,3 +67,33 @@
   recursive(0, 0);
   console.log(answer);
 }
+
+/**
+ * @Date 2024.06.26
+ */
+{
+  const fs = require('fs');
+  const input = fs.readFileSync('/dev/stdin').toString();
+  const [oneLine, twoLine] = input.split('\n');
+  const [N, S] = oneLine.split(' ').map(Number);
+  const integerList = twoLine.split(' ').map(Number);
+
+  let answer = 0;
+
+  // 모든 배열의 각각의 원소는 추가할수도잇고 추가하지 않을 수도 잇다.
+  function recursive(index, sum) {
+    if (index === N) {
+      return;
+    }
+    // sum === S를 넣으면 안됌. 왜냐하면 추가하지 않는 경우가 있기 때문에 중복이 생김
+    if (sum + integerList[index] === S) {
+      answer += 1;
+    }
+    // 추가하는 경우
+    recursive(index + 1, sum);
+    // 추가하지 않는 경우
+    recursive(index + 1, sum + integerList[index]);
+  }
+  recursive(0, 0);
+  console.log(answer);
+}
