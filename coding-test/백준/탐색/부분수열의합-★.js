@@ -65,3 +65,14 @@ console.log(answer);
   recursive(0, 0);
   console.log(answer);
 }
+
+/**
+ * @Date 2024.06.26
+ */
+{
+  const fs = require('fs');
+  const input = fs.readFileSync('/dev/stdin').toString();
+  const [oneLine, twoLine] = input.split('\n');
+  const [N, S] = oneLine.split(' ').map(Number);
+  const integerList = twoLine.split(' ').map(Number);
+}
