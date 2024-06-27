@@ -34,8 +34,8 @@ const colorMap = {
   z: colors.purple[500],
   shadow: colors.gray[400],
   disabled: colors.gray[700],
-  empty: colors.gray[900],
-} satisfies Record<string, string>;
+  empty: colors.gray[900], // NOTE: null을 empty로 대체
+} satisfies Record<Exclude<Cell, null> & 'empty', string>;
 
 const getBlockStyle = (cell: Cell) => {
   const baseColor = colorMap[cell ?? 'empty'];
