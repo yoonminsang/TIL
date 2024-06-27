@@ -29,6 +29,8 @@ const holdBlockForRenderWhenBlockEmpty: Table = [
 ];
 
 export default function PlayPage({ stage, onChangeStageClearPage, onChangeStageDeadPage }: PlayPageProps) {
+  const isSpacePressed = useRef<boolean>(false);
+
   const goalClearLine = getGoalClearLine(stage);
   const initGameSpeed = getGameSpeed({
     currentStage: stage,
@@ -71,7 +73,6 @@ export default function PlayPage({ stage, onChangeStageClearPage, onChangeStageD
       )
     : holdBlockForRenderWhenBlockEmpty;
 
-  const isSpacePressed = useRef<boolean>(false);
   useInterval(intervalCallback, gameSpeed);
 
   useEffect(() => {

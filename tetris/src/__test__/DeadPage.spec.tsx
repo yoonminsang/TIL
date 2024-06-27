@@ -21,11 +21,11 @@ describe('DeadPage', () => {
   });
 
   describe('현재 stage가 렌더링된다.', () => {
-    it('현재 stage가 렌더링된다.', async () => {
+    it('1 stage가 렌더링된다.', async () => {
       await renderDeadPage();
       await screen.findByText(/You are dead in 1 stage/);
     });
-    it('현재 stage가 렌더링된다.', async () => {
+    it('3 stage가 렌더링된다.', async () => {
       useStage.setState({
         stage: 3,
       });
@@ -42,7 +42,7 @@ describe('DeadPage', () => {
       await screen.findByText(/StartPage/);
     });
 
-    it('Go Ranking Page 버튼을 누르면 StartPage로 이동한다.', async () => {
+    it('Go Ranking Page 버튼을 누르면 RankingPage로 이동한다.', async () => {
       await renderDeadPage();
       const button = await screen.findByRole('button', { name: /Go Ranking Page/ });
       await userEvent.click(button);
