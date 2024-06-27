@@ -28,6 +28,11 @@ const holdBlockForRenderWhenBlockEmpty: Table = [
   [null, null, null, null, null, null],
 ];
 
+// TODO:
+// 부딪힐 때(crash) 이펙트 주기
+// 위에서 2줄 남았을 때 경고 표시하기
+// 죽었을 때 이펙트 주기
+
 export default function PlayPage({ stage, onChangeStageClearPage, onChangeStageDeadPage }: PlayPageProps) {
   const isSpacePressed = useRef<boolean>(false);
 

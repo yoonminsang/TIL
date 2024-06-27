@@ -8,15 +8,15 @@ interface CellProps {
 }
 
 function CellBlock({ blockType, hasBorder = true }: CellProps) {
-  const style = getBlockStyle(blockType);
+  const { background, gradient } = getBlockColor(blockType);
   return (
     <div
-      className={cn('relative h-[20px] w-[20px]', hasBorder && 'border border-gray-500')}
-      style={{ backgroundColor: style.background }}
+      className={cn('relative h-[20px] w-[20px]', hasBorder && 'border-0.5 border-gray-500')}
+      style={{ backgroundColor: background }}
     >
       <div
-        className={cn('absolute inset-0 m-0.5', hasBorder && 'border border-gray-700')}
-        style={{ background: style.gradient }}
+        className={cn('absolute inset-0 m-0.5', hasBorder && blockType !== null && 'border border-gray-700')}
+        style={{ background: gradient }}
       />
     </div>
   );
@@ -34,10 +34,10 @@ const colorMap = {
   z: colors.purple[500],
   shadow: colors.gray[400],
   disabled: colors.gray[700],
-  empty: colors.gray[900],
-} satisfies Record<string, string>;
+  empty: colors.gray[900], // NOTE: null을 empty로 대체
+} satisfies Record<Exclude<Cell, null> & 'empty', string>;
 
-const getBlockStyle = (cell: Cell) => {
+const getBlockColor = (cell: Cell) => {
   const baseColor = colorMap[cell ?? 'empty'];
   return {
     background: baseColor,

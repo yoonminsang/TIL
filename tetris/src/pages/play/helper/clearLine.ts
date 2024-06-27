@@ -1,1 +1,1 @@
-export const getGoalClearLine = (stage: number) => stage * 40;
+export const getGoalClearLine = (stage: number) => stage * 10;
