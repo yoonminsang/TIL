@@ -15,7 +15,7 @@ function CellBlock({ blockType, hasBorder = true }: CellProps) {
       style={{ backgroundColor: style.background }}
     >
       <div
-        className={cn('absolute inset-0 m-0.5', hasBorder && 'border border-gray-700')}
+        className={cn('absolute inset-0 m-0.5', hasBorder && blockType !== null && 'border border-gray-700')}
         style={{ background: style.gradient }}
       />
     </div>
