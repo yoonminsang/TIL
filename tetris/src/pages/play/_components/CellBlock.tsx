@@ -11,7 +11,7 @@ function CellBlock({ blockType, hasBorder = true }: CellProps) {
   const style = getBlockStyle(blockType);
   return (
     <div
-      className={cn('relative h-[20px] w-[20px]', hasBorder && 'border border-gray-500')}
+      className={cn('relative h-[20px] w-[20px]', hasBorder && 'border-0.5 border-gray-500')}
       style={{ backgroundColor: style.background }}
     >
       <div
