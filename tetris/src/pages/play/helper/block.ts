@@ -68,6 +68,7 @@ export const getBlockMaxSize = () => {
   }, 0);
 };
 
+// TODO: 최신 테트리스는 모든 블록이 한바퀴돌고 다음 블록이 나옴. 완전히 랜덤이 아님.
 export const getRandomBlock = (random = Math.random()) => {
   return blockList[getRandom(blockList.length, random)];
 };
