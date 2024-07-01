@@ -6,7 +6,7 @@ import {
   SETTINGS,
   Table,
   combineBlockWithTable,
-  getBlockMaxSize,
+  BLOCK_MAX_SIZE,
   getEmptyTable,
   getGameSpeed,
   getGoalClearLine,
@@ -18,8 +18,6 @@ interface PlayPageProps {
   onChangeStageClearPage: VoidFunction;
   onChangeStageDeadPage: VoidFunction;
 }
-
-const blockMaxSize = getBlockMaxSize();
 
 const holdBlockForRenderWhenBlockEmpty: Table = [
   [null, null, null, null, null, null],
@@ -61,14 +59,14 @@ export default function PlayPage({ stage, onChangeStageClearPage, onChangeStageD
     handleChangeHoldBlock,
   } = useTetrisGame(initGameSpeed, goalClearLine, onChangeStageClearPage, onChangeStageDeadPage);
 
-  const blockForRender = combineBlockWithTable(getEmptyTable(blockMaxSize, blockMaxSize + 2), nextBlock, {
+  const blockForRender = combineBlockWithTable(getEmptyTable(BLOCK_MAX_SIZE, BLOCK_MAX_SIZE + 2), nextBlock, {
     col: 1,
     row: 1,
   });
 
   const holdBlockForRender = holdBlock
     ? combineBlockWithTable(
-        getEmptyTable(blockMaxSize, blockMaxSize + 2),
+        getEmptyTable(BLOCK_MAX_SIZE, BLOCK_MAX_SIZE + 2),
         holdBlock,
         {
           col: 1,

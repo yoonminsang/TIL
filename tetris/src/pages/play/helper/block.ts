@@ -62,11 +62,9 @@ export const BLOCK_MAP: Record<BlockType, Block> = {
 
 const blockList = Object.values(BLOCK_MAP);
 
-export const getBlockMaxSize = () => {
-  return blockList.reduce((acc, cur) => {
-    return Math.max(acc, cur.shape.length, cur.shape[0].length);
-  }, 0);
-};
+export const BLOCK_MAX_SIZE = blockList.reduce((acc, cur) => {
+  return Math.max(acc, cur.shape.length, cur.shape[0].length);
+}, 0);
 
 // TODO: 최신 테트리스는 모든 블록이 한바퀴돌고 다음 블록이 나옴. 완전히 랜덤이 아님.
 export const getRandomBlock = (random = Math.random()) => {
