@@ -1,6 +1,25 @@
-import { rotateClockWiseIn2DArr } from './utils';
-import { BLOCK_MAP, combineBlockWithPosition, getBlockBottomPosition } from './block';
+import { BLOCK_MAP, combineBlockWithPosition, getBlockBottomPosition, getRandomBlockList } from './block';
 import { Block } from './types';
+import { rotateClockWiseIn2DArr } from './utils';
+import * as utilsModule from './utils';
+
+describe('getRandomBlockList', () => {
+  it('모든 블록을 return한다.', () => {
+    expect(Object.keys(BLOCK_MAP).sort()).toEqual(
+      getRandomBlockList()
+        .map(({ type }) => type)
+        .sort()
+    );
+  });
+
+  it('random 값에 따라 다른 블록을 return한다.', () => {
+    jest.spyOn(utilsModule, 'getRandom').mockReturnValue(utilsModule.getRandom(0));
+    const a = getRandomBlockList().map(({ type }) => type);
+    jest.spyOn(utilsModule, 'getRandom').mockReturnValue(utilsModule.getRandom(0.5));
+    const b = getRandomBlockList().map(({ type }) => type);
+    expect(a).toEqual(b);
+  });
+});
 
 describe('combineBlockWithPosition', () => {
   describe('col이 0이고 row가 2일 때', () => {

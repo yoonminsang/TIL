@@ -67,8 +67,25 @@ export const BLOCK_MAX_SIZE = blockList.reduce((acc, cur) => {
 }, 0);
 
 // TODO: 최신 테트리스는 모든 블록이 한바퀴돌고 다음 블록이 나옴. 완전히 랜덤이 아님.
+/** @deprecated */
 export const getRandomBlock = (random = Math.random()) => {
   return blockList[getRandom(blockList.length, random)];
+};
+
+/**
+ * @description 모든 블록을 한 개씩 랜덤한 순서로 만들어주는 함수입니다.
+ *   (최신 테트리스에서는 블록이 완전히 랜덤하게 나오지 않습니다.
+ *   한 로테이션의 모든 블록이 나온 후에 다음 로테이션 블록이 나옵니다.
+ *   이 함수는 블록 리스트에서 각 블록을 하나씩 무작위 순서로 반환합니다.)
+ */
+export const getRandomBlockList = () => {
+  const result = [];
+  const remainBlockList = [...blockList];
+  for (let i = 0; i < blockList.length; i++) {
+    const [block] = remainBlockList.splice(getRandom(blockList.length - i, Math.random()), 1);
+    result.push(block);
+  }
+  return result;
 };
 
 export const combineBlockWithPosition = (block: Block, blockPosition: Position) => {
