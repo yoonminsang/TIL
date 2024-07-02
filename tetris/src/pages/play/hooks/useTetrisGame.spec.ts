@@ -131,12 +131,10 @@ describe('useTetrisGame', () => {
   });
 
   it('블록이 맨 아래로 이동한다.', () => {
-    jest.spyOn(helperModule, 'getRandomBlock').mockReturnValue(helperModule.getRandomBlock(0));
     const { result } = renderHook(() => useTetrisGame(1000, 1, onChangeStageClearPage, onChangeStageDeadPage));
 
     jest.clearAllMocks();
     jest.restoreAllMocks();
-    jest.spyOn(helperModule, 'getRandomBlock').mockReturnValue(helperModule.getRandomBlock(0.5));
     const nextBlock = result.current.nextBlock;
 
     act(() => {
@@ -149,7 +147,11 @@ describe('useTetrisGame', () => {
   describe('블록 회전', () => {
     it('블록이 정상적으로 회전한다.', () => {
       // NOTE: o블록은 회전해도 변하지 않아서 모킹이 필요함
-      jest.spyOn(helperModule, 'getRandomBlock').mockReturnValue(helperModule.getRandomBlock(0));
+      jest.spyOn(helperModule, 'getRandomBlockList').mockReturnValue(
+        Array(helperModule.BLOCK_MAX_SIZE)
+          .fill(null)
+          .map(() => helperModule.BLOCK_MAP['i'])
+      );
       const { result } = renderHook(() => useTetrisGame(1000, 1, onChangeStageClearPage, onChangeStageDeadPage));
 
       const beforeTableForRender = result.current.tableForRender;
@@ -162,7 +164,11 @@ describe('useTetrisGame', () => {
 
     it('블록이 시게반대방향으로 정상적으로 회전한다.', () => {
       // NOTE: o블록은 회전해도 변하지 않아서 모킹이 필요함
-      jest.spyOn(helperModule, 'getRandomBlock').mockReturnValue(helperModule.getRandomBlock(0));
+      jest.spyOn(helperModule, 'getRandomBlockList').mockReturnValue(
+        Array(helperModule.BLOCK_MAX_SIZE)
+          .fill(null)
+          .map(() => helperModule.BLOCK_MAP['i'])
+      );
       const { result } = renderHook(() => useTetrisGame(1000, 1, onChangeStageClearPage, onChangeStageDeadPage));
 
       const beforeTableForRender = result.current.tableForRender;
@@ -174,7 +180,11 @@ describe('useTetrisGame', () => {
     });
 
     it('i블록을 회전하고 position을 맨 왼쪽으로 이동했을 때 블록이 정상적으로 회전한다.', () => {
-      jest.spyOn(helperModule, 'getRandomBlock').mockReturnValue(helperModule.getRandomBlock(0));
+      jest.spyOn(helperModule, 'getRandomBlockList').mockReturnValue(
+        Array(helperModule.BLOCK_MAX_SIZE)
+          .fill(null)
+          .map(() => helperModule.BLOCK_MAP['i'])
+      );
       const { result } = renderHook(() => useTetrisGame(1000, 1, onChangeStageClearPage, onChangeStageDeadPage));
 
       act(() => {
@@ -195,7 +205,11 @@ describe('useTetrisGame', () => {
     });
 
     it('i블록을 회전하고 position을 맨 오른쪽으로 이동했을 때 블록이 정상적으로 회전한다.', () => {
-      jest.spyOn(helperModule, 'getRandomBlock').mockReturnValue(helperModule.getRandomBlock(0));
+      jest.spyOn(helperModule, 'getRandomBlockList').mockReturnValue(
+        Array(helperModule.BLOCK_MAX_SIZE)
+          .fill(null)
+          .map(() => helperModule.BLOCK_MAP['i'])
+      );
       const { result } = renderHook(() => useTetrisGame(1000, 1, onChangeStageClearPage, onChangeStageDeadPage));
 
       act(() => {
@@ -230,7 +244,11 @@ describe('useTetrisGame', () => {
       }
       jest.spyOn(helperModule, 'getEmptyTable').mockReturnValue(getMockTable());
       // NOTE: l 블록 모킹(7개중 3번째)
-      jest.spyOn(helperModule, 'getRandomBlock').mockReturnValue(helperModule.getRandomBlock(5 / 14));
+      jest.spyOn(helperModule, 'getRandomBlockList').mockReturnValue(
+        Array(helperModule.BLOCK_MAX_SIZE)
+          .fill(null)
+          .map(() => helperModule.BLOCK_MAP['l'])
+      );
       const { result } = renderHook(() => useTetrisGame(1000, 1, onChangeStageClearPage, onChangeStageDeadPage));
 
       // NOTE: setState batching 때문에 여러 act로 처리
@@ -281,7 +299,11 @@ describe('useTetrisGame', () => {
         return result;
       }
       jest.spyOn(helperModule, 'getEmptyTable').mockReturnValue(getMockTable());
-      jest.spyOn(helperModule, 'getRandomBlock').mockReturnValue(helperModule.getRandomBlock(0));
+      jest.spyOn(helperModule, 'getRandomBlockList').mockReturnValue(
+        Array(helperModule.BLOCK_MAX_SIZE)
+          .fill(null)
+          .map(() => helperModule.BLOCK_MAP['i'])
+      );
 
       const { result } = renderHook(() => useTetrisGame(1000, 1, onChangeStageClearPage, onChangeStageDeadPage));
 
@@ -293,15 +315,12 @@ describe('useTetrisGame', () => {
     });
 
     it('crash했을 때 새로운 nextBlock이 생성된다.', () => {
-      jest.spyOn(helperModule, 'getRandomBlock').mockReturnValue(helperModule.getRandomBlock(0));
-
       const { result } = renderHook(() => useTetrisGame(1000, 1, onChangeStageClearPage, onChangeStageDeadPage));
 
       const nextBlock = result.current.nextBlock;
 
       jest.clearAllMocks();
       jest.restoreAllMocks();
-      jest.spyOn(helperModule, 'getRandomBlock').mockReturnValue(helperModule.getRandomBlock(0.5));
 
       for (let i = 0; i < helperModule.SETTINGS.col; i++) {
         act(() => {
@@ -321,7 +340,11 @@ describe('useTetrisGame', () => {
         return result;
       }
       jest.spyOn(helperModule, 'getEmptyTable').mockReturnValue(getMockTable());
-      jest.spyOn(helperModule, 'getRandomBlock').mockReturnValue(helperModule.getRandomBlock(0));
+      jest.spyOn(helperModule, 'getRandomBlockList').mockReturnValue(
+        Array(helperModule.BLOCK_MAX_SIZE)
+          .fill(null)
+          .map(() => helperModule.BLOCK_MAP['i'])
+      );
 
       const { result } = renderHook(() => useTetrisGame(1000, 1, onChangeStageClearPage, onChangeStageDeadPage));
 
@@ -349,7 +372,11 @@ describe('useTetrisGame', () => {
         return result;
       }
       jest.spyOn(helperModule, 'getEmptyTable').mockReturnValue(getMockTable());
-      jest.spyOn(helperModule, 'getRandomBlock').mockReturnValue(helperModule.getRandomBlock(0));
+      jest.spyOn(helperModule, 'getRandomBlockList').mockReturnValue(
+        Array(helperModule.BLOCK_MAX_SIZE)
+          .fill(null)
+          .map(() => helperModule.BLOCK_MAP['i'])
+      );
       jest.spyOn(helperModule, 'getGoalClearLine').mockReturnValue(1);
 
       const { result } = renderHook(() => useTetrisGame(1000, 1, onChangeStageClearPage, onChangeStageDeadPage));
@@ -382,9 +409,7 @@ describe('useTetrisGame', () => {
     });
 
     it('hold에 블록을 넣고 바로 시도하면 hold가 변경되지 않는다.', () => {
-      jest.spyOn(helperModule, 'getRandomBlock').mockReturnValue(helperModule.getRandomBlock(0));
       const { result } = renderHook(() => useTetrisGame(1000, 1, onChangeStageClearPage, onChangeStageDeadPage));
-      jest.spyOn(helperModule, 'getRandomBlock').mockReturnValue(helperModule.getRandomBlock(0.5));
 
       act(() => {
         result.current.handleChangeHoldBlock();
@@ -400,9 +425,7 @@ describe('useTetrisGame', () => {
     });
 
     it('hold블록이 정상적으로 교환된다.', () => {
-      jest.spyOn(helperModule, 'getRandomBlock').mockReturnValue(helperModule.getRandomBlock(0));
       const { result } = renderHook(() => useTetrisGame(1000, 1, onChangeStageClearPage, onChangeStageDeadPage));
-      jest.spyOn(helperModule, 'getRandomBlock').mockReturnValue(helperModule.getRandomBlock(0.5));
 
       act(() => {
         result.current.handleChangeHoldBlock();
@@ -424,7 +447,11 @@ describe('useTetrisGame', () => {
     });
 
     it('다음 블록이 바뀌지 않았을때는 hold를 변경할 수 없다.', () => {
-      jest.spyOn(helperModule, 'getRandomBlock').mockReturnValue(helperModule.getRandomBlock(0));
+      jest.spyOn(helperModule, 'getRandomBlockList').mockReturnValue(
+        Array(helperModule.BLOCK_MAX_SIZE)
+          .fill(null)
+          .map(() => helperModule.BLOCK_MAP['i'])
+      );
       const { result } = renderHook(() => useTetrisGame(1000, 1, onChangeStageClearPage, onChangeStageDeadPage));
 
       act(() => {

@@ -9,7 +9,7 @@ import {
   findCompletedLines,
   getEmptyTable,
   getIsPossibleRender,
-  getRandomBlock,
+  getRandomBlockList,
   getTableForRenderer,
   getUpdateTableByCompletedLines,
   rotateClockWiseIn2DArr,
@@ -50,12 +50,21 @@ export const useTetrisGame = (
 
   const [isChangedHoldBlock, setIsChangedHoldBlock] = useState<boolean>(false);
 
-  const [currentBlock, setCurrentBlock] = useState<Block>(getRandomBlock());
+  const [initialRandomBlockList] = useState<Block[]>(getRandomBlockList);
+
+  const [blockList, setBlockList] = useState<Block[]>(initialRandomBlockList.slice(1));
+  const [currentBlock, setCurrentBlock] = useState<Block>(initialRandomBlockList[0]);
   const [currentBlockPosition, setCurrentBlockPosition] = useState<Position>(getInitialPosition(currentBlock));
-  const [nextBlock, setNextBlock] = useState<Block>(getRandomBlock());
+  const nextBlockUI = blockList[0];
   const [holdBlock, setHoldBlock] = useState<Block | null>(null);
   const [clearLine, setClearLine] = useState<number>(0);
   const [table, setTable] = useState<Table>(getEmptyTable(SETTINGS.col, SETTINGS.row));
+
+  const setNextBlock = () => {
+    const nextBlockList = blockList.length === 1 ? getRandomBlockList() : blockList.slice(1);
+    setBlockList(nextBlockList);
+    return nextBlockList;
+  };
 
   const { tableForRender, nextCol } = getTableForRenderer(table, currentBlock, currentBlockPosition);
 
@@ -140,22 +149,21 @@ export const useTetrisGame = (
     if (holdBlock) {
       setHoldBlock(BLOCK_MAP[currentBlock.type]);
       setCurrentBlock(holdBlock);
-      setCurrentBlockPosition(getInitialPosition(nextBlock));
+      setCurrentBlockPosition(getInitialPosition(nextBlockUI));
     } else {
       setHoldBlock(BLOCK_MAP[currentBlock.type]);
-      setCurrentBlock(nextBlock);
-      setNextBlock(getRandomBlock());
-      setCurrentBlockPosition(getInitialPosition(nextBlock));
+      setCurrentBlock(nextBlockUI);
+      setNextBlock();
+      setCurrentBlockPosition(getInitialPosition(nextBlockUI));
     }
     setIsChangedHoldBlock(true);
   };
 
   useEffect(() => {
     if (isCrashed) {
-      setCurrentBlock(nextBlock);
-      const nextBlockFor = getRandomBlock();
-      const nextCurrentBlockPosition = getInitialPosition(nextBlock);
-      setNextBlock(nextBlockFor);
+      const nextCurrentBlockPosition = getInitialPosition(nextBlockUI);
+      const [nextBlock] = setNextBlock();
+      setCurrentBlock(nextBlockUI);
       setCurrentBlockPosition({ ...nextCurrentBlockPosition });
       setTable(tableForRender);
       setIsChangedHoldBlock(false);
@@ -171,7 +179,7 @@ export const useTetrisGame = (
         }
       }
 
-      const isDead = !getIsPossibleRender(tableForRender, nextBlockFor, getInitialPosition(nextBlockFor));
+      const isDead = !getIsPossibleRender(tableForRender, nextBlock, getInitialPosition(nextBlock));
       if (isDead) {
         onChangeStageDeadPage();
         return;
@@ -181,7 +189,7 @@ export const useTetrisGame = (
 
   return {
     gameSpeed,
-    nextBlock,
+    nextBlock: nextBlockUI,
     holdBlock,
     isChangedHoldBlock,
     tableForRender,
