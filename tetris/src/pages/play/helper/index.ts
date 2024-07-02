@@ -1,4 +1,4 @@
-export { BLOCK_MAP, getRandomBlock, getRandomBlockList, BLOCK_MAX_SIZE } from './block';
+export { BLOCK_MAP, getRandomBlockList, BLOCK_MAX_SIZE } from './block';
 export { getGoalClearLine } from './clearLine';
 export { SETTINGS } from './constants';
 export { getGameSpeed } from './speed';

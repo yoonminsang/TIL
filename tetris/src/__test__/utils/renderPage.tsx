@@ -51,7 +51,11 @@ export async function renderStageClearPage() {
     return result;
   }
   jest.spyOn(helperModule, 'getEmptyTable').mockReturnValue(getMockTable());
-  jest.spyOn(helperModule, 'getRandomBlock').mockReturnValue(helperModule.getRandomBlock(0));
+  jest.spyOn(helperModule, 'getRandomBlockList').mockReturnValue(
+    Array(helperModule.BLOCK_MAX_SIZE)
+      .fill(null)
+      .map(() => helperModule.BLOCK_MAP['i'])
+  );
   jest.spyOn(helperModule, 'getGoalClearLine').mockReturnValue(1);
 
   await renderPlayPage();
@@ -87,7 +91,11 @@ export async function renderDeadPage() {
     return result;
   }
   jest.spyOn(helperModule, 'getEmptyTable').mockReturnValue(getMockTable());
-  jest.spyOn(helperModule, 'getRandomBlock').mockReturnValue(helperModule.getRandomBlock(0));
+  jest.spyOn(helperModule, 'getRandomBlockList').mockReturnValue(
+    Array(helperModule.BLOCK_MAX_SIZE)
+      .fill(null)
+      .map(() => helperModule.BLOCK_MAP['i'])
+  );
 
   await renderPlayPage();
 
