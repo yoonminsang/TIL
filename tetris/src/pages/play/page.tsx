@@ -20,10 +20,86 @@ interface PlayPageProps {
 }
 
 const holdBlockForRenderWhenBlockEmpty: Table = [
-  [null, null, null, null, null, null],
-  [null, null, null, null, null, null],
-  [null, null, null, null, null, null],
-  [null, null, null, null, null, null],
+  [
+    {
+      type: null,
+    },
+    {
+      type: null,
+    },
+    {
+      type: null,
+    },
+    {
+      type: null,
+    },
+    {
+      type: null,
+    },
+    {
+      type: null,
+    },
+  ],
+  [
+    {
+      type: null,
+    },
+    {
+      type: null,
+    },
+    {
+      type: null,
+    },
+    {
+      type: null,
+    },
+    {
+      type: null,
+    },
+    {
+      type: null,
+    },
+  ],
+  [
+    {
+      type: null,
+    },
+    {
+      type: null,
+    },
+    {
+      type: null,
+    },
+    {
+      type: null,
+    },
+    {
+      type: null,
+    },
+    {
+      type: null,
+    },
+  ],
+  [
+    {
+      type: null,
+    },
+    {
+      type: null,
+    },
+    {
+      type: null,
+    },
+    {
+      type: null,
+    },
+    {
+      type: null,
+    },
+    {
+      type: null,
+    },
+  ],
 ];
 
 // TODO:
