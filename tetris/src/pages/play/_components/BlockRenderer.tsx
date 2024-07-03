@@ -11,7 +11,7 @@ function BlockRenderer({ cellList }: BlockRendererProps) {
       {cellList.map((col, colIndex) => (
         <div className="flex" key={colIndex}>
           {col.map((row, rowIndex) => (
-            <CellBlock blockType={row} hasBorder={false} key={rowIndex} />
+            <CellBlock blockType={row.type} hasBorder={false} key={rowIndex} />
           ))}
         </div>
       ))}
