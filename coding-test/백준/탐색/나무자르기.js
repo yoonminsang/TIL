@@ -1,33 +1,5 @@
 // https://www.acmicpc.net/problem/2805
 
-const fs = require('fs');
-const input = fs.readFileSync('/dev/stdin').toString();
-const [oneLine, twoLine] = input.split('\n');
-const [N, M] = oneLine.split(' ').map(Number);
-const treeList = twoLine.split(' ').map(Number);
-// const [N, M] = [4, 7];
-// const treeList = [20, 15, 10, 17];
-
-let low = 0;
-let high = Math.max(...treeList);
-let result = 0;
-
-while (low <= high) {
-  const mid = Math.floor((low + high) / 2);
-  const sum = treeList.reduce((acc, cur) => {
-    return acc + (cur - mid > 0 ? cur - mid : 0);
-  }, 0);
-
-  if (sum >= M) {
-    result = mid;
-    low = mid + 1;
-  } else {
-    high = mid - 1;
-  }
-}
-
-console.log(result);
-
 /**
  * @Date 2024.03.25
  */
@@ -106,4 +78,50 @@ console.log(result);
   }
 
   console.log(result);
+}
+
+/**
+ * @Date 2024.07.03
+ */
+{
+  // const fs = require('fs');
+  // const input = fs.readFileSync('/dev/stdin').toString();
+  const input = `4 7
+20 15 10 17`;
+
+  const [oneline, twoline] = input.trim().split('\n');
+  const [N, M] = oneline.split(' ');
+  const treeList = twoline.split(' ').map(Number);
+
+  function solution(N, M, treeList) {
+    let left = 0;
+    let right = Math.max(...treeList);
+    let result = right;
+
+    while (left <= right) {
+      const center = Math.floor((left + right) / 2);
+      const cuttingTree = getCuttingTree(treeList, center);
+      if (cuttingTree >= M) {
+        left = center + 1;
+        result = center;
+      } else {
+        right = center - 1;
+      }
+    }
+    return result;
+  }
+  console.log(solution(N, M, treeList));
+
+  function getCuttingTree(treeList, height) {
+    return treeList.reduce((acc, cur) => {
+      const diff = cur - height;
+      if (diff > 0) {
+        return acc + diff;
+      }
+      return acc;
+    }, 0);
+  }
+
+  // Math.max(...treeList): 10^6
+  // 이진탐색: log(2)10^9
 }
