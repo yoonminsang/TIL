@@ -1,13 +1,18 @@
 import { produce } from 'immer';
 import { combineBlockWithPosition, getBlockBottomPosition } from './block';
 import { SETTINGS } from './constants';
-import { Block, Cell, Position, Table } from './types';
+import { Block, CellType, Position, Table } from './types';
 
 export const getEmptyTable = (col = SETTINGS.col, row = SETTINGS.row) => {
   return [...Array(col)].map(() => Array(row).fill(null)) as Table;
 };
 
-export const combineBlockWithTable = (table: Table, block: Block, blockPosition: Position, customBlockShape?: Cell) => {
+export const combineBlockWithTable = (
+  table: Table,
+  block: Block,
+  blockPosition: Position,
+  customBlockShape?: CellType
+) => {
   const blockTable = combineBlockWithPosition(block, blockPosition);
   const nextTable = produce(table, (draft) => {
     blockTable.forEach((blockShapeCol, col) => {
@@ -117,7 +122,7 @@ export const getUpdateTableByCompletedLines = (table: Table, completedLines: num
   function initTable(table: Table, completedLines: number[]) {
     return table.map((cellList, cellListIndex) => {
       if (completedLines.includes(cellListIndex)) {
-        return Array(cellList.length).fill(null) as Cell[];
+        return Array(cellList.length).fill(null) as CellType[];
       } else {
         return [...cellList];
       }

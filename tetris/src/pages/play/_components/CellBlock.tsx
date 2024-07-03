@@ -1,9 +1,9 @@
-import { Cell } from '../helper';
+import { CellType } from '../helper';
 import colors from 'tailwindcss/colors';
 import { cn } from '@/lib/utils';
 
 interface CellProps {
-  blockType: Cell;
+  blockType: CellType;
   hasBorder?: boolean;
 }
 
@@ -35,9 +35,9 @@ const colorMap = {
   shadow: colors.gray[400],
   disabled: colors.gray[700],
   empty: colors.gray[900], // NOTE: null을 empty로 대체
-} satisfies Record<Exclude<Cell, null> & 'empty', string>;
+} satisfies Record<Exclude<CellType, null> & 'empty', string>;
 
-const getBlockColor = (cell: Cell) => {
+const getBlockColor = (cell: CellType) => {
   const baseColor = colorMap[cell ?? 'empty'];
   return {
     background: baseColor,
