@@ -234,10 +234,10 @@ describe('useTetrisGame', () => {
         const result = helperModule.getEmptyTable();
         for (let col = 3; col < result.length; col++) {
           for (let row = 0; row < result[0].length / 2 - 2; row++) {
-            result[col][row] = 'i';
+            result[col][row].type = 'i';
           }
           for (let row = result[0].length / 2; row < result[0].length; row++) {
-            result[col][row] = 'i';
+            result[col][row].type = 'i';
           }
         }
         return result;
@@ -293,7 +293,7 @@ describe('useTetrisGame', () => {
         const result = helperModule.getEmptyTable();
         for (let col = 0; col < result.length; col++) {
           for (let row = 0; row < result[0].length; row++) {
-            result[col][row] = 'i';
+            result[col][row].type = 'i';
           }
         }
         return result;
@@ -335,7 +335,7 @@ describe('useTetrisGame', () => {
       function getMockTable() {
         const result = helperModule.getEmptyTable();
         for (let row = 0; row < result[0].length - 4; row++) {
-          result[helperModule.SETTINGS.col - 1][row] = 'i';
+          result[helperModule.SETTINGS.col - 1][row].type = 'i';
         }
         return result;
       }
@@ -367,7 +367,7 @@ describe('useTetrisGame', () => {
       function getMockTable() {
         const result = helperModule.getEmptyTable();
         for (let row = 0; row < result[0].length - 4; row++) {
-          result[helperModule.SETTINGS.col - 1][row] = 'i';
+          result[helperModule.SETTINGS.col - 1][row].type = 'i';
         }
         return result;
       }
