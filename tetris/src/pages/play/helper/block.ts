@@ -86,7 +86,9 @@ export const combineBlockWithPosition = (block: Block, blockPosition: Position) 
   const blockColLength = block.shape.length;
   const blockRowLength = block.shape[0].length;
   const table = [...Array(Math.max(blockPosition.col, 0) + blockColLength)].map(() =>
-    Array(Math.max(blockPosition.row, 0) + blockRowLength).fill(null)
+    Array(Math.max(blockPosition.row, 0) + blockRowLength)
+      .fill(null)
+      .map(() => ({ type: null }))
   ) as Table;
   const addCol = blockPosition.col;
   const addRow = blockPosition.row;
@@ -94,8 +96,8 @@ export const combineBlockWithPosition = (block: Block, blockPosition: Position) 
   const filteredBlockShape = block.shape.filter((shapeCol) => !shapeCol.every((isExist) => !isExist));
   filteredBlockShape.forEach((blockShapeCol, col) => {
     blockShapeCol.forEach((isExistBlock, row) => {
-      if (isExistBlock) {
-        table[col + addCol][row + addRow] = block.type;
+      if (isExistBlock && table[col + addCol]?.[row + addRow]) {
+        table[col + addCol][row + addRow].type = block.type;
       }
     });
   });
@@ -107,7 +109,7 @@ export const getBlockBottomPosition = (block: Block, blockPosition: Position) =>
   let max = -Infinity;
   blockTable.forEach((col, colIndex) => {
     col.forEach((row) => {
-      if (row !== null) {
+      if (row.type !== null) {
         max = Math.max(max, colIndex);
       }
     });
