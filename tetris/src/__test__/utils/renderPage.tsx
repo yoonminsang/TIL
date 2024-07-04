@@ -46,7 +46,7 @@ export async function renderStageClearPage() {
   function getMockTable() {
     const result = helperModule.getEmptyTable();
     for (let row = 0; row < result[0].length - 4; row++) {
-      result[helperModule.SETTINGS.col - 1][row] = 'i';
+      result[helperModule.SETTINGS.col - 1][row].type = 'i';
     }
     return result;
   }
@@ -85,7 +85,7 @@ export async function renderDeadPage() {
     const result = helperModule.getEmptyTable();
     for (let col = 1; col < result.length; col++) {
       for (let row = result[0].length / 2 - 2; row < result[0].length / 2 + 2; row++) {
-        result[col][row] = 'i';
+        result[col][row].type = 'i';
       }
     }
     return result;

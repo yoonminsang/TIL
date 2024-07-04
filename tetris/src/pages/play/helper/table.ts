@@ -4,16 +4,24 @@ import { SETTINGS } from './constants';
 import { Block, Cell, Position, Table } from './types';
 
 export const getEmptyTable = (col = SETTINGS.col, row = SETTINGS.row) => {
-  return [...Array(col)].map(() => Array(row).fill(null)) as Table;
+  return [...Array(col)].map(() =>
+    Array(row)
+      .fill(null)
+      .map(() => ({ type: null }))
+  ) as Table;
 };
 
-export const combineBlockWithTable = (table: Table, block: Block, blockPosition: Position, customBlockShape?: Cell) => {
+export const combineBlockWithTable = (table: Table, block: Block, blockPosition: Position, customCell?: Cell) => {
   const blockTable = combineBlockWithPosition(block, blockPosition);
   const nextTable = produce(table, (draft) => {
     blockTable.forEach((blockShapeCol, col) => {
-      blockShapeCol.forEach((blockShape, row) => {
-        if (blockShape) {
-          draft[col][row] = customBlockShape ?? blockShape;
+      blockShapeCol.forEach((cell, row) => {
+        if (cell.type && draft[col]?.[row]) {
+          if (customCell) {
+            draft[col][row] = customCell;
+          } else {
+            draft[col][row] = cell;
+          }
         }
       });
     });
@@ -34,8 +42,8 @@ export const getTableForRenderer = (table: Table, block: Block, blockPosition: P
   const tableForRender = produce(blockWithTable, (draft) => {
     shadowTable.forEach((blockShapeCol, col) => {
       blockShapeCol.forEach((blockShape, row) => {
-        if (draft[col]?.[row] === null && blockShape) {
-          draft[col][row] = 'shadow';
+        if (draft[col]?.[row]?.type === null && blockShape.type) {
+          draft[col][row].shadow = true;
         }
       });
     });
@@ -45,19 +53,19 @@ export const getTableForRenderer = (table: Table, block: Block, blockPosition: P
 
 export const findCompletedLines = (table: Table) => {
   return table.reduce<number[]>((acc, cur, index) => {
-    if (cur.every((v) => v !== null)) {
+    if (cur.every(({ type }) => type !== null)) {
       acc.push(index);
     }
     return acc;
   }, []);
 };
 
-function getCellLength<T>(table: T[][]) {
+function getCellLength(table: Table) {
   return table.reduce(
     (acc, cur) =>
       acc +
-      cur.reduce((ac, cu) => {
-        if (cu !== null) {
+      cur.reduce((ac, { type }) => {
+        if (type !== null) {
           return ac + 1;
         }
         return ac;
@@ -66,7 +74,7 @@ function getCellLength<T>(table: T[][]) {
   );
 }
 
-function getBlockLength<T>(table: T[][]) {
+function getBlockLength(table: boolean[][]) {
   return table.reduce(
     (acc, cur) =>
       acc +
@@ -99,9 +107,11 @@ export const getIsPossibleRender = (table: Table, block: Block, blockPosition: P
     return false;
   }
 
+  // console.log(blockWithPosition, table);
   for (let col = 0; col < blockWithPosition.length; col++) {
     for (let row = 0; row < blockWithPosition[0].length; row++) {
-      if (blockWithPosition[col][row] !== null && table[col][row] !== null) {
+      // console.log(col, row);
+      if (blockWithPosition[col][row].type !== null && table[col][row]?.type !== null) {
         return false;
       }
     }
@@ -117,7 +127,9 @@ export const getUpdateTableByCompletedLines = (table: Table, completedLines: num
   function initTable(table: Table, completedLines: number[]) {
     return table.map((cellList, cellListIndex) => {
       if (completedLines.includes(cellListIndex)) {
-        return Array(cellList.length).fill(null) as Cell[];
+        return Array(cellList.length)
+          .fill(null)
+          .map(() => ({ type: null }));
       } else {
         return [...cellList];
       }

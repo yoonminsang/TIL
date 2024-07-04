@@ -5,7 +5,8 @@ export interface Block {
   shape: BlockShape;
 }
 
-export type Cell = BlockType | 'shadow' | 'disabled' | null;
+export type CellType = BlockType | null;
+export type Cell = { type: CellType; shadow?: boolean; disabled?: boolean };
 export type Table = Cell[][];
 
 export type Position = { row: number; col: number };

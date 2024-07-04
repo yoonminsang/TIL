@@ -19,9 +19,9 @@ type Story = StoryObj<typeof meta>;
 export const ICell: Story = {
   args: {
     cellList: [
-      ['i', 'o', 'l'],
-      ['j', null, null],
-      ['t', 's', 'z'],
+      [{ type: 'i' }, { type: 'o' }, { type: 'l' }],
+      [{ type: 'j' }, { type: null }, { type: null }],
+      [{ type: 't' }, { type: 's' }, { type: 'z' }],
     ],
   },
 };

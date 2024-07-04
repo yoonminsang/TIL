@@ -25,108 +25,1414 @@ describe('combineBlockWithPosition', () => {
   describe('col이 0이고 row가 2일 때', () => {
     it('i블록이 성공적으로 변환된다.', () => {
       expect(combineBlockWithPosition(BLOCK_MAP.i, { col: 0, row: 2 })).toEqual([
-        [null, null, 'i', 'i', 'i', 'i'],
-        [null, null, null, null, null, null],
-        [null, null, null, null, null, null],
-        [null, null, null, null, null, null],
+        [
+          {
+            type: null,
+          },
+          {
+            type: null,
+          },
+          {
+            type: 'i',
+          },
+          {
+            type: 'i',
+          },
+          {
+            type: 'i',
+          },
+          {
+            type: 'i',
+          },
+        ],
+        [
+          {
+            type: null,
+          },
+          {
+            type: null,
+          },
+          {
+            type: null,
+          },
+          {
+            type: null,
+          },
+          {
+            type: null,
+          },
+          {
+            type: null,
+          },
+        ],
+        [
+          {
+            type: null,
+          },
+          {
+            type: null,
+          },
+          {
+            type: null,
+          },
+          {
+            type: null,
+          },
+          {
+            type: null,
+          },
+          {
+            type: null,
+          },
+        ],
+        [
+          {
+            type: null,
+          },
+          {
+            type: null,
+          },
+          {
+            type: null,
+          },
+          {
+            type: null,
+          },
+          {
+            type: null,
+          },
+          {
+            type: null,
+          },
+        ],
       ]);
     });
     it('o블록이 성공적으로 변환된다.', () => {
       expect(combineBlockWithPosition(BLOCK_MAP.o, { col: 0, row: 2 })).toEqual([
-        [null, null, 'o', 'o'],
-        [null, null, 'o', 'o'],
+        [
+          {
+            type: null,
+          },
+          {
+            type: null,
+          },
+          {
+            type: 'o',
+          },
+          {
+            type: 'o',
+          },
+        ],
+        [
+          {
+            type: null,
+          },
+          {
+            type: null,
+          },
+          {
+            type: 'o',
+          },
+          {
+            type: 'o',
+          },
+        ],
       ]);
     });
     it('l블록이 성공적으로 변환된다.', () => {
       expect(combineBlockWithPosition(BLOCK_MAP.l, { col: 0, row: 2 })).toEqual([
-        [null, null, null, null, 'l'],
-        [null, null, 'l', 'l', 'l'],
-        [null, null, null, null, null],
+        [
+          {
+            type: null,
+          },
+          {
+            type: null,
+          },
+          {
+            type: null,
+          },
+          {
+            type: null,
+          },
+          {
+            type: 'l',
+          },
+        ],
+        [
+          {
+            type: null,
+          },
+          {
+            type: null,
+          },
+          {
+            type: 'l',
+          },
+          {
+            type: 'l',
+          },
+          {
+            type: 'l',
+          },
+        ],
+        [
+          {
+            type: null,
+          },
+          {
+            type: null,
+          },
+          {
+            type: null,
+          },
+          {
+            type: null,
+          },
+          {
+            type: null,
+          },
+        ],
       ]);
     });
     it('t블록이 성공적으로 변환된다.', () => {
       expect(combineBlockWithPosition(BLOCK_MAP.t, { col: 0, row: 2 })).toEqual([
-        [null, null, null, 't', null],
-        [null, null, 't', 't', 't'],
-        [null, null, null, null, null],
+        [
+          {
+            type: null,
+          },
+          {
+            type: null,
+          },
+          {
+            type: null,
+          },
+          {
+            type: 't',
+          },
+          {
+            type: null,
+          },
+        ],
+        [
+          {
+            type: null,
+          },
+          {
+            type: null,
+          },
+          {
+            type: 't',
+          },
+          {
+            type: 't',
+          },
+          {
+            type: 't',
+          },
+        ],
+        [
+          {
+            type: null,
+          },
+          {
+            type: null,
+          },
+          {
+            type: null,
+          },
+          {
+            type: null,
+          },
+          {
+            type: null,
+          },
+        ],
       ]);
     });
     it('s블록이 성공적으로 변환된다.', () => {
       expect(combineBlockWithPosition(BLOCK_MAP.s, { col: 0, row: 2 })).toEqual([
-        [null, null, null, 's', 's'],
-        [null, null, 's', 's', null],
-        [null, null, null, null, null],
+        [
+          {
+            type: null,
+          },
+          {
+            type: null,
+          },
+          {
+            type: null,
+          },
+          {
+            type: 's',
+          },
+          {
+            type: 's',
+          },
+        ],
+        [
+          {
+            type: null,
+          },
+          {
+            type: null,
+          },
+          {
+            type: 's',
+          },
+          {
+            type: 's',
+          },
+          {
+            type: null,
+          },
+        ],
+        [
+          {
+            type: null,
+          },
+          {
+            type: null,
+          },
+          {
+            type: null,
+          },
+          {
+            type: null,
+          },
+          {
+            type: null,
+          },
+        ],
       ]);
     });
   });
   it('col이 0이고 row가 0일 때 i블록이 성공적으로 변환된다.', () => {
     expect(combineBlockWithPosition(BLOCK_MAP.i, { col: 0, row: 0 })).toEqual([
-      ['i', 'i', 'i', 'i'],
-      [null, null, null, null],
-      [null, null, null, null],
-      [null, null, null, null],
+      [
+        {
+          type: 'i',
+        },
+        {
+          type: 'i',
+        },
+        {
+          type: 'i',
+        },
+        {
+          type: 'i',
+        },
+      ],
+      [
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+      ],
+      [
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+      ],
+      [
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+      ],
     ]);
   });
   it('col이 0이고 row가 10일 때 i블록이 성공적으로 변환된다.', () => {
     expect(combineBlockWithPosition(BLOCK_MAP.i, { col: 0, row: 10 })).toEqual([
-      [null, null, null, null, null, null, null, null, null, null, 'i', 'i', 'i', 'i'],
-      [null, null, null, null, null, null, null, null, null, null, null, null, null, null],
-      [null, null, null, null, null, null, null, null, null, null, null, null, null, null],
-      [null, null, null, null, null, null, null, null, null, null, null, null, null, null],
+      [
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: 'i',
+        },
+        {
+          type: 'i',
+        },
+        {
+          type: 'i',
+        },
+        {
+          type: 'i',
+        },
+      ],
+      [
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+      ],
+      [
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+      ],
+      [
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+      ],
     ]);
   });
   it('col이 10이고 row가 0일 때 i블록이 성공적으로 변환된다.', () => {
     expect(combineBlockWithPosition(BLOCK_MAP.i, { col: 10, row: 0 })).toEqual([
-      [null, null, null, null],
-      [null, null, null, null],
-      [null, null, null, null],
-      [null, null, null, null],
-      [null, null, null, null],
-      [null, null, null, null],
-      [null, null, null, null],
-      [null, null, null, null],
-      [null, null, null, null],
-      [null, null, null, null],
-      ['i', 'i', 'i', 'i'],
-      [null, null, null, null],
-      [null, null, null, null],
-      [null, null, null, null],
+      [
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+      ],
+      [
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+      ],
+      [
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+      ],
+      [
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+      ],
+      [
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+      ],
+      [
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+      ],
+      [
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+      ],
+      [
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+      ],
+      [
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+      ],
+      [
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+      ],
+      [
+        {
+          type: 'i',
+        },
+        {
+          type: 'i',
+        },
+        {
+          type: 'i',
+        },
+        {
+          type: 'i',
+        },
+      ],
+      [
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+      ],
+      [
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+      ],
+      [
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+      ],
     ]);
   });
   it('col이 10이고 row가 10일 때 i블록이 성공적으로 변환된다.', () => {
     expect(combineBlockWithPosition(BLOCK_MAP.i, { col: 10, row: 10 })).toEqual([
-      [null, null, null, null, null, null, null, null, null, null, null, null, null, null],
-      [null, null, null, null, null, null, null, null, null, null, null, null, null, null],
-      [null, null, null, null, null, null, null, null, null, null, null, null, null, null],
-      [null, null, null, null, null, null, null, null, null, null, null, null, null, null],
-      [null, null, null, null, null, null, null, null, null, null, null, null, null, null],
-      [null, null, null, null, null, null, null, null, null, null, null, null, null, null],
-      [null, null, null, null, null, null, null, null, null, null, null, null, null, null],
-      [null, null, null, null, null, null, null, null, null, null, null, null, null, null],
-      [null, null, null, null, null, null, null, null, null, null, null, null, null, null],
-      [null, null, null, null, null, null, null, null, null, null, null, null, null, null],
-      [null, null, null, null, null, null, null, null, null, null, 'i', 'i', 'i', 'i'],
-      [null, null, null, null, null, null, null, null, null, null, null, null, null, null],
-      [null, null, null, null, null, null, null, null, null, null, null, null, null, null],
-      [null, null, null, null, null, null, null, null, null, null, null, null, null, null],
+      [
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+      ],
+      [
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+      ],
+      [
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+      ],
+      [
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+      ],
+      [
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+      ],
+      [
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+      ],
+      [
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+      ],
+      [
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+      ],
+      [
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+      ],
+      [
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+      ],
+      [
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: 'i',
+        },
+        {
+          type: 'i',
+        },
+        {
+          type: 'i',
+        },
+        {
+          type: 'i',
+        },
+      ],
+      [
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+      ],
+      [
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+      ],
+      [
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+      ],
     ]);
   });
   it('col이 0이고 row가 -1일 때 i 블록이 성공적으로 변환된다.', () => {
     const block: Block = { type: 'i', shape: rotateClockWiseIn2DArr(BLOCK_MAP['i'].shape) };
     expect(combineBlockWithPosition(block, { col: 0, row: -1 })).toEqual([
-      [null, 'i', null, null],
-      [null, 'i', null, null],
-      [null, 'i', null, null],
-      [null, 'i', null, null],
+      [
+        {
+          type: null,
+        },
+        {
+          type: 'i',
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+      ],
+      [
+        {
+          type: null,
+        },
+        {
+          type: 'i',
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+      ],
+      [
+        {
+          type: null,
+        },
+        {
+          type: 'i',
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+      ],
+      [
+        {
+          type: null,
+        },
+        {
+          type: 'i',
+        },
+        {
+          type: null,
+        },
+        {
+          type: null,
+        },
+      ],
     ]);
   });
   it('col이 0이고 row가 -2일 때 i 블록이 성공적으로 변환된다.', () => {
     const block: Block = { type: 'i', shape: rotateClockWiseIn2DArr(BLOCK_MAP['i'].shape) };
     expect(combineBlockWithPosition(block, { col: 0, row: -2 })).toEqual([
-      ['i', null, null, null],
-      ['i', null, null, null],
-      ['i', null, null, null],
-      ['i', null, null, null],
+      [{ type: 'i' }, { type: null }, { type: null }, { type: null }],
+      [{ type: 'i' }, { type: null }, { type: null }, { type: null }],
+      [{ type: 'i' }, { type: null }, { type: null }, { type: null }],
+      [{ type: 'i' }, { type: null }, { type: null }, { type: null }],
     ]);
   });
 });
