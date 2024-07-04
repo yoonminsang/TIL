@@ -285,7 +285,8 @@ it('getTableForRenderer', () => {
           type: null,
         },
         {
-          type: 'shadow',
+          type: null,
+          shadow: true,
         },
         {
           type: null,
@@ -302,13 +303,16 @@ it('getTableForRenderer', () => {
           type: null,
         },
         {
-          type: 'shadow',
+          type: null,
+          shadow: true,
         },
         {
-          type: 'shadow',
+          type: null,
+          shadow: true,
         },
         {
-          type: 'shadow',
+          type: null,
+          shadow: true,
         },
       ],
     ],

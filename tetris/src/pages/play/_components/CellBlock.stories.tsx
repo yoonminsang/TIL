@@ -17,32 +17,32 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const ICellBlock: Story = {
-  args: { blockType: 'i' },
+  args: { cell: { type: 'i' } },
 };
 export const JCellBlock: Story = {
-  args: { blockType: 'j' },
+  args: { cell: { type: 'j' } },
 };
 export const LCellBlock: Story = {
-  args: { blockType: 'l' },
+  args: { cell: { type: 'l' } },
 };
 export const OCellBlock: Story = {
-  args: { blockType: 'o' },
+  args: { cell: { type: 'o' } },
 };
 export const SCellBlock: Story = {
-  args: { blockType: 's' },
+  args: { cell: { type: 's' } },
 };
 export const TCellBlock: Story = {
-  args: { blockType: 't' },
+  args: { cell: { type: 't' } },
 };
 export const ZCellBlock: Story = {
-  args: { blockType: 'z' },
+  args: { cell: { type: 'z' } },
 };
 export const ShadowCellBlock: Story = {
-  args: { blockType: 'shadow' },
+  args: { cell: { type: null, shadow: true } },
 };
 export const DisabledCellBlock: Story = {
-  args: { blockType: 'disabled' },
+  args: { cell: { type: 'disabled' } },
 };
 export const EmptyCellBlock: Story = {
-  args: { blockType: null },
+  args: { cell: { type: null } },
 };

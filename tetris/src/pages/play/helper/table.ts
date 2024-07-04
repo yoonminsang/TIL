@@ -44,7 +44,7 @@ export const getTableForRenderer = (table: Table, block: Block, blockPosition: P
     shadowTable.forEach((blockShapeCol, col) => {
       blockShapeCol.forEach((blockShape, row) => {
         if (draft[col]?.[row]?.type === null && blockShape.type) {
-          draft[col][row].type = 'shadow';
+          draft[col][row].shadow = true;
         }
       });
     });

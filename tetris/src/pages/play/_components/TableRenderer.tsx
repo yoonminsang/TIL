@@ -11,7 +11,7 @@ function TableRenderer({ cellList }: TableRendererProps) {
       {cellList.map((col, colIndex) => (
         <div className="flex" key={colIndex}>
           {col.map((row, rowIndex) => (
-            <CellBlock blockType={row.type} key={rowIndex} />
+            <CellBlock cell={row} key={rowIndex} />
           ))}
         </div>
       ))}
