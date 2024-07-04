@@ -7,8 +7,8 @@ interface CellProps {
   hasBorder?: boolean;
 }
 
-function CellBlock({ cell: { type, shadow }, hasBorder = true }: CellProps) {
-  const { background, gradient } = getBlockColor(type, shadow);
+function CellBlock({ cell: { type, shadow, disabled }, hasBorder = true }: CellProps) {
+  const { background, gradient } = getBlockColor(type, shadow, disabled);
   return (
     <div
       className={cn('relative h-[20px] w-[20px]', hasBorder && 'border-0.5 border-gray-500')}
@@ -32,13 +32,13 @@ const COLOR_MAP_BY_TYPE = {
   s: colors.blue[500],
   t: colors.indigo[500],
   z: colors.purple[500],
-  disabled: colors.gray[700],
   empty: colors.gray[900], // NOTE: null을 empty로 대체
 } satisfies Record<Exclude<CellType, null> & 'empty', string>;
 const SHADOW_COLOR = colors.gray[400];
+const DISABLED_COLOR = colors.gray[700];
 
-const getBlockColor = (type: CellType, shadow?: boolean) => {
-  const baseColor = shadow ? SHADOW_COLOR : COLOR_MAP_BY_TYPE[type ?? 'empty'];
+const getBlockColor = (type: CellType, shadow?: boolean, disabled?: boolean) => {
+  const baseColor = shadow ? SHADOW_COLOR : disabled ? DISABLED_COLOR : COLOR_MAP_BY_TYPE[type ?? 'empty'];
   return {
     background: baseColor,
     gradient: `linear-gradient(to top right, ${baseColor}, ${colors.gray[900]})`,

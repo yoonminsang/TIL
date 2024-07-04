@@ -41,7 +41,7 @@ export const ShadowCellBlock: Story = {
   args: { cell: { type: null, shadow: true } },
 };
 export const DisabledCellBlock: Story = {
-  args: { cell: { type: 'disabled' } },
+  args: { cell: { type: 'i', disabled: true } },
 };
 export const EmptyCellBlock: Story = {
   args: { cell: { type: null } },

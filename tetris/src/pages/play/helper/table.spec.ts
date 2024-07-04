@@ -131,8 +131,13 @@ describe('combineBlockWithTable', () => {
       ],
     ]);
   });
-  it('customBlockShape을 넣은 경우 customBlockShape가 들어간다.', () => {
-    expect(combineBlockWithTable(getEmptyTable(5, 5), BLOCK_MAP['j'], { col: 0, row: 2 }, 'disabled')).toEqual([
+  it.only('customBlockShape을 넣은 경우 customBlockShape가 들어간다.', () => {
+    console.log(
+      combineBlockWithTable(getEmptyTable(5, 5), BLOCK_MAP['j'], { col: 0, row: 2 }, { type: null, disabled: true })
+    );
+    expect(
+      combineBlockWithTable(getEmptyTable(5, 5), BLOCK_MAP['j'], { col: 0, row: 2 }, { type: null, disabled: true })
+    ).toEqual([
       [
         {
           type: null,
@@ -141,7 +146,8 @@ describe('combineBlockWithTable', () => {
           type: null,
         },
         {
-          type: 'disabled',
+          type: null,
+          disabled: true,
         },
         {
           type: null,
@@ -158,13 +164,16 @@ describe('combineBlockWithTable', () => {
           type: null,
         },
         {
-          type: 'disabled',
+          type: null,
+          disabled: true,
         },
         {
-          type: 'disabled',
+          type: null,
+          disabled: true,
         },
         {
-          type: 'disabled',
+          type: null,
+          disabled: true,
         },
       ],
       [

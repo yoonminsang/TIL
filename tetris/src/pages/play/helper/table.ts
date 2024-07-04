@@ -1,7 +1,7 @@
 import { produce } from 'immer';
 import { combineBlockWithPosition, getBlockBottomPosition } from './block';
 import { SETTINGS } from './constants';
-import { Block, CellType, Position, Table } from './types';
+import { Block, Cell, Position, Table } from './types';
 
 export const getEmptyTable = (col = SETTINGS.col, row = SETTINGS.row) => {
   return [...Array(col)].map(() =>
@@ -11,18 +11,17 @@ export const getEmptyTable = (col = SETTINGS.col, row = SETTINGS.row) => {
   ) as Table;
 };
 
-export const combineBlockWithTable = (
-  table: Table,
-  block: Block,
-  blockPosition: Position,
-  customBlockShape?: CellType
-) => {
+export const combineBlockWithTable = (table: Table, block: Block, blockPosition: Position, customCell?: Cell) => {
   const blockTable = combineBlockWithPosition(block, blockPosition);
   const nextTable = produce(table, (draft) => {
     blockTable.forEach((blockShapeCol, col) => {
-      blockShapeCol.forEach(({ type }, row) => {
-        if (type && draft[col]?.[row]) {
-          draft[col][row].type = customBlockShape ?? type;
+      blockShapeCol.forEach((cell, row) => {
+        if (cell.type && draft[col]?.[row]) {
+          if (customCell) {
+            draft[col][row] = customCell;
+          } else {
+            draft[col][row] = cell;
+          }
         }
       });
     });

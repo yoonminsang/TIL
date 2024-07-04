@@ -148,7 +148,7 @@ export default function PlayPage({ stage, onChangeStageClearPage, onChangeStageD
           col: 1,
           row: 1,
         },
-        isChangedHoldBlock ? 'disabled' : undefined
+        isChangedHoldBlock ? { type: null, disabled: true } : undefined
       )
     : holdBlockForRenderWhenBlockEmpty;
 
