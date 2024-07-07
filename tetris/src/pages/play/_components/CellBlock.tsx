@@ -1,17 +1,23 @@
 import { Cell, CellType } from '../helper';
 import colors from 'tailwindcss/colors';
 import { cn } from '@/lib/utils';
+import styles from './CellBlock.module.css';
 
 interface CellProps {
   cell: Cell;
   hasBorder?: boolean;
 }
 
-function CellBlock({ cell: { type, shadow, disabled }, hasBorder = true }: CellProps) {
-  const { background, gradient } = getBlockColor(type, shadow, disabled);
+function CellBlock({ cell, hasBorder = true }: CellProps) {
+  const { type, isCrashed } = cell;
+  const { background, gradient } = getBlockColor(cell);
   return (
     <div
-      className={cn('relative h-[20px] w-[20px]', hasBorder && 'border-0.5 border-gray-500')}
+      className={cn(
+        'relative h-[20px] w-[20px]',
+        hasBorder && 'border-0.5 border-gray-500',
+        isCrashed && styles['animate-crashed']
+      )}
       style={{ backgroundColor: background }}
     >
       <div
@@ -37,7 +43,7 @@ const COLOR_MAP_BY_TYPE = {
 const SHADOW_COLOR = colors.gray[400];
 const DISABLED_COLOR = colors.gray[700];
 
-const getBlockColor = (type: CellType, shadow?: boolean, disabled?: boolean) => {
+const getBlockColor = ({ type, disabled, shadow }: Cell) => {
   const baseColor = shadow ? SHADOW_COLOR : disabled ? DISABLED_COLOR : COLOR_MAP_BY_TYPE[type ?? 'empty'];
   return {
     background: baseColor,

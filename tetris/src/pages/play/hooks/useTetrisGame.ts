@@ -23,6 +23,17 @@ const getInitialPosition = (block: Block) => {
   };
 };
 
+const markTableAsCrashed = (table: Table) => {
+  return table.map((col) =>
+    col.map((row) => {
+      if (row.type) {
+        return { ...row, isCrashed: true };
+      }
+      return row;
+    })
+  );
+};
+
 const useCrash = (initGameSpeed: number) => {
   const [gameSpeed, setGameSpeed] = useState<number | null>(initGameSpeed);
   const [isCrashed, _setIsCrashed] = useState<boolean>(false);
@@ -58,7 +69,8 @@ export const useTetrisGame = (
   const nextBlockUI = blockList[0];
   const [holdBlock, setHoldBlock] = useState<Block | null>(null);
   const [clearLine, setClearLine] = useState<number>(0);
-  const [table, setTable] = useState<Table>(getEmptyTable(SETTINGS.col, SETTINGS.row));
+  const [table, _setTable] = useState<Table>(getEmptyTable(SETTINGS.col, SETTINGS.row));
+  const setTable = (nextTable: Table) => _setTable(markTableAsCrashed(nextTable));
 
   const setNextBlock = () => {
     const nextBlockList = blockList.length === 1 ? getRandomBlockList() : blockList.slice(1);

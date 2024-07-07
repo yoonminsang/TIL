@@ -6,7 +6,7 @@ export interface Block {
 }
 
 export type CellType = BlockType | null;
-export type Cell = { type: CellType; shadow?: boolean; disabled?: boolean };
+export type Cell = { type: CellType; shadow?: boolean; disabled?: boolean; isCrashed?: boolean };
 export type Table = Cell[][];
 
 export type Position = { row: number; col: number };
