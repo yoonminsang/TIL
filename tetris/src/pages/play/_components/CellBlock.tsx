@@ -1,6 +1,7 @@
 import { Cell, CellType } from '../helper';
 import colors from 'tailwindcss/colors';
 import { cn } from '@/lib/utils';
+import styles from './CellBlock.module.css';
 
 interface CellProps {
   cell: Cell;
@@ -8,11 +9,15 @@ interface CellProps {
 }
 
 function CellBlock({ cell, hasBorder = true }: CellProps) {
-  const { type } = cell;
+  const { type, isCrashed } = cell;
   const { background, gradient } = getBlockColor(cell);
   return (
     <div
-      className={cn('relative h-[20px] w-[20px]', hasBorder && 'border-0.5 border-gray-500')}
+      className={cn(
+        'relative h-[20px] w-[20px]',
+        hasBorder && 'border-0.5 border-gray-500',
+        isCrashed && styles['animate-crashed']
+      )}
       style={{ backgroundColor: background }}
     >
       <div
