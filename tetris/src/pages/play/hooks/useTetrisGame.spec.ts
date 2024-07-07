@@ -144,6 +144,16 @@ describe('useTetrisGame', () => {
     expect(nextBlock).not.toEqual(result.current.nextBlock);
   });
 
+  it('현재 블록이 부딪히면 isCrashed가 true가 된다.', () => {
+    const { result } = renderHook(() => useTetrisGame(1000, 1, onChangeStageClearPage, onChangeStageDeadPage));
+
+    expect(result.current.tableForRender.every((col) => col.every((row) => row.isCrashed === undefined))).toBe(true);
+    act(() => {
+      result.current.handleChangeLastBottomPosition();
+    });
+    expect(result.current.tableForRender.every((col) => col.every((row) => row.isCrashed === undefined))).toBe(false);
+  });
+
   describe('블록 회전', () => {
     it('블록이 정상적으로 회전한다.', () => {
       // NOTE: o블록은 회전해도 변하지 않아서 모킹이 필요함
