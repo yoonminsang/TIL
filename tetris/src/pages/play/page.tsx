@@ -125,6 +125,7 @@ export default function PlayPage({ stage, onChangeStageClearPage, onChangeStageD
     isChangedHoldBlock,
     tableForRender,
     clearLine,
+    clearLineArr,
     intervalCallback,
     handleChangeLeftPosition,
     handleChangeRightPosition,
@@ -216,7 +217,7 @@ export default function PlayPage({ stage, onChangeStageClearPage, onChangeStageD
             </div>
           </div>
           <div className="flex flex-col">
-            <TableRenderer cellList={tableForRender} />
+            <TableRenderer cellList={tableForRender} clearLineArr={clearLineArr} />
           </div>
           <div className="flex w-[150px] flex-col">
             <div className="text-l">Next Block</div>

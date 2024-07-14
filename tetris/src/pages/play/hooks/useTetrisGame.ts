@@ -69,6 +69,8 @@ export const useTetrisGame = (
   const nextBlockUI = blockList[0];
   const [holdBlock, setHoldBlock] = useState<Block | null>(null);
   const [clearLine, setClearLine] = useState<number>(0);
+  /** clearLine에 대해 애니메이션을 보여주기 위해 사용합니다. */
+  const [clearLineArr, setClearLineArr] = useState<number[]>([]);
   const [table, _setTable] = useState<Table>(getEmptyTable(SETTINGS.col, SETTINGS.row));
   const setTable = (nextTable: Table) => _setTable(markTableAsCrashed(nextTable));
 
@@ -189,6 +191,14 @@ export const useTetrisGame = (
         if (nextClearLine >= goalClearLine) {
           onChangeStageClearPage();
         }
+
+        setClearLineArr(completedLines);
+        const prevClearLine = clearLine;
+        setTimeout(() => {
+          if (clearLine === prevClearLine) {
+            setClearLineArr([]);
+          }
+        }, 300);
       }
 
       const isDead = !getIsPossibleRender(tableForRender, nextBlock, getInitialPosition(nextBlock));
@@ -206,6 +216,7 @@ export const useTetrisGame = (
     isChangedHoldBlock,
     tableForRender,
     clearLine,
+    clearLineArr,
     intervalCallback,
     handleChangeLeftPosition,
     handleChangeRightPosition,

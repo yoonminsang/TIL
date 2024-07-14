@@ -16,12 +16,13 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const ICell: Story = {
+export const Basic: Story = {
   args: {
     cellList: [
       [{ type: 'i' }, { type: 'o' }, { type: 'l' }],
       [{ type: 'j' }, { type: null }, { type: null }],
       [{ type: 't' }, { type: 's' }, { type: 'z' }],
     ],
+    clearLineArr: [],
   },
 };
