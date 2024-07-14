@@ -1,0 +1,15 @@
+@keyframes clearLine {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+.animate-clear-line {
+  animation: clearLine 0.3s ease-in-out forwards;
+}
