@@ -11,10 +11,10 @@ interface TableRendererProps {
 function TableRenderer({ cellList, clearLineArr }: TableRendererProps) {
   return (
     <div className={cn('relative', clearLineArr.length > 0 && styles['animate-clear-line'])}>
-      {cellList.map((col, colIndex) => (
-        <div className="flex" key={colIndex}>
-          {col.map((row, rowIndex) => (
-            <CellBlock cell={row} key={rowIndex} />
+      {cellList.map((row, rowIndex) => (
+        <div className="flex" key={rowIndex}>
+          {row.map((cell, cellIndex) => (
+            <CellBlock cell={cell} key={cellIndex} />
           ))}
         </div>
       ))}
