@@ -11,4 +11,4 @@ export const BoardStatus = {
   PUBLIC: 'PUBLIC',
   PRIVATE: 'PRIVATE',
 } as const;
-type BoardStatus = ExtractValue<typeof BoardStatus>;
+export type BoardStatus = ExtractValue<typeof BoardStatus>;
