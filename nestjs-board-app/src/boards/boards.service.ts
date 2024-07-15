@@ -23,4 +23,9 @@ export class BoardsService {
 
     return board;
   }
+
+  // NOTE: 없는 경우 404 에러필요
+  getBoardById(id: string): Board {
+    return this.boards.find((board) => board.id === id);
+  }
 }
