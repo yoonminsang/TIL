@@ -2,6 +2,7 @@
 
 - 모듈 생성 cli: nest g module boards
 - controller 생성 cli: nest g controller boards (--no-spec)
+- service 생성 cli: nest g service boards (--no-spec)
 
 ---
 
