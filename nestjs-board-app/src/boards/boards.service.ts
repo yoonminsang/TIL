@@ -32,4 +32,11 @@ export class BoardsService {
   deleteBoard(id: string): void {
     this.boards = this.boards.filter((board) => board.id !== id);
   }
+
+  // NOTE: 없는 경우 404 에러필요
+  updateBoardStatus(id: string, status: BoardStatus): Board {
+    const board = this.getBoardById(id);
+    board.status = status;
+    return board;
+  }
 }
