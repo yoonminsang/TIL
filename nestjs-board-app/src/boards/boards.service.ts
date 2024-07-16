@@ -1,13 +1,22 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { Board, BoardStatus } from './board.model';
 import { v1 as uuid } from 'uuid';
 import { CreateBoardBodyDto } from './dto/create-board.dto';
+import envConfig from 'src/configs/env.config';
+import { ConfigType } from '@nestjs/config';
 
 @Injectable()
 export class BoardsService {
+  // NOTE: env에 접근하는 방법
+  constructor(
+    @Inject(envConfig.KEY)
+    private env: ConfigType<typeof envConfig>,
+  ) {}
+
   private boards: Board[] = [];
 
   getAllBoards(): Board[] {
+    console.log(this.env.port);
     return this.boards;
   }
 
