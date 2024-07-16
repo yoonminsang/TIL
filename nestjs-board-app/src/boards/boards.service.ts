@@ -1,6 +1,8 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { ConfigType } from '@nestjs/config';
+import { InjectRepository } from '@nestjs/typeorm';
 import envConfig from 'src/configs/env.config';
+import { BoardRepository } from './board.repository';
 
 @Injectable()
 export class BoardsService {
@@ -8,6 +10,9 @@ export class BoardsService {
   constructor(
     @Inject(envConfig.KEY)
     private env: ConfigType<typeof envConfig>,
+
+    @InjectRepository(BoardRepository)
+    private boardRepository: BoardRepository,
   ) {}
 
   // getAllBoards(): Board[] {
