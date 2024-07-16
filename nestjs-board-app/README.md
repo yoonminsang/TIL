@@ -3,6 +3,9 @@
 - 모듈 생성 cli: nest g module boards
 - controller 생성 cli: nest g controller boards (--no-spec)
 - service 생성 cli: nest g service boards (--no-spec)
+- 유효성 검사: dto에 `class-validator` 적용 후 controller에서 `@UsePipes(ValidationPipe)` 사용
+- 에러처리: nestjs에서 정의된 기본 Exception이 존재함. ex) NotFoundException
+- 커스텀파이프: `implements PipeTransform{ transform }`을 만들고 `@Body('status', BoardStatusValidationPipe)` 이런식으로 넣어주면 됌
 
 ---
 
