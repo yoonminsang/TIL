@@ -4,7 +4,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { BoardsModule } from './boards/boards.module';
 import envConfig from './configs/env.config';
-import { typeORMConfig } from './configs/typeorm.config';
+import { getTypeORMConfig } from './configs/typeorm.config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 @Module({
@@ -15,7 +15,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       envFilePath: `.env.${process.env.NODE_ENV}`,
       load: [envConfig],
     }),
-    TypeOrmModule.forRoot(typeORMConfig),
+    TypeOrmModule.forRoot(getTypeORMConfig()),
     BoardsModule,
   ],
   controllers: [AppController],

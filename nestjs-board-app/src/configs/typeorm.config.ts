@@ -7,7 +7,7 @@ const assertString = (value: string | undefined, env: string): string => {
   return value;
 };
 
-export const typeORMConfig: TypeOrmModuleOptions = {
+export const getTypeORMConfig = (): TypeOrmModuleOptions => ({
   type: 'mysql',
 
   host: assertString(process.env.RDB_HOST, 'rdb host'),
@@ -18,4 +18,4 @@ export const typeORMConfig: TypeOrmModuleOptions = {
 
   entities: [__dirname + '/../**/*.entity.{js,ts}'],
   synchronize: process.env.node_env !== 'production',
-};
+});
