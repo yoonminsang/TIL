@@ -3,11 +3,11 @@ import { BoardStatus } from '../board.model';
 
 export class CreateBoardBodyDto {
   @IsNotEmpty()
-  title: string;
+  title!: string;
   @IsNotEmpty()
-  description: string;
+  description!: string;
 }
 
 export class UpdateBoardStatusBodyDto {
-  status: BoardStatus;
+  status!: BoardStatus;
 }
