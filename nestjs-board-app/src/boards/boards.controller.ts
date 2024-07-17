@@ -10,7 +10,7 @@ import {
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
-import { Board } from './entity';
+import { Board } from './entities';
 import { BoardsService } from './boards.service';
 import { CreateBoardBodyDto, UpdateBoardStatusBodyDto } from './dto';
 import { BoardStatusValidationPipe } from './pipes';
