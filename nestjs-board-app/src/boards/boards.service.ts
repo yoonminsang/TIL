@@ -12,7 +12,6 @@ export class BoardsService {
     @Inject(envConfig.KEY)
     private env: ConfigType<typeof envConfig>,
 
-    @InjectRepository(BoardRepository)
     private boardRepository: BoardRepository,
   ) {}
 
