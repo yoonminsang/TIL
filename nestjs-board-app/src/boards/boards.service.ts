@@ -16,10 +16,9 @@ export class BoardsService {
     private boardRepository: BoardRepository,
   ) {}
 
-  // getAllBoards(): Board[] {
-  //   console.log(this.env.port);
-  //   return this.boards;
-  // }
+  async getAllBoards(): Promise<Board[]> {
+    return await this.boardRepository.find();
+  }
 
   async createBoard({ title, description }: CreateBoardBodyDto) {
     const board = this.boardRepository.create({

@@ -22,10 +22,10 @@ import { BoardStatusValidationPipe } from './pipes/board-status-validation.pipe'
 export class BoardsController {
   constructor(private boardService: BoardsService) {}
 
-  // @Get()
-  // getAllBoars(): Board[] {
-  //   return this.boardService.getAllBoards();
-  // }
+  @Get()
+  getAllBoars(): Promise<Board[]> {
+    return this.boardService.getAllBoards();
+  }
 
   @Post()
   @UsePipes(ValidationPipe)
