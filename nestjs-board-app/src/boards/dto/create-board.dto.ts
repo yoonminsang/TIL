@@ -9,5 +9,7 @@ export class CreateBoardBodyDto {
 }
 
 export class UpdateBoardStatusBodyDto {
+  // TODO: board-status-validation.pipe제거하고 아래 코드로 대체할 수 있는지 확인하기
+  // @IsEnum(BoardStatus)
   status!: BoardStatus;
 }
