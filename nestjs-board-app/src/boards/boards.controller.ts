@@ -5,13 +5,18 @@ import {
   Get,
   Param,
   ParseIntPipe,
+  Patch,
   Post,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
 import { Board } from './board.entity';
 import { BoardsService } from './boards.service';
-import { CreateBoardBodyDto } from './dto/create-board.dto';
+import {
+  CreateBoardBodyDto,
+  UpdateBoardStatusBodyDto,
+} from './dto/create-board.dto';
+import { BoardStatusValidationPipe } from './pipes/board-status-validation.pipe';
 
 @Controller('boards')
 export class BoardsController {
@@ -38,12 +43,12 @@ export class BoardsController {
     return this.boardService.deleteBoard(id);
   }
 
-  // @Patch('/:id/status')
-  // updateBoardStatus(
-  //   @Param('id') id: string,
-  //   @Body('status', BoardStatusValidationPipe)
-  //   status: UpdateBoardStatusBodyDto['status'],
-  // ) {
-  //   return this.boardService.updateBoardStatus(id, status);
-  // }
+  @Patch('/:id/status')
+  updateBoardStatus(
+    @Param('id', ParseIntPipe) id: number,
+    @Body('status', BoardStatusValidationPipe)
+    status: UpdateBoardStatusBodyDto['status'],
+  ): Promise<Board> {
+    return this.boardService.updateBoardStatus(id, status);
+  }
 }
