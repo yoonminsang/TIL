@@ -1,4 +1,4 @@
-import { ExtractValue } from 'src/types';
+import { ExtractValue } from '@/types';
 
 export const BoardStatus = {
   PUBLIC: 'PUBLIC',

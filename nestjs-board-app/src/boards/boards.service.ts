@@ -1,6 +1,6 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { ConfigType } from '@nestjs/config';
-import envConfig from 'src/configs/env.config';
+import envConfig from '@/configs/env.config';
 import { BoardRepository } from './board.repository';
 import { Board } from './entity';
 import { CreateBoardBodyDto } from './dto';
