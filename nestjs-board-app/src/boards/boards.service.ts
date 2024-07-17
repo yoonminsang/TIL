@@ -2,9 +2,9 @@ import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { ConfigType } from '@nestjs/config';
 import envConfig from 'src/configs/env.config';
 import { BoardRepository } from './board.repository';
-import { Board } from './board.entity';
-import { CreateBoardBodyDto } from './dto/create-board.dto';
-import { BoardStatus } from './board-status.enum';
+import { Board } from './entity';
+import { CreateBoardBodyDto } from './dto';
+import { BoardStatus } from './enum';
 
 @Injectable()
 export class BoardsService {

@@ -1,5 +1,5 @@
 import { IsNotEmpty } from 'class-validator';
-import { BoardStatus } from '../board-status.enum';
+import { BoardStatus } from '../enum';
 
 export class CreateBoardBodyDto {
   @IsNotEmpty()
