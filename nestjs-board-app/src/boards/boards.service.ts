@@ -39,10 +39,13 @@ export class BoardsService {
     return board;
   }
 
-  // deleteBoard(id: string): void {
-  //   const found = this.getBoardById(id);
-  //   this.boards = this.boards.filter((board) => board.id !== found.id);
-  // }
+  async deleteBoard(id: number): Promise<void> {
+    const result = await this.boardRepository.delete(id);
+
+    if (result.affected === 0) {
+      throw new NotFoundException(`Can't find Board with id ${id}`);
+    }
+  }
 
   // // NOTE: 없는 경우 404 에러필요
   // updateBoardStatus(id: string, status: BoardStatus): Board {
