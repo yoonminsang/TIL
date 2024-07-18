@@ -1,4 +1,4 @@
-import { TypeOrmModuleOptions } from '@nestjs/typeorm';
+import type { TypeOrmModuleOptions } from '@nestjs/typeorm';
 
 const assertString = (value: string | undefined, env: string): string => {
   if (typeof value === 'undefined') {

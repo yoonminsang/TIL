@@ -1,9 +1,11 @@
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
+import { ConfigType } from '@nestjs/config';
+
+import { BoardRepository } from './board.repository';
+
 import { BoardStatus, IBoards } from '@/api-interfaces';
 import envConfig from '@/configs/env.config';
 import { Board } from '@/entities/board.entity';
-import { Inject, Injectable, NotFoundException } from '@nestjs/common';
-import { ConfigType } from '@nestjs/config';
-import { BoardRepository } from './board.repository';
 
 @Injectable()
 export class BoardsService {

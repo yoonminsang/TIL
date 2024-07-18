@@ -1,4 +1,5 @@
 import { IsNotEmpty } from 'class-validator';
+
 import { BoardStatus } from '../enums';
 
 export namespace IBoards {

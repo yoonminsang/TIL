@@ -1,5 +1,3 @@
-import { IBoards } from '@/api-interfaces';
-import { Board } from '@/entities/board.entity';
 import {
   Body,
   Controller,
@@ -12,8 +10,12 @@ import {
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
+
 import { BoardStatusValidationPipe } from './board.pipe';
 import { BoardsService } from './boards.service';
+
+import { IBoards } from '@/api-interfaces';
+import { Board } from '@/entities/board.entity';
 
 @Controller('boards')
 export class BoardsController {
