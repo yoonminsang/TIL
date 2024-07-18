@@ -46,7 +46,7 @@ export class BoardsController {
   updateBoardStatus(
     @Param('id', ParseIntPipe) id: number,
     @Body('status', BoardStatusValidationPipe)
-    status: IBoards.UpdateBoardStatusBodyDto['status'],
+    status: IBoards.UpdateBoardStatusBodyDto['status']
   ): Promise<Board> {
     return this.boardService.updateBoardStatus(id, status);
   }

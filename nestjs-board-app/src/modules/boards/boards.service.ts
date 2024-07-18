@@ -14,7 +14,7 @@ export class BoardsService {
     @Inject(envConfig.KEY)
     private env: ConfigType<typeof envConfig>,
 
-    private boardRepository: BoardRepository,
+    private boardRepository: BoardRepository
   ) {}
 
   async getAllBoards(): Promise<Board[]> {
