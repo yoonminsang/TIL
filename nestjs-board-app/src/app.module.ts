@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { BoardsModule } from './boards/boards.module';
+import { TypeOrmModule } from '@nestjs/typeorm';
 import envConfig from './configs/env.config';
 import { getTypeORMConfig } from './configs/typeorm.config';
-import { TypeOrmModule } from '@nestjs/typeorm';
+import { BoardsModule } from './modules/boards/boards.module';
 
 @Module({
   imports: [

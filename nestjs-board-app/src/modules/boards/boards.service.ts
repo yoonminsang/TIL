@@ -1,10 +1,9 @@
+import { BoardStatus, IBoards } from '@/api-interfaces';
+import envConfig from '@/configs/env.config';
+import { Board } from '@/entities/board.entity';
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { ConfigType } from '@nestjs/config';
-import envConfig from '@/configs/env.config';
 import { BoardRepository } from './board.repository';
-import { Board } from './entities';
-import { CreateBoardBodyDto } from './dto';
-import { BoardStatus } from './enums';
 
 @Injectable()
 export class BoardsService {
@@ -20,7 +19,7 @@ export class BoardsService {
     return await this.boardRepository.find();
   }
 
-  async createBoard({ title, description }: CreateBoardBodyDto) {
+  async createBoard({ title, description }: IBoards.CreateBoardBodyDto) {
     const board = this.boardRepository.create({
       title,
       description,

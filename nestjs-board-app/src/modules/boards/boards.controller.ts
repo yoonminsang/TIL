@@ -1,3 +1,5 @@
+import { IBoards } from '@/api-interfaces';
+import { Board } from '@/entities/board.entity';
 import {
   Body,
   Controller,
@@ -10,10 +12,8 @@ import {
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
-import { Board } from './entities';
+import { BoardStatusValidationPipe } from './board.pipe';
 import { BoardsService } from './boards.service';
-import { CreateBoardBodyDto, UpdateBoardStatusBodyDto } from './dto';
-import { BoardStatusValidationPipe } from './pipes';
 
 @Controller('boards')
 export class BoardsController {
@@ -26,7 +26,7 @@ export class BoardsController {
 
   @Post()
   @UsePipes(ValidationPipe)
-  createBoard(@Body() body: CreateBoardBodyDto): Promise<Board> {
+  createBoard(@Body() body: IBoards.CreateBoardBodyDto): Promise<Board> {
     return this.boardService.createBoard(body);
   }
 
@@ -44,7 +44,7 @@ export class BoardsController {
   updateBoardStatus(
     @Param('id', ParseIntPipe) id: number,
     @Body('status', BoardStatusValidationPipe)
-    status: UpdateBoardStatusBodyDto['status'],
+    status: IBoards.UpdateBoardStatusBodyDto['status'],
   ): Promise<Board> {
     return this.boardService.updateBoardStatus(id, status);
   }
