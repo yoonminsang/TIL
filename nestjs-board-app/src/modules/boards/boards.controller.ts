@@ -3,24 +3,23 @@ import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post } from 
 import { BoardsService } from './boards.service';
 
 import { IBoards } from '@/api-interfaces';
-import { Board } from '@/entities/board.entity';
 
 @Controller('boards')
 export class BoardsController {
   constructor(private boardService: BoardsService) {}
 
   @Get()
-  getAllBoars(): Promise<Board[]> {
+  getAllBoars(): Promise<IBoards.GetAllBoardsBodyDto> {
     return this.boardService.getAllBoards();
   }
 
   @Post()
-  createBoard(@Body() body: IBoards.CreateBoardBodyDto): Promise<Board> {
+  createBoard(@Body() body: IBoards.CreateBoardBodyDto): Promise<IBoards.CreateBoardResDto> {
     return this.boardService.createBoard(body);
   }
 
   @Get('/:id')
-  getBoardById(@Param('id', ParseIntPipe) id: number): Promise<Board> {
+  getBoardById(@Param('id', ParseIntPipe) id: number): Promise<IBoards.GetBoardByIdResDto> {
     return this.boardService.getBoardById(id);
   }
 
@@ -33,7 +32,7 @@ export class BoardsController {
   updateBoardStatus(
     @Param('id', ParseIntPipe) id: number,
     @Body() { status }: IBoards.UpdateBoardStatusBodyDto
-  ): Promise<Board> {
+  ): Promise<IBoards.UpdateBoardResDto> {
     return this.boardService.updateBoardStatus(id, status);
   }
 }
