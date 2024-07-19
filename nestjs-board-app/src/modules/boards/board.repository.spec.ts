@@ -22,6 +22,7 @@ describe('BoardRepository', () => {
   });
 
   afterAll(async () => {
+    await repository.clear();
     await moduleRef.close();
   });
 
