@@ -4,7 +4,7 @@ import { ConfigType } from '@nestjs/config';
 import { BoardRepository } from './board.repository';
 
 import { BoardStatus, IBoards } from '@/api-interfaces';
-import envConfig from '@/configs/env.config';
+import { envConfig } from '@/configs/env.config';
 import { Board } from '@/entities/board.entity';
 
 @Injectable()

@@ -1,11 +1,8 @@
-import { ConfigModule } from '@nestjs/config';
-import { TypeOrmModule } from '@nestjs/typeorm';
-
-import envConfig from '@/configs/env.config';
-import { getTypeORMConfig } from '@/configs/typeorm.config';
+import { getEnvConfigModule } from '@/configs/env.config';
+import { getTypeORMConfigModule } from '@/configs/typeorm.config';
 
 /**
- * 테스트코드에서 typeorm을 연결해주는 모듈입니다.
+ * 테스트코드에서 기본 app config module을 return하는 함수입니다.
  * @example
   describe('BoardRepository', () => {
     let repository: BoardRepository;
@@ -29,12 +26,4 @@ import { getTypeORMConfig } from '@/configs/typeorm.config';
     });
   });
  */
-export const getTypeORMModuleForTest = () => [
-  ConfigModule.forRoot({
-    cache: true,
-    isGlobal: true,
-    envFilePath: `.env.${process.env.NODE_ENV}`,
-    load: [envConfig],
-  }),
-  TypeOrmModule.forRoot(getTypeORMConfig()),
-];
+export const getAppConfigModuleForTest = () => [getEnvConfigModule(), getTypeORMConfigModule()];

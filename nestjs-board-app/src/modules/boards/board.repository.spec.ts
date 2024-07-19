@@ -6,7 +6,7 @@ import { BoardRepository } from './board.repository';
 
 import { BoardStatus } from '@/api-interfaces';
 import { Board } from '@/entities/board.entity';
-import { getTypeORMModuleForTest } from '@/utils/test.util';
+import { getAppConfigModuleForTest } from '@/utils/test.util';
 
 describe('BoardRepository', () => {
   let repository: BoardRepository;
@@ -14,7 +14,7 @@ describe('BoardRepository', () => {
 
   beforeAll(async () => {
     moduleRef = await Test.createTestingModule({
-      imports: [...getTypeORMModuleForTest(), TypeOrmModule.forFeature([Board])],
+      imports: [...getAppConfigModuleForTest(), TypeOrmModule.forFeature([Board])],
       providers: [BoardRepository],
     }).compile();
 

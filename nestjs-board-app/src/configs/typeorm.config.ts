@@ -1,3 +1,4 @@
+import { TypeOrmModule } from '@nestjs/typeorm';
 import type { TypeOrmModuleOptions } from '@nestjs/typeorm';
 
 const assertString = (value: string | undefined, env: string): string => {
@@ -19,3 +20,5 @@ export const getTypeORMConfig = (): TypeOrmModuleOptions => ({
   entities: [__dirname + '/../**/*.entity.{js,ts}'],
   synchronize: process.env.node_env !== 'production',
 });
+
+export const getTypeORMConfigModule = () => TypeOrmModule.forRoot(getTypeORMConfig());

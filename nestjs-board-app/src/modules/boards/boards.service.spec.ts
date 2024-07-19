@@ -1,4 +1,3 @@
-import { ConfigModule } from '@nestjs/config';
 import type { TestingModule } from '@nestjs/testing';
 import { Test } from '@nestjs/testing';
 
@@ -7,8 +6,8 @@ import { BoardsService } from './boards.service';
 
 import type { IBoards } from '@/api-interfaces';
 import { BoardStatus } from '@/api-interfaces';
-import envConfig from '@/configs/env.config';
 import { Board } from '@/entities/board.entity';
+import { getAppConfigModuleForTest } from '@/utils/test.util';
 
 class StubBoardRepository {
   private boards: Board[] = [];
@@ -31,14 +30,7 @@ describe('BoardsService', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      imports: [
-        ConfigModule.forRoot({
-          cache: true,
-          isGlobal: true,
-          envFilePath: `.env.${process.env.NODE_ENV}`,
-          load: [envConfig],
-        }),
-      ],
+      imports: [...getAppConfigModuleForTest()],
       providers: [
         BoardsService,
         {

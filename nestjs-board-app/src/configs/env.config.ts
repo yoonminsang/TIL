@@ -1,4 +1,4 @@
-import { registerAs } from '@nestjs/config';
+import { ConfigModule, registerAs } from '@nestjs/config';
 
 const assertString = (value: string | undefined, env: string): string => {
   if (typeof value === 'undefined') {
@@ -7,7 +7,15 @@ const assertString = (value: string | undefined, env: string): string => {
   return value;
 };
 
-export default registerAs('app', () => ({
+export const envConfig = registerAs('app', () => ({
   port: Number(assertString(process.env.PORT, 'port')),
   ['node_env']: assertString(process.env.NODE_ENV, 'node_env'),
 }));
+
+export const getEnvConfigModule = () =>
+  ConfigModule.forRoot({
+    cache: true,
+    isGlobal: true,
+    envFilePath: `.env.${process.env.NODE_ENV}`,
+    load: [envConfig],
+  });
