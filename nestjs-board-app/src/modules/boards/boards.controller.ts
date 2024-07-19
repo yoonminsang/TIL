@@ -1,17 +1,5 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  Param,
-  ParseIntPipe,
-  Patch,
-  Post,
-  UsePipes,
-  ValidationPipe,
-} from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post } from '@nestjs/common';
 
-import { BoardStatusValidationPipe } from './board.pipe';
 import { BoardsService } from './boards.service';
 
 import { IBoards } from '@/api-interfaces';
@@ -27,13 +15,12 @@ export class BoardsController {
   }
 
   @Post()
-  @UsePipes(ValidationPipe)
   createBoard(@Body() body: IBoards.CreateBoardBodyDto): Promise<Board> {
     return this.boardService.createBoard(body);
   }
 
   @Get('/:id')
-  getBoardById(@Param('id') id: number): Promise<Board> {
+  getBoardById(@Param('id', ParseIntPipe) id: number): Promise<Board> {
     return this.boardService.getBoardById(id);
   }
 
@@ -45,8 +32,7 @@ export class BoardsController {
   @Patch('/:id/status')
   updateBoardStatus(
     @Param('id', ParseIntPipe) id: number,
-    @Body('status', BoardStatusValidationPipe)
-    status: IBoards.UpdateBoardStatusBodyDto['status']
+    @Body() { status }: IBoards.UpdateBoardStatusBodyDto
   ): Promise<Board> {
     return this.boardService.updateBoardStatus(id, status);
   }

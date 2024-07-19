@@ -6,6 +6,7 @@
 - 유효성 검사: dto에 `class-validator` 적용 후 controller에서 `@UsePipes(ValidationPipe)` 사용
 - 에러처리: nestjs에서 정의된 기본 Exception이 존재함. ex) NotFoundException
 - 커스텀파이프: `implements PipeTransform{ transform }`을 만들고 `@Body('status', BoardStatusValidationPipe)` 이런식으로 넣어주면 됌
+- class validator 전역설정: [잘 설명된 블로그 글](https://chaewonkong.github.io/posts/nestjs-validation-pipe-with-class-validator.html)
 - typeorm 삭제
   - remove: 무조건 존재해야하는 아이템을 지워야한다. 그렇지 않으면 404 에러가 뜬다.
   - delete: 아이템이 존재하면 지우고 존재하지 않으면 아무런 영향이 없다.
