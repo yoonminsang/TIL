@@ -5,7 +5,6 @@ import { BoardRepository } from './board.repository';
 
 import { BoardStatus, IBoards } from '@/api-interfaces';
 import { envConfig } from '@/configs/env.config';
-import { Board } from '@/entities/board.entity';
 
 @Injectable()
 export class BoardsService {
@@ -17,7 +16,7 @@ export class BoardsService {
     private boardRepository: BoardRepository
   ) {}
 
-  async getAllBoards(): Promise<Board[]> {
+  async getAllBoards() {
     return await this.boardRepository.find();
   }
 
@@ -31,7 +30,7 @@ export class BoardsService {
     return board;
   }
 
-  async getBoardById(id: number): Promise<Board> {
+  async getBoardById(id: number) {
     const board = await this.boardRepository.findOne({ where: { id } });
     if (!board) {
       throw new NotFoundException(`Can't find Board with id ${id}`);
@@ -39,7 +38,7 @@ export class BoardsService {
     return board;
   }
 
-  async deleteBoard(id: number): Promise<void> {
+  async deleteBoard(id: number) {
     const result = await this.boardRepository.delete(id);
 
     if (result.affected === 0) {
@@ -47,7 +46,7 @@ export class BoardsService {
     }
   }
 
-  async updateBoardStatus(id: number, status: BoardStatus): Promise<Board> {
+  async updateBoardStatus(id: number, status: BoardStatus) {
     const board = await this.getBoardById(id);
     board.status = status;
     await this.boardRepository.save(board);
