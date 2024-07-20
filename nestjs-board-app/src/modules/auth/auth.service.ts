@@ -1,4 +1,5 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcryptjs';
 
 import { UserRepository } from './user.repository';
@@ -7,7 +8,10 @@ import { IAuth } from '@/api-interfaces/structures/auth.structure';
 
 @Injectable()
 export class AuthService {
-  constructor(private userRepository: UserRepository) {}
+  constructor(
+    private userRepository: UserRepository,
+    private jwtService: JwtService
+  ) {}
 
   async signUp(authCredentialsDto: IAuth.AuthCredentialsDto) {
     return this.userRepository.createUser(authCredentialsDto);
@@ -16,7 +20,10 @@ export class AuthService {
   async signIn({ username, password }: IAuth.AuthCredentialsDto) {
     const user = await this.userRepository.findOne({ where: { username } });
     if (user && (await bcrypt.compare(password, user.password))) {
-      return 'login success';
+      // 유저 토큰 생성 (Secret + Payload)
+      const payload = { username: user.username };
+      const accessToken = this.jwtService.sign(payload);
+      return { accessToken };
     } else {
       throw new UnauthorizedException('login fail');
     }

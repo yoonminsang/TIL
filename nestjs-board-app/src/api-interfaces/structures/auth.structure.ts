@@ -23,4 +23,7 @@ export namespace IAuth {
   export class SignUpBodyDto extends AuthCredentialsDto {}
 
   export class SignInBodyDto extends AuthCredentialsDto {}
+  export class SignInResDto {
+    accessToken!: string;
+  }
 }
