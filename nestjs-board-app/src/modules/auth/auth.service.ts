@@ -1,8 +1,14 @@
 import { Injectable } from '@nestjs/common';
 
-import { BoardRepository } from '../boards/board.repository';
+import { UserRepository } from './user.repository';
+
+import { IAuth } from '@/api-interfaces/structures/auth.structure';
 
 @Injectable()
 export class AuthService {
-  constructor(private boardRepository: BoardRepository) {}
+  constructor(private userRepository: UserRepository) {}
+
+  async signUp(authCredentialsDto: IAuth.AuthCredentialsDto) {
+    return this.userRepository.createUser(authCredentialsDto);
+  }
 }
