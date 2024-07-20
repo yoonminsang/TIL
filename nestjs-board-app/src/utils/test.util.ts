@@ -1,4 +1,4 @@
-import { getEnvConfigModule } from '@/configs/env.config';
+import { getAppConfigModule } from '@/configs/app.config';
 import { getTypeORMConfigModule } from '@/configs/typeorm.config';
 
 /**
@@ -26,4 +26,4 @@ import { getTypeORMConfigModule } from '@/configs/typeorm.config';
     });
   });
  */
-export const getAppConfigModuleForTest = () => [getEnvConfigModule(), getTypeORMConfigModule()];
+export const getAppConfigModuleForTest = () => [getAppConfigModule(), getTypeORMConfigModule()];

@@ -4,14 +4,14 @@ import { ConfigType } from '@nestjs/config';
 import { BoardRepository } from './board.repository';
 
 import { BoardStatus, IBoards } from '@/api-interfaces';
-import { envConfig } from '@/configs/env.config';
+import { appConfig } from '@/configs/app.config';
 
 @Injectable()
 export class BoardsService {
   // NOTE: env에 접근하는 방법
   constructor(
-    @Inject(envConfig.KEY)
-    private env: ConfigType<typeof envConfig>,
+    @Inject(appConfig.KEY)
+    private env: ConfigType<typeof appConfig>,
 
     private boardRepository: BoardRepository
   ) {}

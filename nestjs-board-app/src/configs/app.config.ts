@@ -7,15 +7,16 @@ const assertString = (value: string | undefined, env: string): string => {
   return value;
 };
 
-export const envConfig = registerAs('app', () => ({
+export const appConfig = registerAs('app', () => ({
   port: Number(assertString(process.env.PORT, 'port')),
   ['node_env']: assertString(process.env.NODE_ENV, 'node_env'),
+  jwtSecret: assertString(process.env.JWT_SECRET, 'jwtSecret'),
 }));
 
-export const getEnvConfigModule = () =>
+export const getAppConfigModule = () =>
   ConfigModule.forRoot({
     cache: true,
     isGlobal: true,
     envFilePath: `.env.${process.env.NODE_ENV}`,
-    load: [envConfig],
+    load: [appConfig],
   });
