@@ -1,4 +1,4 @@
-## [인프런 강의 클론코딩](https://www.inflearn.com/course/%EB%94%B0%EB%9D%BC%ED%95%98%EB%8A%94-%EB%84%A4%EC%8A%A4%ED%8A%B8-%EC%A0%9C%EC%9D%B4%EC%97%90%EC%8A%A4/dashboard)
+## [인프런 강의](https://www.inflearn.com/course/%EB%94%B0%EB%9D%BC%ED%95%98%EB%8A%94-%EB%84%A4%EC%8A%A4%ED%8A%B8-%EC%A0%9C%EC%9D%B4%EC%97%90%EC%8A%A4/dashboard)를 기반으로 한 간단한 게시판 프로젝트(단위테스트, e2e 테스트 구현)
 
 - 모듈 생성 cli: nest g module boards
 - controller 생성 cli: nest g controller boards (--no-spec)
