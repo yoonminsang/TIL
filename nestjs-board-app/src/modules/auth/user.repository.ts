@@ -1,4 +1,5 @@
 import { ConflictException, Injectable, InternalServerErrorException } from '@nestjs/common';
+import * as bcrypt from 'bcryptjs';
 import { DataSource, Repository } from 'typeorm';
 
 import { IAuth } from '@/api-interfaces/structures/auth.structure';
@@ -11,8 +12,10 @@ export class UserRepository extends Repository<User> {
   }
 
   async createUser({ username, password }: IAuth.AuthCredentialsDto) {
+    const salt = await bcrypt.genSalt();
+    const hashedPassword = await bcrypt.hash(password, salt);
     try {
-      const user = this.create({ username, password });
+      const user = this.create({ username, password: hashedPassword });
       await this.save(user);
     } catch (err: any) {
       if (err?.code === 'ER_DUP_ENTRY') {
