@@ -76,15 +76,18 @@ describe('AppController (e2e)', () => {
   describe('boards', () => {
     let accessToken: string;
 
+    const GET = (endPoint: string) => request.get(endPoint).set('Authorization', `Bearer ${accessToken}`);
+    const POST = (endPoint: string) => request.post(endPoint).set('Authorization', `Bearer ${accessToken}`);
+    const PATCH = (endPoint: string) => request.patch(endPoint).set('Authorization', `Bearer ${accessToken}`);
+    const DELETE = (endPoint: string) => request.delete(endPoint).set('Authorization', `Bearer ${accessToken}`);
+
     beforeEach(async () => {
       const { accessToken: accessTokenByCreateUser } = await createUser();
       accessToken = accessTokenByCreateUser;
     });
 
     it('/boards (POST)', async () => {
-      return request
-        .post('/boards')
-        .set('Authorization', `Bearer ${accessToken}`)
+      return POST('/boards')
         .send({
           title: 'title',
           description: 'description',
@@ -100,18 +103,16 @@ describe('AppController (e2e)', () => {
 
     it('/boards (GET)', async () => {
       await Promise.all([
-        request.post('/boards').set('Authorization', `Bearer ${accessToken}`).send({
+        POST('/boards').send({
           title: 'title',
           description: 'description',
         }),
-        request.post('/boards').set('Authorization', `Bearer ${accessToken}`).send({
+        POST('/boards').send({
           title: 'title2',
           description: 'description2',
         }),
       ]);
-      return request
-        .get('/boards')
-        .set('Authorization', `Bearer ${accessToken}`)
+      return GET('/boards')
         .expect(200)
         .expect([
           {
@@ -130,13 +131,11 @@ describe('AppController (e2e)', () => {
     });
 
     it('/boards/:boardId/status (PATCH)', async () => {
-      await request.post('/boards').set('Authorization', `Bearer ${accessToken}`).send({
+      await POST('/boards').send({
         title: 'title',
         description: 'description',
       });
-      return request
-        .patch('/boards/1/status')
-        .set('Authorization', `Bearer ${accessToken}`)
+      return PATCH('/boards/1/status')
         .send({
           status: BoardStatus.PRIVATE,
         })
@@ -150,11 +149,11 @@ describe('AppController (e2e)', () => {
     });
 
     it('/boards (DELETE)', async () => {
-      await request.post('/boards').set('Authorization', `Bearer ${accessToken}`).send({
+      await POST('/boards').send({
         title: 'title',
         description: 'description',
       });
-      return request.delete('/boards/1').set('Authorization', `Bearer ${accessToken}`).expect(200);
+      return DELETE('/boards/1').expect(200);
     });
   });
 });
