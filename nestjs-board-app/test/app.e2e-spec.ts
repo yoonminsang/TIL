@@ -116,12 +116,11 @@ describe('AppController (e2e)', () => {
       ]);
   });
 
-  it('/boards (PATCH)', async () => {
+  it('/boards/:boardId/status (PATCH)', async () => {
     await request(app.getHttpServer()).post('/boards').send({
       title: 'title',
       description: 'description',
     });
-
     return request(app.getHttpServer())
       .patch('/boards/1/status')
       .send({
@@ -141,7 +140,6 @@ describe('AppController (e2e)', () => {
       title: 'title',
       description: 'description',
     });
-
     return request(app.getHttpServer()).delete('/boards/1').expect(200);
   });
 });
