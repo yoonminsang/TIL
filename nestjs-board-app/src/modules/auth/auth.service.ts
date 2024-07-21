@@ -14,7 +14,9 @@ export class AuthService {
   ) {}
 
   async signUp(authCredentialsDto: IAuth.AuthCredentialsDto) {
-    return this.userRepository.createUser(authCredentialsDto);
+    const user = await this.userRepository.createUser(authCredentialsDto);
+    const accessToken = this.jwtService.sign({ username: user.username });
+    return { accessToken };
   }
 
   async signIn({ username, password }: IAuth.AuthCredentialsDto) {

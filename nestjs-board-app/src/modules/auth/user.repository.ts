@@ -17,6 +17,7 @@ export class UserRepository extends Repository<User> {
     try {
       const user = this.create({ username, password: hashedPassword });
       await this.save(user);
+      return user;
     } catch (err: any) {
       if (err?.code === 'ER_DUP_ENTRY') {
         throw new ConflictException('Existing username');

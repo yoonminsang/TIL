@@ -20,10 +20,13 @@ export namespace IAuth {
     password!: string;
   }
 
-  export class SignUpBodyDto extends AuthCredentialsDto {}
-
-  export class SignInBodyDto extends AuthCredentialsDto {}
-  export class SignInResDto {
+  export class Token {
     accessToken!: string;
   }
+
+  export class SignUpBodyDto extends AuthCredentialsDto {}
+  export class SignUpResDto extends Token {}
+
+  export class SignInBodyDto extends AuthCredentialsDto {}
+  export class SignInResDto extends Token {}
 }
