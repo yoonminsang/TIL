@@ -10,6 +10,7 @@ import { AppModule } from '../src/app.module';
 import { BoardStatus } from '@/api-interfaces';
 import type { IAuth } from '@/api-interfaces/structures/auth.structure';
 
+// NOTE: 앱이 커지면 모듈별로 e2e를 분리하고 이 파일에는 전체 프로젝트의 흐름을 파악할 수 있는 e2e 테스트를 넣어야함
 describe('AppController (e2e)', () => {
   let app: INestApplication;
 
@@ -69,77 +70,86 @@ describe('AppController (e2e)', () => {
     });
   });
 
-  it('/boards (POST)', () => {
-    return request(app.getHttpServer())
-      .post('/boards')
-      .send({
-        title: 'title',
-        description: 'description',
-      })
-      .expect(201)
-      .expect({
-        id: 1,
-        title: 'title',
-        description: 'description',
-        status: 'PUBLIC',
-      });
-  });
+  describe('boards', () => {
+    let accessToken: string;
 
-  it('/boards (GET)', async () => {
-    await Promise.all([
-      request(app.getHttpServer()).post('/boards').send({
-        title: 'title',
-        description: 'description',
-      }),
-      request(app.getHttpServer()).post('/boards').send({
-        title: 'title2',
-        description: 'description2',
-      }),
-    ]);
+    beforeEach(async () => {
+      const { accessToken: accessTokenByCreateUser } = await createUser();
+      accessToken = accessTokenByCreateUser;
+    });
 
-    return request(app.getHttpServer())
-      .get('/boards')
-      .expect(200)
-      .expect([
-        {
+    it('/boards (POST)', async () => {
+      return request(app.getHttpServer())
+        .post('/boards')
+        .set('Authorization', `Bearer ${accessToken}`)
+        .send({
+          title: 'title',
+          description: 'description',
+        })
+        .expect(201)
+        .expect({
           id: 1,
           title: 'title',
           description: 'description',
-          status: BoardStatus.PUBLIC,
-        },
-        {
-          id: 2,
+          status: 'PUBLIC',
+        });
+    });
+
+    it('/boards (GET)', async () => {
+      await Promise.all([
+        request(app.getHttpServer()).post('/boards').set('Authorization', `Bearer ${accessToken}`).send({
+          title: 'title',
+          description: 'description',
+        }),
+        request(app.getHttpServer()).post('/boards').set('Authorization', `Bearer ${accessToken}`).send({
           title: 'title2',
           description: 'description2',
-          status: BoardStatus.PUBLIC,
-        },
+        }),
       ]);
-  });
-
-  it('/boards/:boardId/status (PATCH)', async () => {
-    await request(app.getHttpServer()).post('/boards').send({
-      title: 'title',
-      description: 'description',
+      return request(app.getHttpServer())
+        .get('/boards')
+        .set('Authorization', `Bearer ${accessToken}`)
+        .expect(200)
+        .expect([
+          {
+            id: 1,
+            title: 'title',
+            description: 'description',
+            status: BoardStatus.PUBLIC,
+          },
+          {
+            id: 2,
+            title: 'title2',
+            description: 'description2',
+            status: BoardStatus.PUBLIC,
+          },
+        ]);
     });
-    return request(app.getHttpServer())
-      .patch('/boards/1/status')
-      .send({
-        status: BoardStatus.PRIVATE,
-      })
-      .expect(200)
-      .expect({
-        id: 1,
+    it('/boards/:boardId/status (PATCH)', async () => {
+      await request(app.getHttpServer()).post('/boards').set('Authorization', `Bearer ${accessToken}`).send({
         title: 'title',
         description: 'description',
-        status: BoardStatus.PRIVATE,
       });
-  });
-
-  it('/boards (DELETE)', async () => {
-    await request(app.getHttpServer()).post('/boards').send({
-      title: 'title',
-      description: 'description',
+      return request(app.getHttpServer())
+        .patch('/boards/1/status')
+        .set('Authorization', `Bearer ${accessToken}`)
+        .send({
+          status: BoardStatus.PRIVATE,
+        })
+        .expect(200)
+        .expect({
+          id: 1,
+          title: 'title',
+          description: 'description',
+          status: BoardStatus.PRIVATE,
+        });
     });
-    return request(app.getHttpServer()).delete('/boards/1').expect(200);
+    it('/boards (DELETE)', async () => {
+      await request(app.getHttpServer()).post('/boards').set('Authorization', `Bearer ${accessToken}`).send({
+        title: 'title',
+        description: 'description',
+      });
+      return request(app.getHttpServer()).delete('/boards/1').set('Authorization', `Bearer ${accessToken}`).expect(200);
+    });
   });
 });
