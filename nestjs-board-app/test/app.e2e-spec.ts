@@ -8,9 +8,20 @@ import { DataSource } from 'typeorm';
 import { AppModule } from '../src/app.module';
 
 import { BoardStatus } from '@/api-interfaces';
+import type { IAuth } from '@/api-interfaces/structures/auth.structure';
 
 describe('AppController (e2e)', () => {
   let app: INestApplication;
+
+  async function createUser() {
+    const body: IAuth.SignUpBodyDto = {
+      username: 'username',
+      password: '1234',
+    };
+    const res = await request(app.getHttpServer()).post('/auth/signup').send(body);
+    const resBody: IAuth.SignUpResDto = res.body;
+    return { user: body, accessToken: resBody.accessToken };
+  }
 
   beforeAll(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
@@ -37,6 +48,25 @@ describe('AppController (e2e)', () => {
 
   afterAll(async () => {
     await app.close();
+  });
+
+  describe('auth', () => {
+    it('/auth/signup (POST)', async () => {
+      const body: IAuth.SignUpBodyDto = {
+        username: 'username',
+        password: '1234',
+      };
+      const res = await request(app.getHttpServer()).post('/auth/signup').send(body).expect(201);
+      const resBody: IAuth.SignUpResDto = res.body;
+      expect(resBody.accessToken).toBeDefined();
+    });
+
+    it('/auth/signin (POST)', async () => {
+      const { user } = await createUser();
+      const res = await request(app.getHttpServer()).post('/auth/signin').send(user).expect(201);
+      const resBody: IAuth.SignInResDto = res.body;
+      expect(resBody.accessToken).toBeDefined();
+    });
   });
 
   it('/boards (POST)', () => {
