@@ -2,7 +2,8 @@ import type { INestApplication } from '@nestjs/common';
 import { ValidationPipe } from '@nestjs/common';
 import type { TestingModule } from '@nestjs/testing';
 import { Test } from '@nestjs/testing';
-import * as request from 'supertest';
+import * as supertest from 'supertest';
+import type TestAgent from 'supertest/lib/agent';
 import { DataSource } from 'typeorm';
 
 import { AppModule } from '../src/app.module';
@@ -13,13 +14,14 @@ import type { IAuth } from '@/api-interfaces/structures/auth.structure';
 // NOTE: 앱이 커지면 모듈별로 e2e를 분리하고 이 파일에는 전체 프로젝트의 흐름을 파악할 수 있는 e2e 테스트를 넣어야함
 describe('AppController (e2e)', () => {
   let app: INestApplication;
+  let request: TestAgent<supertest.Test>;
 
   async function createUser() {
     const body: IAuth.SignUpBodyDto = {
       username: 'username',
       password: '1234',
     };
-    const res = await request(app.getHttpServer()).post('/auth/signup').send(body);
+    const res = await request.post('/auth/signup').send(body);
     const resBody: IAuth.SignUpResDto = res.body;
     return { user: body, accessToken: resBody.accessToken };
   }
@@ -40,6 +42,7 @@ describe('AppController (e2e)', () => {
       })
     );
     await app.init();
+    request = supertest(app.getHttpServer());
   });
 
   afterEach(async () => {
@@ -57,14 +60,14 @@ describe('AppController (e2e)', () => {
         username: 'username',
         password: '1234',
       };
-      const res = await request(app.getHttpServer()).post('/auth/signup').send(body).expect(201);
+      const res = await request.post('/auth/signup').send(body).expect(201);
       const resBody: IAuth.SignUpResDto = res.body;
       expect(resBody.accessToken).toBeDefined();
     });
 
     it('/auth/signin (POST)', async () => {
       const { user } = await createUser();
-      const res = await request(app.getHttpServer()).post('/auth/signin').send(user).expect(201);
+      const res = await request.post('/auth/signin').send(user).expect(201);
       const resBody: IAuth.SignInResDto = res.body;
       expect(resBody.accessToken).toBeDefined();
     });
@@ -79,7 +82,7 @@ describe('AppController (e2e)', () => {
     });
 
     it('/boards (POST)', async () => {
-      return request(app.getHttpServer())
+      return request
         .post('/boards')
         .set('Authorization', `Bearer ${accessToken}`)
         .send({
@@ -97,16 +100,16 @@ describe('AppController (e2e)', () => {
 
     it('/boards (GET)', async () => {
       await Promise.all([
-        request(app.getHttpServer()).post('/boards').set('Authorization', `Bearer ${accessToken}`).send({
+        request.post('/boards').set('Authorization', `Bearer ${accessToken}`).send({
           title: 'title',
           description: 'description',
         }),
-        request(app.getHttpServer()).post('/boards').set('Authorization', `Bearer ${accessToken}`).send({
+        request.post('/boards').set('Authorization', `Bearer ${accessToken}`).send({
           title: 'title2',
           description: 'description2',
         }),
       ]);
-      return request(app.getHttpServer())
+      return request
         .get('/boards')
         .set('Authorization', `Bearer ${accessToken}`)
         .expect(200)
@@ -125,12 +128,13 @@ describe('AppController (e2e)', () => {
           },
         ]);
     });
+
     it('/boards/:boardId/status (PATCH)', async () => {
-      await request(app.getHttpServer()).post('/boards').set('Authorization', `Bearer ${accessToken}`).send({
+      await request.post('/boards').set('Authorization', `Bearer ${accessToken}`).send({
         title: 'title',
         description: 'description',
       });
-      return request(app.getHttpServer())
+      return request
         .patch('/boards/1/status')
         .set('Authorization', `Bearer ${accessToken}`)
         .send({
@@ -144,12 +148,13 @@ describe('AppController (e2e)', () => {
           status: BoardStatus.PRIVATE,
         });
     });
+
     it('/boards (DELETE)', async () => {
-      await request(app.getHttpServer()).post('/boards').set('Authorization', `Bearer ${accessToken}`).send({
+      await request.post('/boards').set('Authorization', `Bearer ${accessToken}`).send({
         title: 'title',
         description: 'description',
       });
-      return request(app.getHttpServer()).delete('/boards/1').set('Authorization', `Bearer ${accessToken}`).expect(200);
+      return request.delete('/boards/1').set('Authorization', `Bearer ${accessToken}`).expect(200);
     });
   });
 });
