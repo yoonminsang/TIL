@@ -1,5 +1,5 @@
 import { Transform } from 'class-transformer';
-import { IsEnum, IsNotEmpty, IsString } from 'class-validator';
+import { IsArray, IsEnum, IsInt, IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
 import { BoardStatus } from '../enums';
 
@@ -22,6 +22,18 @@ export namespace IBoards {
   }
   export class CreateBoardResDto extends IBoards.IBase {}
 
+  export class GetAllBoardsQueryDto {
+    @IsArray()
+    @Transform(({ value }) => {
+      if (!value) {
+        return undefined;
+      }
+      return value?.split(',').map((id: string) => parseInt(id, 10));
+    })
+    @IsInt({ each: true })
+    @IsOptional()
+    userId?: number[];
+  }
   export class GetAllBoardsResDto extends Array<IBoards.IBase> {}
 
   export class GetBoardByIdResDto extends IBoards.IBase {}

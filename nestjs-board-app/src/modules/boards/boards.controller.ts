@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post, Query, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 
 import { GetUser } from '../auth/user.decorator';
@@ -13,14 +13,12 @@ import { User } from '@/entities/user.entity';
 export class BoardsController {
   constructor(private boardService: BoardsService) {}
 
-  // TODO: 쿼리로 변경하기
-  // @Get()
-  // getAllBoars(): Promise<IBoards.GetAllBoardsBodyDto> {
-  //   return this.boardService.getAllBoards();
-  // }
   @Get()
-  getAllBoars(@GetUser() user: User): Promise<IBoards.GetAllBoardsResDto> {
-    return this.boardService.getAllBoards(user);
+  getAllBoars(
+    @GetUser() user: User,
+    @Query() query: IBoards.GetAllBoardsQueryDto
+  ): Promise<IBoards.GetAllBoardsResDto> {
+    return this.boardService.getAllBoards(user, query);
   }
 
   @Post()

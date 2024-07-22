@@ -17,12 +17,11 @@ export class BoardsService {
     private boardRepository: BoardRepository
   ) {}
 
-  // async getAllBoards() {
-  //   return await this.boardRepository.find();
-  // }
-  async getAllBoards(user: User) {
+  async getAllBoards(user: User, queryDto: IBoards.GetAllBoardsQueryDto) {
     const query = this.boardRepository.createQueryBuilder('board');
-    query.where('board.userId = :userId', { userId: user.id });
+    if (queryDto.userId) {
+      query.where('board.userId IN (:...userIds)', { userIds: queryDto.userId });
+    }
     const boards = await query.getMany();
     return boards;
   }
