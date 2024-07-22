@@ -11,6 +11,14 @@ describe('UserRepository', () => {
   let repository: UserRepository;
   let moduleRef: TestingModule;
 
+  const clearDB = async () => {
+    const connection = repository.manager.connection;
+    await connection.query('SET FOREIGN_KEY_CHECKS = 0');
+    await repository.clear();
+    await connection.getRepository(Board).clear();
+    await connection.query('SET FOREIGN_KEY_CHECKS = 1');
+  };
+
   beforeAll(async () => {
     moduleRef = await Test.createTestingModule({
       imports: [...getAppConfigModuleForTest(), TypeOrmModule.forFeature([Board])],
@@ -21,12 +29,12 @@ describe('UserRepository', () => {
   });
 
   afterAll(async () => {
-    await repository.clear();
+    await clearDB();
     await moduleRef.close();
   });
 
   beforeEach(async () => {
-    await repository.clear();
+    await clearDB();
   });
 
   it('should be defined', () => {
