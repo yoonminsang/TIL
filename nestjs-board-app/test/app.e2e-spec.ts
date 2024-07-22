@@ -130,22 +130,32 @@ describe('AppController (e2e)', () => {
         ]);
     });
 
-    it('/boards/:boardId/status (PATCH)', async () => {
-      await POST('/boards').send({
-        title: 'title',
-        description: 'description',
-      });
-      return PATCH('/boards/1/status')
-        .send({
-          status: BoardStatus.PRIVATE,
-        })
-        .expect(200)
-        .expect({
-          id: 1,
+    describe('/boards/:boardId/status (PATCH)', () => {
+      it('success', async () => {
+        await POST('/boards').send({
           title: 'title',
           description: 'description',
-          status: BoardStatus.PRIVATE,
         });
+        return PATCH('/boards/1/status')
+          .send({
+            status: BoardStatus.PRIVATE,
+          })
+          .expect(200)
+          .expect({
+            id: 1,
+            title: 'title',
+            description: 'description',
+            status: BoardStatus.PRIVATE,
+          });
+      });
+
+      it('fail 404', async () => {
+        return PATCH('/boards/1/status')
+          .send({
+            status: BoardStatus.PRIVATE,
+          })
+          .expect(404);
+      });
     });
 
     describe('/boards (DELETE)', () => {

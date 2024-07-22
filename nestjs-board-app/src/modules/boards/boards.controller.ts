@@ -44,3 +44,5 @@ export class BoardsController {
     return this.boardService.updateBoardStatus(id, status);
   }
 }
+
+// TODO: e2e get all boards, delete 401
