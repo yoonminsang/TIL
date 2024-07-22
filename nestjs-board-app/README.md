@@ -14,6 +14,11 @@
   - header: 토큰에 대한 메타 데이터(알고리즘, 타입)
   - payload: 유저정보, 만료기간, 주제 등등
   - verify signature: 토큰이 보낸 사람에 의해 서명되었으며 어떤 식으로든 변경되지 않았는지 확인하는 데 사용되는 서명
+- relation(user, board)
+  - 각각의 board는 작성한 유저가 존재한다. 즉 board와 user사이에 userId로 relation이 필요하다.
+  - user한명당 여러개의 board가 존재하므로 n:1 관계이다.
+    - user입장에서는 OneToMany
+    - board입장에서는 ManyToOne
 
 ---
 
