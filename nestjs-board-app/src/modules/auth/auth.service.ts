@@ -14,7 +14,12 @@ export class AuthService {
   ) {}
 
   async signUp(authCredentialsDto: IAuth.AuthCredentialsDto) {
-    const user = await this.userRepository.createUser(authCredentialsDto);
+    const salt = await bcrypt.genSalt();
+    const hashedPassword = await bcrypt.hash(authCredentialsDto.password, salt);
+    const user = await this.userRepository.createUser({
+      username: authCredentialsDto.username,
+      password: hashedPassword,
+    });
     const accessToken = this.jwtService.sign({ username: user.username });
     return { accessToken };
   }
