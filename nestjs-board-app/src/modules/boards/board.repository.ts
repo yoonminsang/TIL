@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { omit } from '@toss/utils';
 import { DataSource, Repository } from 'typeorm';
 
 import { BoardStatus, IBoards } from '@/api-interfaces';
@@ -19,6 +20,6 @@ export class BoardRepository extends Repository<Board> {
       user,
     });
     await this.save(board);
-    return board;
+    return omit(board, ['user']);
   }
 }
