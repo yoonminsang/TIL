@@ -148,12 +148,18 @@ describe('AppController (e2e)', () => {
         });
     });
 
-    it('/boards (DELETE)', async () => {
-      await POST('/boards').send({
-        title: 'title',
-        description: 'description',
+    describe('/boards (DELETE)', () => {
+      it('success', async () => {
+        await POST('/boards').send({
+          title: 'title',
+          description: 'description',
+        });
+        return DELETE('/boards/1').expect(200);
       });
-      return DELETE('/boards/1').expect(200);
+
+      it('fail 404', async () => {
+        return DELETE('/boards/1').expect(404);
+      });
     });
   });
 });
