@@ -22,7 +22,7 @@ export class Board extends BaseEntity {
   // @Column()
   // userId!: number;
 
-  @ManyToOne(() => User, (user) => user.boards, { eager: false })
+  @ManyToOne(() => User, (user) => user.boards, { eager: true })
   // 외래키 이름 설정하는 방법
   // @JoinColumn({ name: 'userId' }) //
   user!: User;

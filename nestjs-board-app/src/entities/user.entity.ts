@@ -15,6 +15,6 @@ export class User extends BaseEntity {
   password!: string;
 
   // eager true: user정보를 가져올때 board정보도 같이 불러온다.
-  @OneToMany(() => Board, (board) => board.user, { eager: true })
+  @OneToMany(() => Board, (board) => board.user)
   boards!: Board[];
 }
