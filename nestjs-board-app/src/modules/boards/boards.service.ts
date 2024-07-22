@@ -1,5 +1,6 @@
 import { Inject, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { ConfigType } from '@nestjs/config';
+import { omit } from '@toss/utils';
 
 import { BoardRepository } from './board.repository';
 
@@ -58,6 +59,6 @@ export class BoardsService {
     const board = await this.getBoardById(id);
     board.status = status;
     await this.boardRepository.save(board);
-    return board;
+    return omit(board, ['user']);
   }
 }
