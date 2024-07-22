@@ -7,6 +7,7 @@ import { BoardsService } from './boards.service';
 import type { IBoards } from '@/api-interfaces';
 import { BoardStatus } from '@/api-interfaces';
 import { Board } from '@/entities/board.entity';
+import { User } from '@/entities/user.entity';
 import { getAppConfigModuleForTest } from '@/utils/test.util';
 
 class StubBoardRepository {
@@ -16,8 +17,11 @@ class StubBoardRepository {
     return this.boards;
   }
 
-  async create(board: Omit<Board, 'id'>) {
-    const created = { ...board, id: this.boards.length + 1 };
+  async createBoard(board: IBoards.CreateBoardBodyDto) {
+    const created = new Board();
+    created.id = this.boards.length + 1;
+    created.title = board.title;
+    created.description = board.description;
     this.boards.push(created);
     return created;
   }
@@ -54,7 +58,11 @@ describe('BoardsService', () => {
     board.description = createBoardDto.description;
     board.status = BoardStatus.PUBLIC;
 
-    const result = await service.createBoard(createBoardDto);
+    const user = new User();
+    user.username = 'username';
+    user.password = '1234';
+
+    const result = await service.createBoard(createBoardDto, user);
     expect(result.title).toBe(board.title);
     expect(result.description).toEqual(board.description);
   });
