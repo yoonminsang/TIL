@@ -1,4 +1,6 @@
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { BaseEntity, Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+
+import { User } from './user.entity';
 
 import { BoardStatus } from '@/api-interfaces';
 
@@ -15,4 +17,7 @@ export class Board extends BaseEntity {
 
   @Column()
   status!: BoardStatus;
+
+  @ManyToOne(() => User, (user) => user.boards, { eager: false })
+  user!: User;
 }
