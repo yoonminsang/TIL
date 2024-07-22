@@ -13,9 +13,14 @@ import { User } from '@/entities/user.entity';
 export class BoardsController {
   constructor(private boardService: BoardsService) {}
 
+  // TODO: 쿼리로 변경하기
+  // @Get()
+  // getAllBoars(): Promise<IBoards.GetAllBoardsBodyDto> {
+  //   return this.boardService.getAllBoards();
+  // }
   @Get()
-  getAllBoars(): Promise<IBoards.GetAllBoardsBodyDto> {
-    return this.boardService.getAllBoards();
+  getAllBoars(@GetUser() user: User): Promise<IBoards.GetAllBoardsBodyDto> {
+    return this.boardService.getAllBoards(user);
   }
 
   @Post()
