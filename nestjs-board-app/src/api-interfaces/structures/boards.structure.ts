@@ -22,7 +22,7 @@ export namespace IBoards {
   }
   export class CreateBoardResDto extends IBoards.IBase {}
 
-  export class GetAllBoardsBodyDto extends Array<IBoards.IBase> {}
+  export class GetAllBoardsResDto extends Array<IBoards.IBase> {}
 
   export class GetBoardByIdResDto extends IBoards.IBase {}
 

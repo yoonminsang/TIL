@@ -19,7 +19,7 @@ export class BoardsController {
   //   return this.boardService.getAllBoards();
   // }
   @Get()
-  getAllBoars(@GetUser() user: User): Promise<IBoards.GetAllBoardsBodyDto> {
+  getAllBoars(@GetUser() user: User): Promise<IBoards.GetAllBoardsResDto> {
     return this.boardService.getAllBoards(user);
   }
 
