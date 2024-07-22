@@ -16,14 +16,15 @@ describe('AppController (e2e)', () => {
   let app: INestApplication;
   let request: TestAgent<supertest.Test>;
 
-  async function createUser() {
-    const body: IAuth.SignUpBodyDto = {
+  async function createUser(
+    body: IAuth.SignUpBodyDto = {
       username: 'username',
       password: '1234',
-    };
+    }
+  ) {
     const res = await request.post('/auth/signup').send(body);
     const resBody: IAuth.SignUpResDto = res.body;
-    return { user: body, accessToken: resBody.accessToken };
+    return { user: body, ...resBody };
   }
 
   beforeAll(async () => {
@@ -101,33 +102,123 @@ describe('AppController (e2e)', () => {
         });
     });
 
-    it('/boards (GET)', async () => {
-      await Promise.all([
-        POST('/boards').send({
-          title: 'title',
-          description: 'description',
-        }),
-        POST('/boards').send({
-          title: 'title2',
-          description: 'description2',
-        }),
-      ]);
-      return GET('/boards')
-        .expect(200)
-        .expect([
-          {
-            id: 1,
+    describe('/boards (GET)', () => {
+      it('basic success', async () => {
+        await Promise.all([
+          POST('/boards').send({
             title: 'title',
             description: 'description',
-            status: BoardStatus.PUBLIC,
-          },
-          {
-            id: 2,
+          }),
+          POST('/boards').send({
             title: 'title2',
             description: 'description2',
-            status: BoardStatus.PUBLIC,
-          },
+          }),
         ]);
+        return GET('/boards')
+          .expect(200)
+          .expect([
+            {
+              id: 1,
+              title: 'title',
+              description: 'description',
+              status: BoardStatus.PUBLIC,
+            },
+            {
+              id: 2,
+              title: 'title2',
+              description: 'description2',
+              status: BoardStatus.PUBLIC,
+            },
+          ]);
+      });
+      it('multi user success', async () => {
+        await POST('/boards').send({
+          title: 'title',
+          description: 'description',
+        });
+        await POST('/boards').send({
+          title: 'title2',
+          description: 'description2',
+        });
+
+        const { accessToken } = await createUser({ username: 'username2', password: '1234' });
+        const TEMP_POST = (endPoint: string) => request.post(endPoint).set('Authorization', `Bearer ${accessToken}`);
+        await TEMP_POST('/boards').send({
+          title: 'title3',
+          description: 'description',
+        });
+        await TEMP_POST('/boards').send({
+          title: 'title4',
+          description: 'description2',
+        });
+
+        return GET(`/boards`)
+          .expect(200)
+          .expect([
+            {
+              id: 1,
+              title: 'title',
+              description: 'description',
+              status: BoardStatus.PUBLIC,
+            },
+            {
+              id: 2,
+              title: 'title2',
+              description: 'description2',
+              status: BoardStatus.PUBLIC,
+            },
+            {
+              id: 3,
+              title: 'title3',
+              description: 'description',
+              status: BoardStatus.PUBLIC,
+            },
+            {
+              id: 4,
+              title: 'title4',
+              description: 'description2',
+              status: BoardStatus.PUBLIC,
+            },
+          ]);
+      });
+      it('queryParam userId success', async () => {
+        await POST('/boards').send({
+          title: 'title',
+          description: 'description',
+        });
+        await POST('/boards').send({
+          title: 'title2',
+          description: 'description2',
+        });
+
+        const { accessToken, id } = await createUser({ username: 'username2', password: '1234' });
+        const TEMP_POST = (endPoint: string) => request.post(endPoint).set('Authorization', `Bearer ${accessToken}`);
+        await TEMP_POST('/boards').send({
+          title: 'title3',
+          description: 'description',
+        });
+        await TEMP_POST('/boards').send({
+          title: 'title4',
+          description: 'description2',
+        });
+
+        return GET(`/boards?userId=${id}`)
+          .expect(200)
+          .expect([
+            {
+              id: 3,
+              title: 'title3',
+              description: 'description',
+              status: BoardStatus.PUBLIC,
+            },
+            {
+              id: 4,
+              title: 'title4',
+              description: 'description2',
+              status: BoardStatus.PUBLIC,
+            },
+          ]);
+      });
     });
 
     describe('/boards/:boardId/status (PATCH)', () => {
