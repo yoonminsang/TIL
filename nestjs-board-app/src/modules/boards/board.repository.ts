@@ -30,4 +30,11 @@ export class BoardRepository extends Repository<Board> {
     }
     return board;
   }
+
+  async updateStatusById(id: number, status: BoardStatus) {
+    const board = await this.findById(id);
+    board.status = status;
+    await this.save(board);
+    return omit(board, ['user']);
+  }
 }
