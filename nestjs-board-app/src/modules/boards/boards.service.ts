@@ -32,11 +32,7 @@ export class BoardsService {
   }
 
   async getBoardById(id: number) {
-    const board = await this.boardRepository.findOne({ where: { id } });
-    if (!board) {
-      throw new NotFoundException(`Can't find Board with id ${id}`);
-    }
-    return board;
+    return await this.boardRepository.findById(id);
   }
 
   async deleteBoard(id: number, user: User) {

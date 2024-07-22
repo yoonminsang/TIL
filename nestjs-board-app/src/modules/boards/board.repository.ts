@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { omit } from '@toss/utils';
 import { DataSource, Repository } from 'typeorm';
 
@@ -21,5 +21,13 @@ export class BoardRepository extends Repository<Board> {
     });
     await this.save(board);
     return omit(board, ['user']);
+  }
+
+  async findById(id: number) {
+    const board = await this.findOne({ where: { id } });
+    if (!board) {
+      throw new NotFoundException(`Can't find Board with id ${id}`);
+    }
+    return board;
   }
 }
