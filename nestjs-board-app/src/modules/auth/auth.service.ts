@@ -21,7 +21,7 @@ export class AuthService {
       password: hashedPassword,
     });
     const accessToken = this.jwtService.sign({ username: user.username });
-    return { accessToken };
+    return { accessToken, id: user.id, username: user.username };
   }
 
   async signIn({ username, password }: IAuth.AuthCredentialsDto) {
@@ -30,7 +30,7 @@ export class AuthService {
       // 유저 토큰 생성 (Secret + Payload)
       const payload = { username: user.username };
       const accessToken = this.jwtService.sign(payload);
-      return { accessToken };
+      return { accessToken, id: user.id, username: user.username };
     } else {
       throw new UnauthorizedException('login fail');
     }

@@ -20,13 +20,15 @@ export namespace IAuth {
     password!: string;
   }
 
-  export class Token {
+  export class IBase {
+    id!: number;
+    username!: string;
     accessToken!: string;
   }
 
   export class SignUpBodyDto extends AuthCredentialsDto {}
-  export class SignUpResDto extends Token {}
+  export class SignUpResDto extends IBase {}
 
   export class SignInBodyDto extends AuthCredentialsDto {}
-  export class SignInResDto extends Token {}
+  export class SignInResDto extends IBase {}
 }
