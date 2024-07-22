@@ -1,9 +1,12 @@
 import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 
+import { GetUser } from '../auth/user.decorator';
+
 import { BoardsService } from './boards.service';
 
 import { IBoards } from '@/api-interfaces';
+import { User } from '@/entities/user.entity';
 
 @Controller('boards')
 @UseGuards(AuthGuard())
@@ -16,8 +19,8 @@ export class BoardsController {
   }
 
   @Post()
-  createBoard(@Body() body: IBoards.CreateBoardBodyDto): Promise<IBoards.CreateBoardResDto> {
-    return this.boardService.createBoard(body);
+  createBoard(@Body() body: IBoards.CreateBoardBodyDto, @GetUser() user: User): Promise<IBoards.CreateBoardResDto> {
+    return this.boardService.createBoard(body, user);
   }
 
   @Get('/:id')

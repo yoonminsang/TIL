@@ -5,6 +5,7 @@ import { BoardRepository } from './board.repository';
 
 import { BoardStatus, IBoards } from '@/api-interfaces';
 import { appConfig } from '@/configs/app.config';
+import { User } from '@/entities/user.entity';
 
 @Injectable()
 export class BoardsService {
@@ -20,14 +21,8 @@ export class BoardsService {
     return await this.boardRepository.find();
   }
 
-  async createBoard({ title, description }: IBoards.CreateBoardBodyDto) {
-    const board = this.boardRepository.create({
-      title,
-      description,
-      status: BoardStatus.PUBLIC,
-    });
-    await this.boardRepository.save(board);
-    return board;
+  async createBoard(body: IBoards.CreateBoardBodyDto, user: User) {
+    return await this.boardRepository.createBoard(body, user);
   }
 
   async getBoardById(id: number) {
