@@ -8,6 +8,16 @@ const logFormat = winston.format.printf(({ timestamp, level, message, stack }) =
   return `${timestamp}, ${level}: ${message}, (stack: ${JSON.stringify(stack)})`;
 });
 
+const customFilter = winston.format((info) => {
+  // NOTE: 기본적으로 찍히는 로그들을 제거합니다.
+  const filterContexts = ['NestFactory', 'InstanceLoader', 'RoutesResolver', 'RouterExplorer', 'NestApplication'];
+
+  if (filterContexts.includes(info.context)) {
+    return false;
+  }
+  return info;
+});
+
 export const getWinstonModule = () => {
   const transports: winston.transport[] = [];
 
@@ -48,7 +58,7 @@ export const getWinstonModule = () => {
 
   return WinstonModule.createLogger({
     level: 'info',
-    format: winston.format.combine(winston.format.timestamp(), logFormat),
+    format: winston.format.combine(customFilter(), winston.format.timestamp(), logFormat),
     transports,
   });
 };
