@@ -20,7 +20,7 @@ export class BoardsService {
   ) {}
 
   async getAllBoards(user: User, queryDto: IBoards.GetAllBoardsQueryDto) {
-    this.logger.error(`의존성 주입으로 env와 logger 접근하기 (getAllBoard) port: ${this.env.port}`, {
+    this.logger.log(`의존성 주입으로 env와 logger 접근하기 (getAllBoard) port: ${this.env.port}`, {
       port: this.env.port,
     });
     const query = this.boardRepository.createQueryBuilder('board');
