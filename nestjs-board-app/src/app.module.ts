@@ -1,8 +1,9 @@
-import { Logger, Module, ValidationPipe } from '@nestjs/common';
+import { Logger, MiddlewareConsumer, Module, NestModule, ValidationPipe } from '@nestjs/common';
 import { APP_PIPE } from '@nestjs/core';
 
 import { getAppConfigModule } from './configs/app.config';
 import { getTypeORMConfigModule } from './configs/typeorm.config';
+import { LoggerContextMiddleware } from './middlewares/LoggerContext.middleware';
 import { AuthModule } from './modules/auth/auth.module';
 import { BoardsModule } from './modules/boards/boards.module';
 
@@ -16,4 +17,8 @@ import { BoardsModule } from './modules/boards/boards.module';
     },
   ],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(LoggerContextMiddleware).forRoutes('*');
+  }
+}
