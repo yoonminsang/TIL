@@ -4,9 +4,12 @@ import { NestFactory } from '@nestjs/core';
 
 import { AppModule } from './app.module';
 import { appConfig } from './configs/app.config';
+import { getWinstonModule } from './configs/logger.config';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, {
+    logger: getWinstonModule(),
+  });
   const { port } = app.get<ConfigType<typeof appConfig>>(appConfig.KEY);
   app.useGlobalPipes(
     new ValidationPipe({

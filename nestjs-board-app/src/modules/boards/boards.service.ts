@@ -1,4 +1,4 @@
-import { Inject, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
+import { Inject, Injectable, Logger, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { ConfigType } from '@nestjs/config';
 
 import { BoardRepository } from './board.repository';
@@ -9,15 +9,20 @@ import { User } from '@/entities/user.entity';
 
 @Injectable()
 export class BoardsService {
-  // NOTE: env에 접근하는 방법
+  // NOTE: env와 logger에 접근하는 방법
   constructor(
     @Inject(appConfig.KEY)
     private env: ConfigType<typeof appConfig>,
+
+    private readonly logger: Logger,
 
     private boardRepository: BoardRepository
   ) {}
 
   async getAllBoards(user: User, queryDto: IBoards.GetAllBoardsQueryDto) {
+    this.logger.error(`의존성 주입으로 env와 logger 접근하기 (getAllBoard) port: ${this.env.port}`, {
+      port: this.env.port,
+    });
     const query = this.boardRepository.createQueryBuilder('board');
     if (queryDto.userId) {
       query.where('board.userId IN (:...userIds)', { userIds: queryDto.userId });
