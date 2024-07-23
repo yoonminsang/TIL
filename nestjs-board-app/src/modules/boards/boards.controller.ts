@@ -1,4 +1,16 @@
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post, Query, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Logger,
+  Param,
+  ParseIntPipe,
+  Patch,
+  Post,
+  Query,
+  UseGuards,
+} from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 
 import { GetUser } from '../auth/user.decorator';
@@ -11,6 +23,7 @@ import { User } from '@/entities/user.entity';
 @Controller('boards')
 @UseGuards(AuthGuard())
 export class BoardsController {
+  private logger = new Logger('BoardsController');
   constructor(private boardService: BoardsService) {}
 
   @Get()
@@ -18,6 +31,7 @@ export class BoardsController {
     @GetUser() user: User,
     @Query() query: IBoards.GetAllBoardsQueryDto
   ): Promise<IBoards.GetAllBoardsResDto> {
+    this.logger.verbose(`User ${user.username} trying to get all boards`);
     return this.boardService.getAllBoards(user, query);
   }
 
