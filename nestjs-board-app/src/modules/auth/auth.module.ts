@@ -23,7 +23,7 @@ import { User } from '@/entities/user.entity';
         return {
           secret: env.jwtSecret,
           signOptions: {
-            expiresIn: 60 * 60, // 1시간
+            expiresIn: env.jwtExpiresIn,
           },
         };
       },

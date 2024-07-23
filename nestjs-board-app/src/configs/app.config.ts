@@ -11,6 +11,7 @@ export const appConfig = registerAs('app', () => ({
   port: Number(assertString(process.env.PORT, 'port')),
   ['node_env']: assertString(process.env.NODE_ENV, 'node_env'),
   jwtSecret: assertString(process.env.JWT_SECRET, 'jwtSecret'),
+  jwtExpiresIn: Number(assertString(process.env.JWT_EXPIRED_IN, 'jwtExpiresIn')),
 }));
 
 export const getAppConfigModule = () =>
