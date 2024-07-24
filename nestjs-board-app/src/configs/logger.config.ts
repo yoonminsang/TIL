@@ -19,6 +19,7 @@ const customFilter = winston.format((info) => {
 });
 
 export const getWinstonModule = () => {
+  // NOTE: slack에 연결하는 방법도 좋음. [링크](https://www.npmjs.com/package/winston-slack-webhook-transport)
   const transports: winston.transport[] = [];
 
   transports.push(
