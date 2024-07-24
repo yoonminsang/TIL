@@ -18,6 +18,9 @@ const customFilter = winston.format((info) => {
   return info;
 });
 
+// NOTE: cloudwatch는 비용이 드니 가볍게 진행할 때는 s3에 업로드하는 방법도 괜찮을 듯.
+// 조금 더 나아간다면 프론트에서 이걸 연결하는 방법도 있다.
+
 export const getWinstonModule = () => {
   // NOTE: slack에 연결하는 방법도 좋음. [링크](https://www.npmjs.com/package/winston-slack-webhook-transport)
   const transports: winston.transport[] = [];
