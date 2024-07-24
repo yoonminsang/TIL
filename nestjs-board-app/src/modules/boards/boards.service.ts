@@ -12,11 +12,11 @@ export class BoardsService {
   // NOTE: env와 logger에 접근하는 방법
   constructor(
     @Inject(appConfig.KEY)
-    private env: ConfigType<typeof appConfig>,
+    private readonly env: ConfigType<typeof appConfig>,
 
     private readonly logger: Logger,
 
-    private boardRepository: BoardRepository
+    private readonly boardRepository: BoardRepository
   ) {}
 
   async getAllBoards(user: User, queryDto: IBoards.GetAllBoardsQueryDto) {

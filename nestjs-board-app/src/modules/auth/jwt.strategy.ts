@@ -11,7 +11,7 @@ import { appConfig } from '@/configs/app.config';
 export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor(
     @Inject(appConfig.KEY)
-    private env: ConfigType<typeof appConfig>,
+    private readonly env: ConfigType<typeof appConfig>,
 
     private userRepository: UserRepository
   ) {

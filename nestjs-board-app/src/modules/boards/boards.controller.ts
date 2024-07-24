@@ -11,7 +11,7 @@ import { User } from '@/entities/user.entity';
 @Controller('boards')
 @UseGuards(AuthGuard())
 export class BoardsController {
-  constructor(private boardService: BoardsService) {}
+  constructor(private readonly boardService: BoardsService) {}
 
   @Get()
   getAllBoars(

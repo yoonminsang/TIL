@@ -10,8 +10,8 @@ import { IAuth } from '@/api-interfaces/structures/auth.structure';
 @Injectable()
 export class AuthService {
   constructor(
-    private userRepository: UserRepository,
-    private jwtService: JwtService
+    private readonly userRepository: UserRepository,
+    private readonly jwtService: JwtService
   ) {}
 
   async signUp(authCredentialsDto: IAuth.AuthCredentialsDto) {

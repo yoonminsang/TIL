@@ -8,7 +8,7 @@ import { User } from '@/entities/user.entity';
 
 @Injectable()
 export class BoardRepository extends Repository<Board> {
-  constructor(private dataSource: DataSource) {
+  constructor(private readonly dataSource: DataSource) {
     super(Board, dataSource.createEntityManager());
   }
 

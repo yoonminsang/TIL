@@ -9,7 +9,7 @@ import { User } from '@/entities/user.entity';
 
 @Controller('auth')
 export class AuthController {
-  constructor(private authService: AuthService) {}
+  constructor(private readonly authService: AuthService) {}
 
   @Post('/signup')
   signUp(@Body() authCredentialsDto: IAuth.SignUpBodyDto): Promise<IAuth.SignUpResDto> {
