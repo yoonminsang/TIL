@@ -19,14 +19,21 @@ export class LoggerContextMiddleware implements NestMiddleware {
   ) {}
 
   use(req: Request, res: Response, next: NextFunction) {
-    const { ip, method, originalUrl, headers } = req;
+    const { ip, method, originalUrl, headers, body } = req;
     const userAgent = req.get('user-agent');
+    const maskedBody = maskSensitiveInfo(body);
 
     const userId = getUserId(headers, this.env.jwtSecret);
 
+    const startTime = Date.now();
+
     res.on('finish', () => {
       const { statusCode } = res;
-      this.logger.log(`USER-${userId} ${method} ${originalUrl} ${statusCode} ${ip} ${userAgent}`);
+      const endTime = Date.now();
+      const duration = endTime - startTime;
+      this.logger.log(
+        `USER-${userId} ${method} ${originalUrl} ${JSON.stringify(maskedBody)} ${statusCode} ${ip} ${userAgent} - ${duration}ms`
+      );
     });
 
     next();
@@ -46,4 +53,12 @@ const getUserId = (headers: IncomingHttpHeaders, jwtSecret: string) => {
     } catch (error) {}
   }
   return null;
+};
+
+const maskSensitiveInfo = (body: any) => {
+  const clonedBody = { ...body };
+  if (clonedBody.password) {
+    clonedBody.password = '******';
+  }
+  return clonedBody;
 };
