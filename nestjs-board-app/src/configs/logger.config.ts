@@ -4,8 +4,8 @@ import * as DailyRotateFile from 'winston-daily-rotate-file';
 
 const dirname = `${process.cwd()}/logs`;
 
-const logFormat = winston.format.printf(({ timestamp, level, message, stack }) => {
-  return `${timestamp}, ${level}: ${message}, (stack: ${JSON.stringify(stack)})`;
+const logFormat = winston.format.printf(({ timestamp, level, message, stack, context }) => {
+  return `${timestamp}, ${level}: ${message}, (context: ${JSON.stringify(context)}), (stack: ${JSON.stringify(stack)})`;
 });
 
 const customFilter = winston.format((info) => {
