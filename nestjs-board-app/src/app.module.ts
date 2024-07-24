@@ -1,8 +1,9 @@
 import { Logger, MiddlewareConsumer, Module, NestModule, ValidationPipe } from '@nestjs/common';
-import { APP_PIPE } from '@nestjs/core';
+import { APP_FILTER, APP_PIPE } from '@nestjs/core';
 
 import { getAppConfigModule } from './configs/app.config';
 import { getTypeORMConfigModule } from './configs/typeorm.config';
+import { HttpExceptionFilter } from './exceptionFilters/HttpExceptionFilter';
 import { LoggerContextMiddleware } from './middlewares/LoggerContext.middleware';
 import { AuthModule } from './modules/auth/auth.module';
 import { BoardsModule } from './modules/boards/boards.module';
@@ -14,6 +15,10 @@ import { BoardsModule } from './modules/boards/boards.module';
     {
       provide: APP_PIPE,
       useClass: ValidationPipe,
+    },
+    {
+      provide: APP_FILTER,
+      useClass: HttpExceptionFilter,
     },
   ],
 })
