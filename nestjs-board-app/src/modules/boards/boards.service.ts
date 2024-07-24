@@ -20,9 +20,19 @@ export class BoardsService {
   ) {}
 
   async getAllBoards(user: User, queryDto: IBoards.GetAllBoardsQueryDto) {
-    this.logger.log(`의존성 주입으로 env와 logger 접근하기 (getAllBoard) port: ${this.env.port}`, {
-      port: this.env.port,
-    });
+    // this.logger.log(`의존성 주입으로 env와 logger 접근하기 (getAllBoard) port: ${this.env.port}`, {
+    //   port: this.env.port,
+    // });
+    // throw new Error('그냥 에러');
+    // throw new InternalServerErrorException();
+    // throw new HttpException(
+    //   {
+    //     code: 'code001',
+    //     message: 'code001 message',
+    //     statusCode: HttpStatus.FORBIDDEN,
+    //   },
+    //   HttpStatus.FORBIDDEN
+    // );
     const query = this.boardRepository.createQueryBuilder('board');
     if (queryDto.userId) {
       query.where('board.userId IN (:...userIds)', { userIds: queryDto.userId });
