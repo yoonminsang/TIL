@@ -1,10 +1,11 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcryptjs';
 
 import { AccessTokenPayload } from './auth.dto';
 import { UserRepository } from './user.repository';
 
+import { CustomError } from '@/api-interfaces';
 import { IAuth } from '@/api-interfaces/structures/auth.structure';
 
 @Injectable()
@@ -34,7 +35,7 @@ export class AuthService {
       const accessToken = this.jwtService.sign(payload);
       return { accessToken, id: user.id, username: user.username };
     } else {
-      throw new UnauthorizedException('login fail');
+      throw new CustomError.UnauthorizedException({ message: 'login fail' });
     }
   }
 }

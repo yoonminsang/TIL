@@ -1,9 +1,9 @@
-import { Inject, Injectable, Logger, NotFoundException, UnauthorizedException } from '@nestjs/common';
+import { Inject, Injectable, Logger } from '@nestjs/common';
 import { ConfigType } from '@nestjs/config';
 
 import { BoardRepository } from './board.repository';
 
-import { BoardStatus, IBoards } from '@/api-interfaces';
+import { BoardStatus, CustomError, IBoards } from '@/api-interfaces';
 import { appConfig } from '@/configs/app.config';
 import { User } from '@/entities/user.entity';
 
@@ -55,17 +55,17 @@ export class BoardsService {
     const board = await this.boardRepository.findOne({ where: { id } });
 
     if (!board) {
-      throw new NotFoundException(`Can't find Board with id ${id}`);
+      throw new CustomError.NotFoundException({ message: `Can't find Board with id ${id}` });
     }
 
     if (board.user.id !== user.id) {
-      throw new UnauthorizedException('You are not allowed to delete this board');
+      throw new CustomError.UnauthorizedException({ message: 'You are not allowed to delete this board' });
     }
 
     const result = await this.boardRepository.delete({ id });
 
     if (result.affected === 0) {
-      throw new NotFoundException(`Can't find Board with id ${id}`);
+      throw new CustomError.NotFoundException({ message: `Can't find Board with id ${id}` });
     }
   }
 

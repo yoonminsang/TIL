@@ -1,6 +1,7 @@
-import { ConflictException, Injectable, InternalServerErrorException } from '@nestjs/common';
+import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { DataSource, Repository } from 'typeorm';
 
+import { CustomError } from '@/api-interfaces';
 import { IAuth } from '@/api-interfaces/structures/auth.structure';
 import { User } from '@/entities/user.entity';
 
@@ -17,7 +18,7 @@ export class UserRepository extends Repository<User> {
       return user;
     } catch (err: any) {
       if (err?.code === 'ER_DUP_ENTRY') {
-        throw new ConflictException('Existing username');
+        throw new CustomError.ConflictException({ message: 'Existing username' });
       } else {
         throw new InternalServerErrorException();
       }

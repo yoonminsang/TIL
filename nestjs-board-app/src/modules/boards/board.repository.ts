@@ -1,8 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { omit } from '@toss/utils';
 import { DataSource, Repository } from 'typeorm';
 
-import { BoardStatus, IBoards } from '@/api-interfaces';
+import { BoardStatus, CustomError, IBoards } from '@/api-interfaces';
 import { Board } from '@/entities/board.entity';
 import { User } from '@/entities/user.entity';
 
@@ -26,7 +26,7 @@ export class BoardRepository extends Repository<Board> {
   async findById(id: number) {
     const board = await this.findOne({ where: { id } });
     if (!board) {
-      throw new NotFoundException(`Can't find Board with id ${id}`);
+      throw new CustomError.NotFoundException({ message: `Can't find Board with id ${id}` });
     }
     return board;
   }
