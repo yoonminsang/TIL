@@ -10,6 +10,8 @@ import { getWinstonModule } from './configs/logger.config';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
     logger: getWinstonModule(),
+    // NOTE: 실제 프로덕트에서는 cors에 옵션 키기
+    cors: true,
   });
   const { port } = app.get<ConfigType<typeof appConfig>>(appConfig.KEY);
   app.use(helmet());
