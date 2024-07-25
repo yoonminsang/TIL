@@ -1,6 +1,7 @@
 import { Logger, ValidationPipe } from '@nestjs/common';
 import type { ConfigType } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
+import helmet from 'helmet';
 
 import { AppModule } from './app.module';
 import { appConfig } from './configs/app.config';
@@ -11,6 +12,7 @@ async function bootstrap() {
     logger: getWinstonModule(),
   });
   const { port } = app.get<ConfigType<typeof appConfig>>(appConfig.KEY);
+  app.use(helmet());
   app.useGlobalPipes(
     new ValidationPipe({
       transform: true,
