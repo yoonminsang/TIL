@@ -12,6 +12,7 @@ export const appConfig = registerAs('app', () => ({
   ['node_env']: assertString(process.env.NODE_ENV, 'node_env'),
   jwtSecret: assertString(process.env.JWT_SECRET, 'jwtSecret'),
   jwtExpiresIn: Number(assertString(process.env.JWT_EXPIRED_IN, 'jwtExpiresIn')),
+  throttleLimit: Number(assertString(process.env.THROTTLE_LIMIT, 'throttleLimit')),
 }));
 
 export const getAppConfigModule = () =>
