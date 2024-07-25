@@ -8,5 +8,6 @@ export const BaseExceptionCode = {
   NotAcceptable: 'NotAcceptable',
   Timeout: 'Timeout',
   Conflict: 'Conflict',
+  InternalServerError: 'InternalServerError',
 } as const;
 export type BaseExceptionCode = ExtractValue<typeof BaseExceptionCode>;

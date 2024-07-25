@@ -84,6 +84,16 @@ class ConflictException<T = undefined> extends RestException<T> {
   }
 }
 
+class InternalServerErrorException<T = undefined> extends RestException<T> {
+  constructor({ data, message }: { data?: T; message?: ApiError<T>['message'] } = {}) {
+    super(HttpStatus.INTERNAL_SERVER_ERROR, {
+      code: RestExceptionCode.BaseExceptionCode.InternalServerError,
+      data,
+      message,
+    });
+  }
+}
+
 export const CustomError = {
   RestException,
   BadRequestException,
@@ -93,4 +103,5 @@ export const CustomError = {
   NotAcceptableException,
   TimeoutException,
   ConflictException,
+  InternalServerErrorException,
 } as const;
