@@ -1,3 +1,4 @@
+import { Logger } from '@nestjs/common';
 import type { TestingModule } from '@nestjs/testing';
 import { Test } from '@nestjs/testing';
 
@@ -41,6 +42,7 @@ describe('BoardsService', () => {
           provide: BoardRepository,
           useClass: StubBoardRepository,
         },
+        Logger,
       ],
     }).compile();
 
