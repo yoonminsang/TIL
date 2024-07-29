@@ -1,6 +1,7 @@
 import { ArgumentsHost, Catch, ExceptionFilter, HttpException, HttpStatus, Logger } from '@nestjs/common';
 import { Request, Response } from 'express';
 
+import { CustomError } from '@/api-interfaces';
 import { AccessTokenPayload } from '@/modules/auth/auth.dto';
 
 @Catch()
@@ -29,7 +30,9 @@ export class HttpExceptionFilter implements ExceptionFilter {
       const message = `로직 에러. USER-${userId} ${method} ${originalUrl} ${JSON.stringify(body)} ${HttpStatus.INTERNAL_SERVER_ERROR} ${ip} ${userAgent}`;
       this.logger.error(message, { exception: this.formatError(exception) });
 
-      res.status(500).json({ statusCode: HttpStatus.INTERNAL_SERVER_ERROR, message: 'Internal server error' });
+      res
+        .status(500)
+        .json(new CustomError.InternalServerErrorException({ message: 'Internal server logic error ' }).getResponse());
     }
   }
 
