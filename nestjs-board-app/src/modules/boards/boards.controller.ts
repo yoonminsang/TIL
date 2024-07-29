@@ -1,6 +1,6 @@
 import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post, Query, UseGuards } from '@nestjs/common';
-import { AuthGuard } from '@nestjs/passport';
 
+import { CustomAuthGuard } from '../auth/auth.guard';
 import { GetUser } from '../auth/user.decorator';
 
 import { BoardsService } from './boards.service';
@@ -9,7 +9,7 @@ import { IBoards } from '@/api-interfaces';
 import { User } from '@/entities/user.entity';
 
 @Controller('boards')
-@UseGuards(AuthGuard())
+@UseGuards(CustomAuthGuard)
 export class BoardsController {
   constructor(private readonly boardService: BoardsService) {}
 
