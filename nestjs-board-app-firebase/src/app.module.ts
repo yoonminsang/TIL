@@ -4,7 +4,8 @@ import { APP_FILTER, APP_GUARD, APP_PIPE } from '@nestjs/core';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 
 import { appConfig, getAppConfigModule } from './configs/app.config';
-import { getTypeORMConfigModule } from './configs/typeorm.config';
+import { getFirebaseConfigModule } from './configs/firebase.config';
+import { getTypeORMConfigModule, getTypeORMSettingConfigModule } from './configs/typeorm.config';
 import { HttpExceptionFilter } from './exceptionFilters/HttpExceptionFilter';
 import { LoggerContextMiddleware } from './middlewares/LoggerContext.middleware';
 import { AuthModule } from './modules/auth/auth.module';
@@ -13,7 +14,9 @@ import { BoardsModule } from './modules/boards/boards.module';
 @Module({
   imports: [
     getAppConfigModule(),
+    getFirebaseConfigModule(),
     getTypeORMConfigModule(),
+    getTypeORMSettingConfigModule(),
     // NOTE: 실제 프로덕트에서는 적절히 조절하기(유저수가 일정 이상되 다른 방법으로 Rate Limiting 걸어야할지도)
     ThrottlerModule.forRootAsync({
       imports: [ConfigModule],

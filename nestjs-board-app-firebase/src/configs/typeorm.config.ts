@@ -38,7 +38,6 @@ export const getTypeORMSettingConfigModule = () =>
     inject: [ConfigService],
     useFactory: async (configService: ConfigService) => {
       const env: ConfigType<typeof typeORMConfig> = configService.get('typeORM')!;
-      console.log(env, process.env.NODE_ENV);
       return env;
     },
   });
