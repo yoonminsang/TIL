@@ -1,6 +1,6 @@
-import { Module, Provider } from '@nestjs/common';
+import { Logger, Module, Provider } from '@nestjs/common';
 import { ConfigModule, ConfigService, ConfigType } from '@nestjs/config';
-import * as admin from 'firebase-admin';
+import admin from 'firebase-admin';
 
 import { FirebaseService } from './firebase.service';
 
@@ -23,7 +23,7 @@ const firebaseProvider: Provider = {
 
 @Module({
   imports: [ConfigModule],
-  providers: [firebaseProvider, FirebaseService],
+  providers: [Logger, firebaseProvider, FirebaseService],
   exports: [FirebaseService],
 })
 export class FirebaseModule {}
