@@ -8,16 +8,6 @@ const logFormat = winston.format.printf(({ timestamp, level, message, stack, con
   return `${timestamp}, ${level}: ${message}, (context: ${JSON.stringify(context)}), (stack: ${JSON.stringify(stack)})`;
 });
 
-const customFilter = winston.format((info) => {
-  // NOTE: 기본적으로 찍히는 로그들을 제거합니다.
-  const filterContexts = ['NestFactory', 'InstanceLoader', 'RoutesResolver', 'RouterExplorer', 'NestApplication'];
-
-  if (filterContexts.includes(info.context)) {
-    return false;
-  }
-  return info;
-});
-
 // NOTE: cloudwatch는 비용이 드니 가볍게 진행할 때는 s3에 업로드하는 방법도 괜찮을 듯.
 // 조금 더 나아간다면 프론트에서 이걸 연결하는 방법도 있다.
 
@@ -62,7 +52,7 @@ export const getWinstonModule = () => {
 
   return WinstonModule.createLogger({
     level: 'info',
-    format: winston.format.combine(customFilter(), winston.format.timestamp(), logFormat),
+    format: winston.format.combine(winston.format.timestamp(), logFormat),
     transports,
   });
 };
