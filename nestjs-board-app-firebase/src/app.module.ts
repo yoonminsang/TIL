@@ -10,6 +10,7 @@ import { HttpExceptionFilter } from './exceptionFilters/HttpExceptionFilter';
 import { LoggerContextMiddleware } from './middlewares/LoggerContext.middleware';
 import { AuthModule } from './modules/auth/auth.module';
 import { BoardsModule } from './modules/boards/boards.module';
+import { UsersModule } from './modules/users/users.module';
 
 @Module({
   imports: [
@@ -33,6 +34,7 @@ import { BoardsModule } from './modules/boards/boards.module';
     }),
     BoardsModule,
     AuthModule,
+    UsersModule,
   ],
   providers: [
     Logger,
