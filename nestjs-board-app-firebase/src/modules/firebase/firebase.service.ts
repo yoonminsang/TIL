@@ -2,7 +2,6 @@ import { HttpStatus, Injectable } from '@nestjs/common';
 import type { FirebaseError } from 'firebase-admin';
 import admin from 'firebase-admin';
 import { CreateRequest, UpdateRequest } from 'firebase-admin/lib/auth/auth-config';
-import { UserRecord } from 'firebase-admin/lib/auth/user-record';
 
 import { CustomError, FirebaseExceptionCode } from '@/api-interfaces';
 import { enumIncludes } from '@/utils/types.utils';
@@ -17,7 +16,7 @@ export class FirebaseService {
     return await admin.auth().getUser(uuid);
   }
 
-  async createUser(userDto: CreateRequest): Promise<UserRecord> {
+  async createUser(userDto: CreateRequest) {
     try {
       return await admin.auth().createUser(userDto);
     } catch (err) {
@@ -41,13 +40,35 @@ export class FirebaseService {
     }
   }
 
-  // NOTE: client에서 customToken으로 로그인 할 수 있다.
   async createCustomToken(uid: string, developerClaims?: object) {
     try {
       return admin.auth().createCustomToken(uid, developerClaims);
     } catch (err) {
       this.handleFirebaseError(err as FirebaseError);
     }
+  }
+
+  async getVerifyToken(token: string) {
+    try {
+      return await this.verifyToken(token);
+    } catch (err) {
+      this.handleFirebaseError(err as FirebaseError);
+    }
+  }
+
+  /** idToken만 가능합니다.(customToken 불가능) */
+  async getUserByToken(idToken: string) {
+    try {
+      const decodedToken = await this.verifyToken(idToken);
+      return await this.getUser(decodedToken.uid);
+    } catch (err) {
+      this.handleFirebaseError(err as FirebaseError);
+    }
+  }
+
+  // NOTE: 사용하는쪽에서 에러처리필요
+  private async verifyToken(token: string) {
+    return await admin.auth().verifyIdToken(token);
   }
 
   private handleFirebaseError(error: FirebaseError): never {
