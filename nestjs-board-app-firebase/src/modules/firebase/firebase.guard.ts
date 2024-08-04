@@ -1,6 +1,7 @@
 import { CanActivate, ExecutionContext, Injectable, Logger } from '@nestjs/common';
 
 import { FirebaseService } from './firebase.service';
+import { extractToken } from './firebase.util';
 
 @Injectable()
 export class FirebaseAuthGuard implements CanActivate {
@@ -11,7 +12,7 @@ export class FirebaseAuthGuard implements CanActivate {
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const request = context.switchToHttp().getRequest();
-    const token = this.extractToken(request);
+    const token = extractToken(request);
 
     if (!token) {
       return false;
@@ -25,17 +26,5 @@ export class FirebaseAuthGuard implements CanActivate {
       this.logger.warn('FirebaseAuthGuard에서 getUserByToken 에러 발생', { error });
       return false;
     }
-  }
-
-  private extractToken(request: any): string | null {
-    const authorization: string | undefined = request.headers.authorization;
-    if (!authorization) {
-      return null;
-    }
-    if (!authorization.startsWith('Bearer ')) {
-      return null;
-    }
-    const [, token] = authorization.split(' ');
-    return token;
   }
 }
