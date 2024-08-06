@@ -1,5 +1,5 @@
 import { getAppConfigModule } from '@/configs/app.config';
-import { getTypeORMConfigModule } from '@/configs/typeorm.config';
+import { getTypeORMConfigModule, getTypeORMSettingConfigModule } from '@/configs/typeorm.config';
 
 /**
  * 테스트코드에서 기본 app config module을 return하는 함수입니다.
@@ -26,4 +26,8 @@ import { getTypeORMConfigModule } from '@/configs/typeorm.config';
     });
   });
  */
-export const getAppConfigModuleForTest = () => [getAppConfigModule(), getTypeORMConfigModule()];
+export const getAppConfigModuleForTest = () => [
+  getAppConfigModule(),
+  getTypeORMConfigModule(),
+  getTypeORMSettingConfigModule(),
+];

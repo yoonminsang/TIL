@@ -1,9 +1,10 @@
 import { BaseExceptionCode } from './base.exception.code';
-
-import type { ExtractValue } from '@/types';
+import { FirebaseExceptionCode } from './firebase.exception.code';
 
 export const RestExceptionCode = {
   BaseExceptionCode,
+  FirebaseExceptionCode,
 } as const;
 
-export type RestExceptionCode = ExtractValue<typeof BaseExceptionCode>;
+export type RestExceptionCode = BaseExceptionCode | FirebaseExceptionCode;
+export { BaseExceptionCode, FirebaseExceptionCode };

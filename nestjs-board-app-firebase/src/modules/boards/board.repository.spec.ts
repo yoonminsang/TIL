@@ -34,7 +34,6 @@ describe('BoardRepository', () => {
     expect(repository).toBeDefined();
   });
 
-  // TODO: 한번씩 테스트가 실패함... 왜그럴까
   it('should create a new board', async () => {
     const board = repository.create({
       title: 'Test Board',
@@ -42,10 +41,10 @@ describe('BoardRepository', () => {
       status: BoardStatus.PUBLIC,
     });
 
-    await repository.save(board);
+    const { id: createdId } = await repository.save(board);
 
     const savedBoard = await repository.findOne({
-      where: { id: board.id },
+      where: { id: createdId },
     });
     expect(savedBoard).toBeDefined();
     expect(savedBoard?.title).toEqual('Test Board');
