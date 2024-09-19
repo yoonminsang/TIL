@@ -6,6 +6,7 @@ export function ImageLazyLoadingPage() {
     <main css={wrapperCSS}>
       <h1>ImageLazyLoadingPage</h1>
       <h2>Scroll Down 👇</h2>
+      <div>dataset을 이용해서 lazy load하는 방식입니다.</div>
       <ImageEditor
         imageList={RANDOM_IMAGE_LIST}
         options={{ root: null, rootMargin: '0px 0px 100px 0px', threshold: 0 }}
@@ -16,18 +17,15 @@ export function ImageLazyLoadingPage() {
 
 const RANDOM_IMAGE_LIST = Array(100)
   .fill(null)
-  .map((_, i) => ({ src: `https://picsum.photos/600/400/?random?${i}`, alt: 'random image' }));
+  .map((_, i) => ({ src: `https://picsum.photos/600/400/?random?${i}&w=10`, alt: 'random image' }));
 
 const wrapperCSS = css`
   width: 660px;
   margin-left: auto;
   margin-right: auto;
 
-  h2 {
-    margin-bottom: 500px;
-  }
-
   .image-editor {
+    margin-top: 500px;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
@@ -53,7 +51,7 @@ interface ImageEditorProps {
 }
 
 const ImageEditor: FC<ImageEditorProps> = ({ imageList, options }) => {
-  const ref = useRef<HTMLDivElement>(null);
+  const imgRefs = useRef<(HTMLImageElement | null)[]>([]);
 
   useEffect(() => {
     const io = new IntersectionObserver((entries, observer) => {
@@ -67,11 +65,7 @@ const ImageEditor: FC<ImageEditorProps> = ({ imageList, options }) => {
       });
     }, options);
 
-    const images = ref.current?.querySelectorAll('.image');
-    if (!images) return;
-    images.forEach((el) => {
-      io.observe(el);
-    });
+    imgRefs.current.forEach((img) => img && io.observe(img));
 
     return () => {
       io.disconnect();
@@ -82,9 +76,9 @@ const ImageEditor: FC<ImageEditorProps> = ({ imageList, options }) => {
   }, []);
 
   return (
-    <section className="image-editor" ref={ref}>
-      {imageList.map(({ src, alt }) => (
-        <img data-src={src} alt={alt} className="image" key={src} />
+    <section className="image-editor">
+      {imageList.map(({ src, alt }, index) => (
+        <img data-src={src} alt={alt} className="image" key={src} ref={(el) => (imgRefs.current[index] = el)} />
       ))}
     </section>
   );
