@@ -2,6 +2,7 @@ import { FC, ReactNode, useState } from 'react';
 import { RootPage } from './pages/RootPage';
 import { BrowserRouter, Link, NavLink, Route, Routes, useLocation } from 'react-router-dom';
 import { ImageLazyLoadingPage } from './pages/ImageLazyLoadingPage';
+import { InfiniteScroll } from './pages/Infinitescroll';
 
 function App() {
   return (
@@ -69,4 +70,5 @@ const Header: FC = () => {
 const routes: { path: string; element: ReactNode }[] = [
   { path: '/', element: <RootPage /> },
   { path: '/image-lazy-loading', element: <ImageLazyLoadingPage /> },
+  { path: '/infinite-scroll', element: <InfiniteScroll /> },
 ];
