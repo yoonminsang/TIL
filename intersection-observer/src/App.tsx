@@ -3,17 +3,25 @@ import { RootPage } from './pages/RootPage';
 import { BrowserRouter, Link, NavLink, Route, Routes, useLocation } from 'react-router-dom';
 import { ImageLazyLoadingPage } from './pages/ImageLazyLoadingPage';
 import { InfiniteScroll } from './pages/Infinitescroll';
+import { ReactQueryInfiniteScroll } from './pages/ReactQueryInfinitescroll';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+
+const queryClient = new QueryClient({
+  defaultOptions: { queries: { retry: 0, refetchOnWindowFocus: false, staleTime: Infinity, gcTime: 0 } },
+});
 
 function App() {
   return (
-    <BrowserRouter>
-      <Header />
-      <Routes>
-        {routes.map(({ path, element }) => (
-          <Route path={path} element={element} key={path} />
-        ))}
-      </Routes>
-    </BrowserRouter>
+    <QueryClientProvider client={queryClient}>
+      <BrowserRouter>
+        <Header />
+        <Routes>
+          {routes.map(({ path, element }) => (
+            <Route path={path} element={element} key={path} />
+          ))}
+        </Routes>
+      </BrowserRouter>
+    </QueryClientProvider>
   );
 }
 
@@ -71,4 +79,5 @@ const routes: { path: string; element: ReactNode }[] = [
   { path: '/', element: <RootPage /> },
   { path: '/image-lazy-loading', element: <ImageLazyLoadingPage /> },
   { path: '/infinite-scroll', element: <InfiniteScroll /> },
+  { path: '/react-query-infinite-scroll', element: <ReactQueryInfiniteScroll /> },
 ];
