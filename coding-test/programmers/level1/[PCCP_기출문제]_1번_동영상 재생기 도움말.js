@@ -1,4 +1,8 @@
 // https://school.programmers.co.kr/learn/courses/30/lessons/340213?language=javascript
+
+/**
+ * @Date 2024.12.3
+ */
 {
   const NEXT = 'next';
   const PREV = 'prev';
