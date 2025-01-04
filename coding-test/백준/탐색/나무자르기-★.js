@@ -125,3 +125,39 @@
   // Math.max(...treeList): 10^6
   // 이진탐색: log(2)10^9
 }
+
+/**
+ * @Date 2025.01.04
+ */
+{
+  // const fs = require('fs');
+  // const input = fs.readFileSync('/dev/stdin').toString();
+  // const input = `4 7
+  // 20 15 10 17`;
+  const input = `5 20
+4 42 40 26 46`;
+  const [oneLine, twoLine] = input.split('\n');
+  const [N, M] = oneLine.split(' ').map(Number);
+  const list = twoLine.split(' ').map(Number);
+
+  function solution(N, M, list) {
+    let min = 0;
+    let max = Math.max(...list);
+    let result = max;
+    while (min <= max) {
+      const mid = Math.floor((min + max) / 2);
+      const cuttingTreeHeight = list.reduce((acc, cur) => {
+        return acc + Math.max(cur - mid, 0);
+      }, 0);
+      if (cuttingTreeHeight >= M) {
+        min = mid + 1;
+        result = mid;
+      } else {
+        max = mid - 1;
+      }
+    }
+    return result;
+  }
+
+  console.log(solution(N, M, list));
+}
