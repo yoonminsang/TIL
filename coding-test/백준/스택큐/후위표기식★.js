@@ -1,5 +1,4 @@
 // https://www.acmicpc.net/problem/1918
-// TODO 코테
 
 // 답지보고서 한참뒤에야 이해했다.
 /**
