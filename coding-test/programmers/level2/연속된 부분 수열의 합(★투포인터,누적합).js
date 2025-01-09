@@ -106,3 +106,34 @@ function solution(sequence, k) {
     return result;
   }
 }
+
+// https://school.programmers.co.kr/learn/courses/30/lessons/178870
+{
+  function solution(sequence, k) {
+    let left = 0;
+    let right = 0;
+    let sum = sequence[left];
+    let minLength = Infinity;
+    let result = [];
+    while (left < sequence.length && right < sequence.length) {
+      console.log(left, right, sum, minLength, result);
+      if (sum < k) {
+        right += 1;
+        sum += sequence[right];
+      } else if (sum > k) {
+        sum -= sequence[left];
+        left += 1;
+      } else {
+        const newMinLength = right - left;
+        if (newMinLength < minLength) {
+          minLength = newMinLength;
+          result = [left, right];
+        }
+        sum -= sequence[left];
+        left += 1;
+      }
+    }
+    return result;
+  }
+  console.log(solution([1, 2, 3, 4, 5], 7));
+}
