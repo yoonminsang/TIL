@@ -131,3 +131,141 @@ function solution(plans) {
   });
   return [...result, ...stoppedPlans.map(({ name }) => name).reverse()];
 }
+
+/**
+ * @Date 대략 2025.01.09
+ */
+{
+  function solution(_plans) {
+    const result = [];
+    const plans = _plans.map(([name, start, playtime]) => {
+      return { name, start: timeToMinute(start), playtime: Number(playtime) };
+    });
+    plans.sort((a, b) => a.start - b.start);
+    plans.forEach((plan, index) => {
+      // console.log('plans', index, plans, result);
+      const nextPlan = plans[index + 1];
+      if (nextPlan) {
+        // 다음시작시간전에 끝낼수있는 경우
+        let remainTime = nextPlan.start - (plan.start + plan.playtime);
+        if (remainTime >= 0) {
+          plan.playtime = 0;
+          result.push(plan.name);
+          for (let i = index - 1; i >= 0 && remainTime >= 0; i--) {
+            if (plans[i].playtime > 0) {
+              const minusMinute = Math.min(plans[i].playtime, remainTime);
+              plans[i].playtime -= minusMinute;
+              remainTime -= minusMinute;
+              if (plans[i].playtime === 0) {
+                result.push(plans[i].name);
+              }
+            }
+          }
+        }
+        // 다음시작시간전에 끝낼수없는 경우
+        else {
+          plan.playtime -= nextPlan.start - plan.start;
+        }
+      }
+      // 마지막
+      else {
+        plan.playtime = 0;
+        result.push(plan.name);
+      }
+    });
+    plans.reverse().forEach(({ name, start, playtime }) => {
+      if (playtime > 0) {
+        result.push(name);
+      }
+    });
+    return result;
+  }
+
+  function timeToMinute(time) {
+    const [hour, minute] = time.split(':').map(Number);
+    return hour * 60 + minute;
+  }
+
+  // console.log(
+  //   solution([
+  //     ['korean', '11:40', '30'],
+  //     ['english', '12:10', '20'],
+  //     ['math', '12:30', '40'],
+  //   ]),
+  // );
+  console.log(
+    solution([
+      ['1', '00:00', '30'],
+      ['2', '00:10', '10'],
+      ['3', '00:30', '10'],
+      ['4', '00:50', '10'],
+    ]),
+  );
+}
+
+// gpt한테 코드리뷰받다가 스택방식 추천해서 스택으로 개선해봄
+{
+  function solution(_plans) {
+    const result = [];
+    const pendingStack = [];
+    const plans = _plans.map(([name, start, playtime]) => {
+      return { name, start: timeToMinute(start), playtime: Number(playtime) };
+    });
+    plans.sort((a, b) => a.start - b.start);
+    plans.forEach((plan, index) => {
+      const nextPlan = plans[index + 1];
+      if (nextPlan) {
+        let remainTime = nextPlan.start - (plan.start + plan.playtime);
+        // 다음시작시간전에 끝낼수있는 경우
+        if (remainTime >= 0) {
+          plan.playtime = 0;
+          result.push(plan.name);
+          while (remainTime > 0 && pendingStack.length > 0) {
+            const pendingPlan = pendingStack.pop();
+            const minusMinute = Math.min(pendingPlan.playtime, remainTime);
+            pendingPlan.playtime -= minusMinute;
+            remainTime -= minusMinute;
+            if (pendingPlan.playtime === 0) {
+              result.push(pendingPlan.name);
+            } else {
+              pendingStack.push(pendingPlan);
+            }
+          }
+        }
+        // 다음시작시간전에 끝낼수없는 경우
+        else {
+          plan.playtime -= nextPlan.start - plan.start;
+          pendingStack.push(plan);
+        }
+      }
+      // 마지막
+      else {
+        plan.playtime = 0;
+        result.push(plan.name);
+      }
+    });
+    result.push(...pendingStack.map(({ name }) => name).reverse());
+    return result;
+  }
+
+  function timeToMinute(time) {
+    const [hour, minute] = time.split(':').map(Number);
+    return hour * 60 + minute;
+  }
+
+  // console.log(
+  //   solution([
+  //     ['korean', '11:40', '30'],
+  //     ['english', '12:10', '20'],
+  //     ['math', '12:30', '40'],
+  //   ]),
+  // );
+  console.log(
+    solution([
+      ['1', '00:00', '30'],
+      ['2', '00:10', '10'],
+      ['3', '00:30', '10'],
+      ['4', '00:50', '10'],
+    ]),
+  );
+}
