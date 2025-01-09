@@ -3,56 +3,6 @@
 // ★ 구현, 생각
 // 이런문제에서는 3단, 4단, 5단 논법까지 테스트케이스를 만들어서 돌리면 좋을듯.
 
-// 정답
-function solution(n, results) {
-  // 그래프 초기화
-  // 0번째 index는 사용하지 않습니다.
-  const graph = Array(n + 1)
-    .fill()
-    .map(() => ({ winners: new Set(), losers: new Set() }));
-  console.log('graph1', graph);
-
-  // 경기 결과 반영
-  results.forEach(([winner, loser]) => {
-    graph[winner].winners.add(loser);
-    graph[loser].losers.add(winner);
-  });
-  console.log('graph2', graph);
-
-  // 각 선수에 대해 이긴 선수와 진 선수를 갱신
-  graph.slice(1).forEach(({ winners, losers }, index) => {
-    winners.forEach((winner) => {
-      // index: 선수
-      // winners: 선수가 이긴 목록
-      // losers: 선수가 진 목록
-      // winner: 선수가 현재 이긴 선수
-      // graph[winner]: winner 데이터
-      // graph[winner].losers: winner 데이터에서 진 목록
-
-      // winner 데이터에서 진 목록에 선수가 진 목록을 추가
-
-      // examples
-      // input [[1,2],[2,3],[3,4]]
-      // 2번째 선수가 들어올 때 graph[winner]는 3, graph[winner].losers(3의 loser)는 2, losers는 1
-      // 즉 3번째 선수의 losers에 1을 추가.
-
-      // 이긴 선수의 진 선수 목록을 갱신
-      graph[winner].losers = new Set([...graph[winner].losers, ...losers]);
-    });
-    losers.forEach((loser) => {
-      // 진 선수의 이긴 선수 목록을 갱신
-      graph[loser].winners = new Set([...graph[loser].winners, ...winners]);
-    });
-    console.log('for', graph);
-  });
-  console.log('graph3', graph);
-
-  return graph.reduce((acc, { winners, losers }) => {
-    if (winners.size + losers.size === n - 1) return acc + 1;
-    return acc;
-  }, 0);
-}
-
 /**
  * @Date 2023.12.02
  */
@@ -199,5 +149,35 @@ function solution(n, results) {
       if (winners.size + losers.size === n - 1) return acc + 1;
       return acc;
     }, 0);
+  }
+}
+
+/**
+ * @Date 2025.01.09
+ */
+{
+  function solution(n, results) {
+    // 0번째 index는 사용하지 않음.
+    const graph = Array(n + 1)
+      .fill(null)
+      .map(() => ({ winners: new Set(), losers: new Set() }));
+    results.forEach(([winner, loser]) => {
+      graph[winner].winners.add(loser);
+      graph[loser].losers.add(winner);
+    });
+
+    // a > b > c
+    graph.forEach(({ winners, losers }, player) => {
+      // a의 winners에 c를 업데이트
+      losers.forEach((loser) => {
+        graph[loser].winners = new Set([...graph[loser].winners, ...winners]);
+      });
+      // c의 losers에 a를 업데이트
+      winners.forEach((winner) => {
+        graph[winner].losers = new Set([...graph[winner].losers, ...losers]);
+      });
+    });
+    const count = graph.filter(({ winners, losers }) => winners.size + losers.size === n - 1).length;
+    return count;
   }
 }
