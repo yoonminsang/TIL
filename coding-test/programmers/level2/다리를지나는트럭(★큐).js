@@ -63,3 +63,32 @@ function solution(bridge_length, weight, truck_weights) {
     return time + bridge_length;
   }
 }
+
+/**
+ * @Date 2025.01.09
+ */
+{
+  function solution(bridge_length, weight, truck_weights) {
+    const bridge = Array(bridge_length).fill(null);
+    let time = 0;
+    while (truck_weights.length > 0) {
+      bridge.shift();
+      const bridgeWeight = sumArray(bridge);
+      if (bridgeWeight + truck_weights[0] <= weight) {
+        const newWeight = truck_weights.shift();
+        bridge.push(newWeight);
+      } else {
+        bridge.push(null);
+      }
+      time += 1;
+    }
+    return time + bridge_length;
+  }
+
+  function sumArray(arr) {
+    return arr.reduce((acc, cur) => {
+      if (cur === null) return acc;
+      return acc + cur;
+    }, 0);
+  }
+}
