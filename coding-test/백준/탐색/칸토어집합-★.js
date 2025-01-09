@@ -91,3 +91,30 @@
     return prev + center + prev;
   }
 }
+
+/**
+ * @Date 2025.01.09
+ */
+{
+  // const fs = require('fs');
+  // const input = fs.readFileSync('/dev/stdin').toString();
+  const input = `0
+1
+3
+2`;
+  const list = input.trim().split('\n').map(Number);
+
+  function solution(list) {
+    return list.map((n) => getCantor(n)).join('\n');
+  }
+
+  const DASH = '-';
+  const GAP = ' ';
+  function getCantor(N) {
+    if (N === 0) return DASH;
+    const temp = getCantor(N - 1);
+    return temp + GAP.repeat(temp.length) + temp;
+  }
+
+  console.log(solution(list));
+}
