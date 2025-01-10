@@ -123,3 +123,54 @@ function solution(maps) {
     return canMoveY && canMoveX && !visited[nextY][nextX];
   }
 }
+
+/**
+ * @Date 2025.01.11
+ */
+{
+  const dy = [-1, 0, 1, 0];
+  const dx = [0, 1, 0, -1];
+
+  function solution(maps) {
+    const maxY = maps.length;
+    const maxX = maps[0].length;
+    const queue = [[0, 0, 1]];
+    const visited = Array(maxY)
+      .fill(null)
+      .map(() => Array(maxX).fill(false));
+    while (queue.length > 0) {
+      const [y, x, count] = queue.shift();
+      if (y === maxY - 1 && x === maxX - 1) return count;
+      for (let i = 0; i < 4; i++) {
+        const ny = y + dy[i];
+        const nx = x + dx[i];
+        if (nx < 0 || ny < 0 || nx >= maxX || ny >= maxY) continue;
+        if (maps[ny][nx] === 0) continue;
+        if (visited[ny][nx]) continue;
+        visited[ny][nx] = true;
+        queue.push([ny, nx, count + 1]);
+      }
+    }
+    return -1;
+  }
+
+  // console.log(
+  //   solution([
+  //     [1, 0, 1, 1, 1],
+  //     [1, 0, 1, 0, 1],
+  //     [1, 0, 1, 1, 1],
+  //     [1, 1, 1, 0, 1],
+  //     [0, 0, 0, 0, 1],
+  //   ]),
+  // );
+
+  // console.log(
+  //   solution([
+  //     [1, 0, 1, 1, 1],
+  //     [1, 0, 1, 0, 1],
+  //     [1, 0, 1, 1, 1],
+  //     [1, 1, 1, 0, 0],
+  //     [0, 0, 0, 0, 1],
+  //   ]),
+  // );
+}
