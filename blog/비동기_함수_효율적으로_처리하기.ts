@@ -1,3 +1,5 @@
+// https://ms3864.tistory.com/468
+
 const delay = (delay: number) => {
   return new Promise((resolve) => setTimeout(() => resolve(`delay ${delay} success`), delay));
 };
