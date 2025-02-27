@@ -101,7 +101,7 @@
       <div>
         count: ${count}  
         <button onclick="increase()">increase</button>
-        <button onclick="decrease(event)">decrease</button>
+        <button onclick="decrease()">decrease</button>
       </div>
       `;
   }
