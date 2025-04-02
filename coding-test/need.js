@@ -55,6 +55,20 @@
   // ];
 }
 
+// 중복순열
+{
+  function getPermutationsWithRepetition(arr, selectNumber) {
+    if (selectNumber === 1) return arr.map((i) => [i]);
+    const results = [];
+    arr.forEach((fixed) => {
+      const permutations = getPermutationsWithRepetition(arr, selectNumber - 1);
+      const attached = permutations.map((permutation) => [fixed, ...permutation]);
+      results.push(...attached);
+    });
+    return results;
+  }
+}
+
 // 조합
 {
   function getCombinations(arr, selectNumber) {
