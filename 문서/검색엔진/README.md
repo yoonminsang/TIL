@@ -1,0 +1,3 @@
+- CDN에서 `X-Robots-Tag noindex` 헤더 추가하면 검색엔진에서 제외
+- google에서 제외하려면 google search console에서 삭제 설정 [링크](https://support.google.com/webmasters/answer/9689846?sjid=10340423224005065853-NC&authuser=1)
+-
