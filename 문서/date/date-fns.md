@@ -1,0 +1,3 @@
+- 현재 시간보다 이전인지
+  - `isBefore(~~, new Date()`
+  - `isPast(~~)`
