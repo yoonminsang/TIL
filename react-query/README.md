@@ -29,3 +29,44 @@ type FetchStatus = 'fetching' | 'paused' | 'idle';
      */
     isPending: boolean;
 ```
+
+## useMutation 활용하기
+
+- useMutation 사용하는데 api는 다른데 onSuccess,OnError가 비슷하게 중복될때는 "합성 훅 패턴(Composite Hook Pattern)" 또는 "계층형 훅 패턴(Layered Hook Pattern)" 사용하기
+
+```
+const useBaseMutation = <TData = unknown, TVariables = unknown>(
+  mutationFn: (variables: TVariables) => Promise<TData>
+) => {
+  return useMutation({
+    mutationFn,
+    onSuccess: () => {
+      // ~~
+    },
+    onError: (err) => {
+      // ~~
+    },
+  });
+};
+
+// 필요에 따라 onSuccess, onError ,on~~ 등의 처리 가능
+export const use~~Mutation = () => {
+  return use~~Mutation(() => api);
+};
+```
+
+```
+interface Base~~Options<TData, TVariables> {
+  onSuccess?: (data: TData, variables: TVariables) => void | Promise<void>;
+  onBack?: () => void;
+}
+
+export const useBase~~MutationWithContextHolder = <TData, TVariables>({
+  onSuccess,
+  onBack,
+  mutationFn,
+}: Base~~Options<TData, TVariables> & {
+  mutationFn: (variables: TVariables) => Promise<TData>;
+}) =>
+
+```
