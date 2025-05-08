@@ -81,3 +81,53 @@ class Queue {
     return result + ']';
   }
 }
+
+it('기본 예제 테스트', () => {
+  // 사용 예시
+  const queue = new Queue();
+
+  // 요소 추가
+  queue.enqueue('A');
+  queue.enqueue('B');
+  queue.enqueue('C');
+
+  expect(queue.toString()).toBe('Queue: [A, B, C]');
+  expect(queue.size()).toBe(3);
+
+  // 맨 앞 요소 확인
+  expect(queue.peek()).toBe('A');
+
+  // 요소 제거
+  expect(queue.dequeue()).toBe('A');
+  expect(queue.dequeue()).toBe('B');
+
+  expect(queue.toString()).toBe('Queue: [C]');
+  expect(queue.size()).toBe(1);
+
+  // 모든 요소 제거
+  queue.clear();
+  expect(queue.isEmpty()).toBe(true);
+});
+
+function it(description, fn) {
+  console.log(`\nTEST: ${description}`);
+  try {
+    fn();
+    console.log(`✓ PASS: ${description}`);
+  } catch (error) {
+    console.error(`✗ FAIL: ${description}`);
+    console.error(`  Error: ${error.message}`);
+  }
+}
+
+function expect(expectedValue) {
+  return {
+    toBe(resultValue) {
+      const result = expectedValue === resultValue;
+      if (!result) {
+        throw new Error(`Expected ${expectedValue} to be ${resultValue}`);
+      }
+      console.log('success');
+    },
+  };
+}
