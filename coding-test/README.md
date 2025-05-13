@@ -48,6 +48,8 @@ const directions = [
 
 ## 수학
 
+- col:y, row:x
+
 소수는 squr로 구하기
 골든바후의 추측
 유클리드 호제법
