@@ -49,22 +49,16 @@
 
     let redStart;
     let blueStart;
-    let redEnd;
-    let blueEnd;
     maze.forEach((mazeCol, y) => {
       mazeCol.forEach((v, x) => {
         if (v === MAZE_VALUE.redStart) {
           redStart = [y, x];
         } else if (v === MAZE_VALUE.blueStart) {
           blueStart = [y, x];
-        } else if (v === MAZE_VALUE.redEnd) {
-          redEnd = [y, x];
-        } else if (v === MAZE_VALUE.blueEnd) {
-          blueEnd = [y, x];
         }
       });
     });
-    if (!redStart || !blueStart || !redEnd || !blueEnd) {
+    if (!redStart || !blueStart) {
       throw new Error('start, end 변수 할당 실패');
     }
 
@@ -184,25 +178,6 @@
 
     return 0;
   }
-
-  console.log(
-    solution([
-      [1, 4],
-      [0, 0],
-      [2, 3],
-    ]),
-  );
-  // 3
-
-  console.log(
-    solution([
-      [1, 0, 2],
-      [0, 0, 0],
-      [5, 0, 5],
-      [4, 0, 3],
-    ]),
-  );
-  // 7
 }
 
 // bfs 리팩터링
