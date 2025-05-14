@@ -46,6 +46,9 @@ const directions = [
 ];
 ```
 
+- visited 처음에 추가하는거 잊지말자
+- bfs는 queue에 추가할 때 visited 최신화
+
 ## 수학
 
 - col:y, row:x
