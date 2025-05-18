@@ -46,12 +46,19 @@ const directions = [
 ];
 ```
 
+대각선
+
+```
+const dy = [-1, 0, 1, 0, 1, -1, 1, -1];
+const dx = [0, 1, 0, -1, 1, -1, -1, 1];
+```
+
 - visited 처음에 추가하는거 잊지말자
 - bfs는 queue에 추가할 때 visited 최신화
 
 ## 수학
 
-- col:y, row:x
+- row:y(행), col:x(열)
 
 소수는 squr로 구하기
 골든바후의 추측
