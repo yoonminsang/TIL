@@ -63,3 +63,8 @@ const dx = [0, 1, 0, -1, 1, -1, -1, 1];
 소수는 squr로 구하기
 골든바후의 추측
 유클리드 호제법
+
+TODO
+게임맵최단거리
+https://www.acmicpc.net/problem/2578
+https://www.acmicpc.net/workbook/view/1093
