@@ -12,3 +12,7 @@ gh pr list \
   --base $(git rev-parse --abbrev-ref HEAD) \
 | sed 's/^/- #/'
 ```
+
+## PR 제목으로 커밋 찾기
+
+`git log --oneline --grep="1234"`
