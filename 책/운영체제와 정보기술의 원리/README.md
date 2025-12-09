@@ -690,7 +690,7 @@ degree of multiprograming: 한번에 몇개 프로그램 올리는지. -->
   - 3. 실행시간 바인딩(execution time binding or run time binding)
     - 프로그램이 실행을 시작한 후에도 그 프로그램이 위치한 물리적 메모리상의 주소가 변경될 수 있는 바인딩 방식
     - 주소 매핑 테이블, 기준 레지스터, 한계 레지스터, MMU(Memory Management Unit: 메모리 관리 유닛. 논리적 주소 물리적 주소 매핑 장치) 필요
-      <img src="./images/DMA.jpeg">
+      <img src="./images/mmu.jpeg">
     - 다중 프로그래밍 환경에서는 MMU 방식을 이용해서 주소 변환했을 때 메모리 보안을 신경써야한다. 이때 한계 레지스터를 통해 메모리 주소를 넘어선다면 트랩을 발생시킨다.
 
 ## 2. 메모리 관리와 관련된 용어
@@ -853,7 +853,7 @@ degree of multiprograming: 한번에 몇개 프로그램 올리는지. -->
   - 오프셋: 그 세그먼트 내에서 얼마만큼 떨어져 있는지
 - 주소 변환을 위해 세그먼트 테이블을 사용한다.
 - 세그먼테이션 기법에서는 세그먼트의 길이가 균일하지 않으므로 세그먼트의 위치 정보뿐 아니라 길이 정보를 함께 보관한다.
-- 세그먼트 테이블 기준 레지스터(Segment-Table Base Register: STBR)와 세그먼트 테이블 길이 레즈스터(Segment-Table Length Register: STLR)을 사용한다.
+- 세그먼트 테이블 기준 레지스터(Segment-Table Base Register: STBR)와 세그먼트 테이블 길이 레지스터(Segment-Table Length Register: STLR)을 사용한다.
 - 세그먼테이션 기법에서는 논리적 주소를 물리적 주소로 변환하기 전에 두 가지 사항을 먼저 확인한다.
   - 1. 요청된 세그먼트 번호가 STLR에 저장된 값보다 작은 값인가
     - 그렇지 않다면 존재하지 않는 세그먼트에 대한 접근. 예외상황 발생시킴
