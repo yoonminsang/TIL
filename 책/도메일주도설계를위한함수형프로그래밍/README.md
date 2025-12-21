@@ -183,3 +183,133 @@ db table을 설계할 때도 프론트에서 구조를 잡을때도 가장 기�
 진짜 오랜만에 함수형 코드를 봤는데 재밌다. 왜 그렇게 fp에 빠진 사람들은 다시 나오려고 하지 않는지 알 것 같다.
 
 ---
+
+## Chapter 5. 타입으로 도메인 모델링하기
+
+- 단순 타입으로 원시 타입을 감싸는 것은 타입 안정성을 보장하고 컴파일 시점에 많은 오류를 방지하는 훌륭한 방법이지만 메모리를 더 쓰는데다가 성능은 낮아진다.
+- 만약 성능이 중요한 곳이라면 단순 타입 대신 타입 별칭(type alias)으로 도메인을 문서화할 수 있다. 성능 부담은 없지만 타입 안정성을 포기하는 것이다.
+- `type UnitQuantity = number`
+- 아래와 같이 하면 두 가지 장점을 모두 얻을 수 있다.(행렬곱은 원시데이터, 고수준에서는 타입안정성)
+
+```
+declare const unitQuantities: unique symbol;
+class UnitQuantities {
+  [unitQuantities]!: never;
+  constructor(readonly value: number) {}
+}
+
+```
+
+---
+
+`내 생각`
+
+나도 위와 같은 type alias를 사용한 경험이 있다. 사실 단순 타입 방법을 모르고 타입스크립트의 구조적 타입 시스템을 너무 당연하게 받아들여서 그런 것 같다. enum같은 경우는 알고 있었는데 단순 타입은 생각해본적이 없다.
+
+처음에는 type alias를 설정해서 좋았는데 타입 강제화가 안되다보니 여기저기서 어느샌가 원시타입으로 설정된것을 볼 수 있었다. 코틀린은 런타임 오버헤드 없이 타입 안정성을 보장한다던데 역시 언어의 차이가 아직도 조금씩은 존재하는 것 같다.
+
+---
+
+- 이전에 작성한 도메인 데이터를 코드로 옮기다보니 알 수 없는 타입이 보인다. 이때는 다음과 같이 작업하면 좋다.
+
+```
+type Undefined = never;
+type CustomerInfo = Undefined;
+type ShippingAddress = Undefined;
+class Order {
+  constructor(readonly customerInfo: CustomerInfo, readonly shippingAddress: ShippingAddress) {}
+}
+```
+
+- 여러 입력을 받는다면 두 가지 방법 중 하나를 선택할 수 있다.
+
+```
+가격 계산:
+  입력: 주문서, 제품 카탈로그
+  출력: 가격이 계산된 주문서
+```
+
+가장 간단한 방법은 개별 매개변수로 전달
+
+```
+type CalculatePrices = (i: OrderForm) => (j: ProductCatalog) => PriceOrder;
+```
+
+새로운 레코드를 매개변수로 전달
+
+```
+class CalculatePricesInput {
+  constructor(readonly order: Order, readonly productCatalog: ProductCatalog) {}
+}
+type CalculatePrices = (i: CalculatePricesInput) => PriceOrder;
+```
+
+- ProductCatalog가 '실제' 입력이 아닌 의존이라면 별도의 매개변수로 전달하는 방식이 더 좋다. 이는 함수형에서 의존 주입과 같은 역할을 한다.
+- 반면에 두 입력이 항상 필요하고 서로 밀접하게 관련되어 있다면, 레코드로 명확하게 나타내는 것이 좋다.
+
+---
+
+`내 생각`
+
+왜 함수형에서 커링을 그렇게 많이 사용하는지 조금은 알 것 같다.
+
+---
+
+- 앞서 ValidateOrder 프로세스를 작성했는데 실제로는 실패할 수도 있으므로 Either 타입을 사용해 실패 가능성을 나타내는 것이 더 좋다.
+- 함수형 프로그래밍에서 effect는 함수가 기본 출력 외에 수행하는 다른 작업을 말한다.
+- 마찬가지로 비동기 프로세스를 문서화하고 싶을 때도 있다.
+- Task를 사용하면 된다.(Kotlin은 suspend를 사용한다.)
+
+```
+type ValidateOrder = (i: Order) => TaskEither<OrderValidationError[], ValidatedOrder>;
+```
+
+---
+
+`내 생각`
+
+보통 실패처리는 try cath문도 많이 사용한다. 어떤 개발자들은 try catch를 사용하지 않고 명확한 타입을 선호한다.(특히 rust) 이것도 그런 맥락인걸까?
+
+catch문에서도 명확한 에러타입이 정의되어 있다면 에러처리를 제대로 할 수 있긴한다. 물론 catch문은 기본적으로 unknown type이기 때문에 에러 타입 validation을 한 번 더 해야한다. catch자체가 에러를 던져버리는거라서 어쩔 수 없는 구조긴하다. 하지만 에러와 성공의 관심사를 분리할 수 있다는 장점이 있다.
+
+둘 다 장단점이 있는 방식 같다.
+
+---
+
+- 엔티티(entity): 값이 변해도 정체성을 지속하는 데이터
+- 값 객체(value object): 정체성이 없는 데이터
+- 많은 경우 우리가 다루는 데이터 객체는 정체성이 없으며, 서로 교환 가능하다.
+
+```
+const address1 = new Address('123 Main st', 'New Yor', '9001');
+const address2 = new Address('123 Main st', 'New Yor', '9001');
+assert.deepEqual(address1, address2); // true
+```
+
+- 값 객체가 같은지 비교하려면 모든 하위 속성들의 값이 동일한지 비교해야한다. 이를 구조적 동등(structural equality)라고 한다.
+- 언어마다 지원하는 방식이 다르다. ts는 지원하지 않는다.
+
+- 값 객체, 엔티티는 맥락에 따라 변한다.
+- 엔티티는 값이 변경되더라도 안정적인 정체성을 유지해야하므로 id같은 식별자를 부여해야 한다.
+- [링크](./code/chapter5/entity.ts) 참고
+
+---
+
+집합체
+
+- Order와 OrderLine은 모두 자체 id를 가진 엔티티다. 이때 OrderLine을 수정하면 해당 항목을 품고있는 Order도 바뀌어야한다. 함수형에서는 불변이기 때문에 OerLine을 수정하려면 OrderLine 수준이 아니라 Order 수준에서 변경해야한다. [링크](./code/chapter5/집합체.ts) 참고
+- 최상위 엔티티가 여러 엔티티들을 포괄하는 못브은 매우 전형적이다.
+- 이 엔티티들을 집합체(aggregate)라 부르고, 최상위 엔티티를 집합체 루트(aggregate root)라고 한다.
+- Order에 고객 정보를 추가해야한다고 가정해보자. Customer필드를 추가하고 싶을 수 있지만 이렇게 되면 고객 정보를 변경할 때 Order의 변경도 필요하다. 더 나은 디자인은 Customer 자체가 아닌 참조(customerId)만 저장하는 것이다.
+- Customer와 Order는 별도의 집합체고 내부 일관성은 따로 유지하며, 이들 간의 연결은 루트 객체의 ID로 이루어진다.
+- 각 데이터베이스 트랜잭션은 단일 집합체만 처리해야 하며, 여러 집합체를 포함하거나 집합체를 넘어서서는 안된다.
+- 집합체는 단순히 엔티티 모음이 아니다.
+- 집합체 정의는 디자인 과정에서 정말 중요하다. OrderLine과 Order처럼 같은 집합체에 속할 수도 있고, Customer와 Order처럼 다른 집합체일 수도 있다. 도메인 전문가와 함께해야만 한다.
+
+---
+
+`내 생각`
+
+최근에 많은 서비스들은 db foreign key를 사용하지 않는다는 것을 들었고 새벽에 gemeni랑 많은 이야기를 했었다. 생각해보니 위 집합체 내용과 연관이 있는 내용이다. 결국 이런 패턴들은 마이크로서비스를 만들기 위해 많이 사용하는 패턴이고 DDD는 마이크로서비스와 어울리는 패턴이다보니 자연스러운 흐름인 것 같다. 모놀리식에서도 집합체 기준으로 나눈다면 fk의 사용여부를 유연하게 결정할 수 있을 것 같다.
+
+---

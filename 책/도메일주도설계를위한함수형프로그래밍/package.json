@@ -10,6 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "fp-ts": "^2.16.11",
+    "immer": "^11.1.0",
     "ts-pattern": "^5.9.0"
   }
 }
