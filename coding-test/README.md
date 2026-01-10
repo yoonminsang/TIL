@@ -27,7 +27,7 @@ const dx = [0, 1, 0, -1];
 for (let i = 0; i < 4; i++) {
   const ny = y + dy[i];
   const nx = x + dx[i];
-  if (nx < 0 || ny < 0 || nx >= M || ny >= N) continue;
+  if (ny < 0 || nx < 0 || ny >= MAX_Y || nx >= MAX_X) continue;
   if (a[ny][nx] !== 1) continue;
   dfs(ny, nx);
 }
