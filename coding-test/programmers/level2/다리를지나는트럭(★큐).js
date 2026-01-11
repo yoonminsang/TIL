@@ -92,3 +92,30 @@ function solution(bridge_length, weight, truck_weights) {
     }, 0);
   }
 }
+
+/**
+ * @Date 2026.01.10
+ * @time 1시간
+ * 문제를 잘못봤다... 트럭이 순서로 올라와야하는데 나는 최소 시간으로 올라오게 만들었다.
+ * 틀린게 없는것같은데 틀리니까 멘탈이 흔들렸다. 사실 내가 푼게 이거 한단계 더 어려운 버전이기는 하다.
+ * 마음을 가라앉히고 천천히 차분하게 마음먹자. 처음부터 다시 봐도 10분도 안걸려서 풀 문제다.
+ */
+{
+  function solution(bridge_length, weight, truck_weights) {
+    const pendingTruckWeights = truck_weights.slice();
+    const bridgeArr = Array(bridge_length).fill(null);
+
+    let time = 0;
+    while (pendingTruckWeights.length > 0) {
+      bridgeArr.pop();
+      const currentBridgeWeight = bridgeArr.reduce((acc, cur) => acc + (cur ?? 0), 0);
+      if (weight >= currentBridgeWeight + pendingTruckWeights[0]) {
+        bridgeArr.unshift(pendingTruckWeights.shift());
+      } else {
+        bridgeArr.unshift(null);
+      }
+      time += 1;
+    }
+    return time + bridge_length;
+  }
+}

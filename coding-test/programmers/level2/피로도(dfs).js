@@ -70,3 +70,36 @@ function solution(k, dungeons) {
     });
   }
 }
+
+/**
+ * @Date 2026.01.10
+ * @time 15분
+ * 매우 쉬운 dfs인데 너무 오랜만에 풀다보니 감잡느라 시간이 오래걸린듯.
+ */
+{
+  // k: 현재피로도, dungeons: [최소필요도,소모피로도]
+  function solution(k, dungeons) {
+    const visited = Array(dungeons.length).fill(false);
+    let maxVisitCount = 0;
+    dfs(k);
+    function dfs(currentFatigue) {
+      // 함수 인자로 넘기면 불필요한 계산을 없앨 수 있음.
+      const visitedCount = visited.reduce((acc, cur) => {
+        return acc + (cur ? 1 : 0);
+      }, 0);
+      maxVisitCount = Math.max(maxVisitCount, visitedCount);
+      dungeons.forEach(([최소피로도, 소모피로도], index) => {
+        const isVisited = visited[index];
+        const isPossible피로도 = currentFatigue >= 최소피로도;
+        const isPossible = !isVisited && isPossible피로도;
+        if (!isPossible) {
+          return;
+        }
+        visited[index] = true;
+        dfs(currentFatigue - 소모피로도);
+        visited[index] = false;
+      });
+    }
+    return maxVisitCount;
+  }
+}

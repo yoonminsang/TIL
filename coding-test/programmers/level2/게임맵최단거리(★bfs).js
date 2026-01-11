@@ -174,3 +174,36 @@ function solution(maps) {
   //   ]),
   // );
 }
+
+/**
+ * @Date 2026.01.07
+ * @time 13분
+ * 엄청 오랜만에 풀어서 시간이 오래걸림
+ */
+{
+  const dy = [-1, 0, 1, 0];
+  const dx = [0, 1, 0, -1];
+
+  function solution(maps) {
+    const MAX_Y = maps.length;
+    const MAX_X = maps[0].length;
+    const visited = Array(MAX_Y)
+      .fill(null)
+      .map(() => Array(MAX_X).fill(false));
+    const queue = [{ y: 0, x: 0, count: 1 }];
+    while (queue.length > 0) {
+      const { y, x, count } = queue.shift();
+      if (y === MAX_Y - 1 && x === MAX_X - 1) return count;
+      for (let i = 0; i < 4; i++) {
+        const ny = y + dy[i];
+        const nx = x + dx[i];
+        if (nx < 0 || ny < 0 || nx >= MAX_X || ny >= MAX_Y) continue;
+        if (maps[ny][nx] === 0) continue;
+        if (visited[ny][nx]) continue;
+        visited[ny][nx] = true;
+        queue.push({ y: ny, x: nx, count: count + 1 });
+      }
+    }
+    return -1;
+  }
+}

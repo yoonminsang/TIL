@@ -161,3 +161,57 @@
 
   console.log(solution(N, M, list));
 }
+
+/**
+ * @Date 2026.01.11
+ * @time 16분 44초
+ * 처음에 아래와 같이 풀었다가 틀림. 지금처럼 정확한 결과값이 center에 나오지 않는 경우는 center 값을 명확하게 바꿔줘야함.
+```
+   if (cutTreeLength > M) {
+      left = center + 1;
+    } else if (cutTreeLength < M) {
+      right = center - 1;
+    } else {
+      return center;
+    }
+  }
+  return left;
+```
+ */
+{
+  const fs = require('fs');
+  const input = fs.readFileSync('/dev/stdin').toString();
+  // const input = `4 7
+  // 20 15 10 17`;
+  // 15
+  // const input = `5 20
+  // 4 42 40 26 46`;
+  // // 36
+  // const input = `4 6
+  // 20 15 10 17`;
+  const [oneLine, twoLine] = input.split('\n');
+  const [N, M] = oneLine.split(' ').map(Number);
+  const treeList = twoLine.split(' ').map(Number);
+
+  // N: 나무의수, M: 집으로 가져가야하는 나무의 길이, treeList: 나무 목록
+  function solution(N, M, treeList) {
+    let left = 0;
+    let right = Math.max(...treeList);
+    let result = 0;
+    while (left <= right) {
+      const center = Math.floor((left + right) / 2);
+      const cutTreeLength = treeList.reduce((acc, cur) => {
+        return acc + Math.max(cur - center, 0);
+      }, 0);
+      // console.log(left, center, right, cutTreeLength);
+      if (cutTreeLength >= M) {
+        left = center + 1;
+        result = center;
+      } else {
+        right = center - 1;
+      }
+    }
+    return result;
+  }
+  console.log(solution(N, M, treeList));
+}

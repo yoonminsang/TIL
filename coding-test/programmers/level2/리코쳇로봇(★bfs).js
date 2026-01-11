@@ -215,3 +215,82 @@
 
   console.log(solution(['...D..R', '.D.G...', '....D.D', 'D....D.', '..D....']) === 7);
 }
+
+/**
+ * @Date 2026.01.10
+ * @time 30분
+ * 미끄러진다는걸 제외하면 전형전인 정석 bfs
+ */
+{
+  const dy = [-1, 0, 1, 0];
+  const dx = [0, 1, 0, -1];
+
+  const 빈공간 = '.';
+  const 로봇처음위치 = 'R';
+  const 장애물위치 = 'D';
+  const 목표지점 = 'G';
+
+  function findVariablePosition(board, variable) {
+    let result;
+    board.forEach((boardRow, y) => {
+      boardRow.forEach((v, x) => {
+        if (v === variable) {
+          result = { y, x };
+        }
+      });
+    });
+    if (!result) throw new Error('find로봇처음위치 null');
+    return result;
+  }
+
+  function solution(board) {
+    const MAX_Y = board.length;
+    const MAX_X = board[0].length;
+    board = board.map((v) => v.split(''));
+    // console.log(board);
+
+    const visited = Array(MAX_Y)
+      .fill(null)
+      .map(() => Array(MAX_X).fill(false));
+    // console.log(visited);
+
+    const 로봇처음위치position = findVariablePosition(board, 로봇처음위치);
+    const 목표지점position = findVariablePosition(board, 목표지점);
+    // console.log(로봇처음위치position,목표지점position)
+
+    const queue = [];
+    queue.push({ y: 로봇처음위치position.y, x: 로봇처음위치position.x, count: 0 });
+    visited[로봇처음위치position.y][로봇처음위치position.x] = true;
+    // console.log(queue);
+    // console.log(visited);
+
+    while (queue.length > 0) {
+      // console.log('queue',queue);
+      const { y, x, count } = queue.shift();
+      if (y === 목표지점position.y && x === 목표지점position.x) return count;
+      for (let i = 0; i < 4; i++) {
+        const [ny, nx] = afterSlipPosition(board, y, x, dy[i], dx[i], MAX_Y, MAX_X);
+        if (board[ny][nx] === 장애물위치) continue;
+        if (visited[ny][nx]) continue;
+
+        visited[ny][nx] = true;
+        queue.push({ y: ny, x: nx, count: count + 1 });
+      }
+    }
+    return -1;
+  }
+
+  function afterSlipPosition(board, y, x, dy, dx, MAX_Y, MAX_X) {
+    let resultY = y;
+    let resultX = x;
+    while (true) {
+      const ny = resultY + dy;
+      const nx = resultX + dx;
+      if (nx < 0 || ny < 0 || nx >= MAX_X || ny >= MAX_Y) break;
+      if (board[ny][nx] === 장애물위치) break;
+      resultY = ny;
+      resultX = nx;
+    }
+    return [resultY, resultX];
+  }
+}

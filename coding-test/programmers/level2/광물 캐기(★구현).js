@@ -344,3 +344,213 @@ const STONE = 'stone';
   const IRON = 'iron';
   const STONE = 'stone';
 }
+
+/**
+ * @Date 2026.01.10
+ * @time 1시간 10분
+ * 풀고나니 어렵지 않은 것 같은데.. 왜이렇게 오래걸린걸까.. 솔직히 타입스크립트 + vscode 환경에서 풀었다면 훨씬 쉬웠을듯.
+ * 효율화할 수 있는 부분들이 있는데 시간복잡도에 문제가 되지 않아서 그냥 때려박아서 풀기도 했음.
+ *
+ */
+{
+  const DIAMOND = 'diamond';
+  const IRON = 'iron';
+  const STONE = 'stone';
+
+  const MINERAL_WEIGHT_TABLE = {
+    [DIAMOND]: 25,
+    [IRON]: 5,
+    [STONE]: 1,
+  };
+
+  function divideArr(arr, count) {
+    const result = [];
+    for (let i = 0; i < Math.ceil(arr.length / count); i++) {
+      result.push(arr.slice(i * count, (i + 1) * count));
+    }
+    return result;
+  }
+
+  function mineralsToMineralCountHashTable(minerals) {
+    return minerals.reduce((acc, cur) => {
+      if (!acc[cur]) acc[cur] = 0;
+      acc[cur] += 1;
+      return acc;
+    }, {});
+  }
+
+  function getSafeMineralCountByHashTable(mineralCountHashTable, mineral) {
+    return mineralCountHashTable[mineral] ?? 0;
+  }
+
+  function getTemp(mineralCountHashTable, mineral) {
+    return getSafeMineralCountByHashTable(mineralCountHashTable, mineral) * MINERAL_WEIGHT_TABLE[mineral];
+  }
+
+  function mineralCountHashTableToWeight(mineralCountHashTable) {
+    return (
+      getTemp(mineralCountHashTable, DIAMOND) +
+      getTemp(mineralCountHashTable, IRON) +
+      getTemp(mineralCountHashTable, STONE)
+    );
+  }
+
+  // 이후 효율화
+  function calculate피로도(mineralCountHashTable, pick) {
+    switch (pick) {
+      case DIAMOND:
+        return (
+          getSafeMineralCountByHashTable(mineralCountHashTable, DIAMOND) +
+          getSafeMineralCountByHashTable(mineralCountHashTable, IRON) +
+          getSafeMineralCountByHashTable(mineralCountHashTable, STONE)
+        );
+      case IRON:
+        return (
+          getSafeMineralCountByHashTable(mineralCountHashTable, DIAMOND) * 5 +
+          getSafeMineralCountByHashTable(mineralCountHashTable, IRON) +
+          getSafeMineralCountByHashTable(mineralCountHashTable, STONE)
+        );
+      case STONE:
+        return (
+          getSafeMineralCountByHashTable(mineralCountHashTable, DIAMOND) * 25 +
+          getSafeMineralCountByHashTable(mineralCountHashTable, IRON) * 5 +
+          getSafeMineralCountByHashTable(mineralCountHashTable, STONE)
+        );
+    }
+  }
+
+  // 곡괭이, 광물
+  // 1. minerals를 가중치가 높은 순서대로 정렬한다.
+  // 2. minerals 가중치가 높은 순서대로 곡괭이 가중치 높은 순서로 캔다.
+  function solution(picks, minerals) {
+    const a = divideArr(minerals, 5);
+    const b = a.map((mineralList) => {
+      return mineralsToMineralCountHashTable(mineralList);
+    });
+    const c = b.map((mineralCountHashTable, index) => {
+      return { ...mineralCountHashTable, weight: mineralCountHashTableToWeight(mineralCountHashTable), index };
+    });
+    const hey = [];
+    const tempD = c
+      .map((v) => v)
+      .sort((a, b) => {
+        return b.weight - a.weight;
+      });
+    tempD.forEach((v) => {
+      const [currentPick, currentPickIndex] = (() => {
+        if (picks[0] > 0) {
+          return [DIAMOND, 0];
+        }
+        if (picks[1] > 0) {
+          return [IRON, 1];
+        }
+        if (picks[2] > 0) {
+          return [STONE, 2];
+        }
+        return [null, null];
+      })();
+      if (currentPick) {
+        hey.push({ currentPick, index: v.index });
+        picks[currentPickIndex] -= 1;
+      }
+    });
+    hey.sort((a, b) => {
+      return a.index - b.index;
+    });
+
+    let result = 0;
+    c.forEach((v, index) => {
+      const currentPick = hey[index]?.currentPick;
+      if (!currentPick) return result;
+      const 피로도 = calculate피로도(v, currentPick);
+      result += 피로도;
+    });
+    return result;
+  }
+}
+
+// 리팩토링 버전
+{
+  const DIAMOND = 'diamond';
+  const IRON = 'iron';
+  const STONE = 'stone';
+
+  const MINERAL_WEIGHT_TABLE = {
+    [DIAMOND]: 25,
+    [IRON]: 5,
+    [STONE]: 1,
+  };
+
+  const PICK_TYPES = [DIAMOND, IRON, STONE];
+
+  const PICK_FATIGUE_TABLE = {
+    [DIAMOND]: { [DIAMOND]: 1, [IRON]: 1, [STONE]: 1 },
+    [IRON]: { [DIAMOND]: 5, [IRON]: 1, [STONE]: 1 },
+    [STONE]: { [DIAMOND]: 25, [IRON]: 5, [STONE]: 1 },
+  };
+
+  function divideArr(arr, count) {
+    const result = [];
+    for (let i = 0; i < Math.ceil(arr.length / count); i++) {
+      result.push(arr.slice(i * count, (i + 1) * count));
+    }
+    return result;
+  }
+
+  function mineralsToMineralCountHashTable(minerals) {
+    return minerals.reduce((acc, cur) => {
+      acc[cur] = (acc[cur] ?? 0) + 1;
+      return acc;
+    }, {});
+  }
+
+  function getSafeMineralCount(mineralCountHashTable, mineral) {
+    return mineralCountHashTable[mineral] ?? 0;
+  }
+
+  function getMineralWeightCount(mineralCountHashTable, mineral) {
+    return getSafeMineralCount(mineralCountHashTable, mineral) * MINERAL_WEIGHT_TABLE[mineral];
+  }
+
+  function mineralCountHashTableToWeight(mineralCountHashTable) {
+    return PICK_TYPES.reduce((total, mineral) => total + getMineralWeightCount(mineralCountHashTable, mineral), 0);
+  }
+
+  function calculate피로도(mineralCountHashTable, pick) {
+    return PICK_TYPES.reduce(
+      (total, mineral) =>
+        total + getSafeMineralCount(mineralCountHashTable, mineral) * PICK_FATIGUE_TABLE[pick][mineral],
+      0,
+    );
+  }
+
+  // 곡괭이, 광물
+  function solution(picks, minerals) {
+    const formattedMinerals = divideArr(minerals, 5)
+      .map((mineralList) => mineralsToMineralCountHashTable(mineralList))
+      .map((mineralCountHashTable, index) => {
+        return { ...mineralCountHashTable, weight: mineralCountHashTableToWeight(mineralCountHashTable), index };
+      });
+
+    /** 사용할 곡괭이를 순서대로 정렬한 목록 */
+    const sortedPicks = (() => {
+      const result = [];
+      formattedMinerals
+        .slice()
+        .sort((a, b) => b.weight - a.weight)
+        .forEach((v) => {
+          const pickIndex = picks.findIndex((count) => count > 0);
+          if (pickIndex !== -1) {
+            result.push({ currentPick: PICK_TYPES[pickIndex], index: v.index });
+            picks[pickIndex] -= 1;
+          }
+        });
+      return result.sort((a, b) => a.index - b.index);
+    })();
+
+    return formattedMinerals.reduce((total, v, index) => {
+      const currentPick = sortedPicks[index]?.currentPick;
+      return currentPick ? total + calculate피로도(v, currentPick) : total;
+    }, 0);
+  }
+}
