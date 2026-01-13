@@ -109,3 +109,35 @@
 
   console.log(solution(N, S, list));
 }
+
+/**
+ * @Date 2026.01.14
+ * @time 30분
+ * 너무 당연한건데 생각보다 시간이 걸렸다.. 두뇌 회전이 좀 느린듯
+ */
+{
+  const fs = require('fs');
+  const input = fs.readFileSync('/dev/stdin').toString();
+  // const input = `5 0
+  // -7 -3 -2 5 8`;
+  const [oneLine, twoLine] = input.split('\n');
+  const [N, S] = oneLine.split(' ').map(Number);
+  const integerList = twoLine.split(' ').map(Number);
+
+  function solution(N, S, integerList) {
+    let result = 0;
+    function recursive(index, sum) {
+      if (index === N) {
+        if (sum === S) result += 1;
+        return;
+      }
+      recursive(index + 1, sum + integerList[index]);
+      recursive(index + 1, sum);
+    }
+    recursive(0, 0);
+    // 부분수열의 크기가 0인 경우 예외케이스 대응
+    if (S === 0) return result - 1;
+    return result;
+  }
+  console.log(solution(N, S, integerList)); // 1
+}
