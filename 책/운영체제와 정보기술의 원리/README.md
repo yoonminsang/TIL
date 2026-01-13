@@ -989,3 +989,57 @@ MPD가 과도하게 높아지면 => 각 프로세스에게 할당되는 메모�
 - 프로세스의 페이지 부재율이 하한값 이하로 떨어지면 이 프로세스에게 필요 이상으로 많은 프레임이 할당된 것으로 간주해 할당된 프레임의 수를 줄인다.
 
 # 9. 디스크 관리
+
+---
+
+책에 없는데 강의에는 있는 내용.
+
+# Process Synchronization(프로세스 동기화)
+
+- 프로세스들의 일반적인 구조
+
+```
+do {
+  entry section
+  critical section
+  exit section
+  remainder section
+} while (1)
+```
+
+- 프로세스들은 수행의 동기화(synchronize)를 위해 몇몇 변수를 공유할 수 있다 => synchronization variable
+
+- 프로그램적 해결법의 충족 조건
+
+  - Mutual Exclusion: 프로세스 Pi가 critical section 부분을 수행중이면 다른 모든 프로세스들은 그들의 critical section에 들어가면 안 된다.
+  - Progress: 아무도 critical section에 있지 않은 상태에서 critical section에 들어가고자 하는 프로세스가 있으면 critical section에 들어가게 해주어야 한다.
+  - Bounded Waiting: 프로세스가 critical section에 들어가려고 요청한후부터 그 요청이 허용될 때까지 다른 프로세스들이 critical section에 들어가는 횟수에 한계가 있어야 한다.
+
+- 다양한 알고리즘으로 이를 해결
+  - ex) Peterson's Algorithm. flag와 turn 두 개를 이용해 해결. 단, cpu와 memory를 계속 사용하는 Busy Waiting(spin lock)
+
+```
+do {
+  flag[i] = true;
+  turn = j;
+  while(flag[j] && turn==j); // wait only if...
+  critical section
+  flag[i] = false;
+  remainder section
+}
+```
+
+- 이를 하드웨어적으로 TEst & modify를 atomic하게 지원하기도 한다.
+
+```
+Synchronization variable:
+  boolean lock = false;
+
+Process Pi
+  do{
+    while(Test_and_Set(lock));
+    critical section
+    lock = false;
+    remainder section
+  }
+```
