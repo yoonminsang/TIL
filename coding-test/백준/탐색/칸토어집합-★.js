@@ -118,3 +118,36 @@
 
   console.log(solution(list));
 }
+
+/**
+ * @Date 2026.01.16
+ * @time 12분
+ */
+{
+  // const fs = require('fs');
+  // const input = fs.readFileSync('/dev/stdin').toString();
+  const input = `0
+1
+3
+2`;
+  const arr = input.split('\n').map(Number);
+
+  function cantor(number) {
+    if (number === 0) return '-';
+    const temp = cantor(number - 1);
+    return temp + ' '.repeat(temp.length) + temp;
+  }
+
+  function solution(arr) {
+    return arr.map((v) => cantor(v)).join('\n');
+  }
+
+  console.log(solution(arr));
+  console.log(
+    solution(arr) ===
+      `-
+- -
+- -   - -         - -   - -
+- -   - -`,
+  );
+}
