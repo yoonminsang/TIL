@@ -70,3 +70,6 @@ export const useBase~~MutationWithContextHolder = <TData, TVariables>({
 }) =>
 
 ```
+
+쿼리팩토리
+https://5kdk.github.io/blog/2025/04/04/query-factory
