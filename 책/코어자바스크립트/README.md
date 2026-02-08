@@ -64,3 +64,9 @@ undefined와 null
 데이터 할당 부분은 꽤 흥미로웠다. 이미 두꺼운 책을 본적이 있어서 배울게 있나? 했었는데 그래도 배울게 좀 있을 것 같다. 책도 짧고 어렵거나 핵심적인 부분만 담은 것 같아서 끝까지 읽어봐야겠다.
 
 ---
+
+# 2. 실행 컨텍스트
+
+- 이전에 공부할때랑 비교해서 새롭게 알게된 사실은 없다.([github 링크](https://github.com/yoonminsang/js-study?tab=readme-ov-file#%EC%8B%A4%ED%96%89-%EC%BB%A8%ED%85%8D%EC%8A%A4%ED%8A%B8), [동영상](https://www.youtube.com/watch?v=vuEYJRXSIdk))
+- debugger를 활용하면 실제 스코프체인과 this 정보를 확인할 수 잇다.
+  - <img src="./images/스코프체인debugger.png"/>
