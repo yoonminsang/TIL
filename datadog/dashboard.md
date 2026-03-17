@@ -1,0 +1,2 @@
+- metric을 보낼 때 type이 distribution이여야 p50, p95 등을 깔 수 있다.
+- Metrics > metric name 선택 > Advanced > percentiles에서 ON으로 변경해야 p50, p95등을 볼 수 있다.
