@@ -76,3 +76,74 @@
 
   console.log(solution(input));
 }
+
+/**
+ * @Date 2026.05.15
+ * 개선 버전: 중복 분기 제거 + validation 통합 (한 번의 순회)
+ */
+{
+  const input = `(()[[]])([])`;
+
+  const PAIR = {
+    ')': { open: '(', mul: 2 },
+    ']': { open: '[', mul: 3 },
+  };
+
+  function solution(input) {
+    const stack = [];
+    for (const v of input) {
+      if (v === '(' || v === '[') {
+        stack.push(v);
+        continue;
+      }
+
+      const { open, mul } = PAIR[v];
+      let num = 0;
+      while (typeof stack.at(-1) === 'number') {
+        num += stack.pop();
+      }
+      if (stack.pop() !== open) return 0;
+      stack.push((num || 1) * mul);
+    }
+
+    return stack.every((x) => typeof x === 'number')
+      ? stack.reduce((acc, cur) => acc + cur, 0)
+      : 0;
+  }
+
+  console.log(solution(input));
+}
+
+// https://www.hackerrank.com/challenges/balanced-brackets/problem
+/**
+ * @Date 2026.05.15
+ * 세 종류 괄호 ((), {}, []) 의 균형 검사.
+ * 여는 괄호는 push, 닫는 괄호는 top이 매칭되는 여는 괄호인지 확인.
+ */
+{
+  const input = `3
+{[()]}
+{[(])}
+{{[[(())]]}}`;
+
+  const PAIR = { ')': '(', '}': '{', ']': '[' };
+
+  function isBalanced(s) {
+    const stack = [];
+    for (const v of s) {
+      if (v === '(' || v === '{' || v === '[') {
+        stack.push(v);
+      } else {
+        if (stack.pop() !== PAIR[v]) return 'NO';
+      }
+    }
+    return stack.length === 0 ? 'YES' : 'NO';
+  }
+
+  function solution(input) {
+    const [, ...lines] = input.split('\n');
+    return lines.map(isBalanced).join('\n');
+  }
+
+  console.log(solution(input));
+}
