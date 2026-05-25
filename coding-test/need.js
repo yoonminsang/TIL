@@ -141,6 +141,28 @@
   }
 }
 
+function makeGraph(arr) {
+  const graph = {};
+  arr.forEach(([from, to]) => {
+    (graph[from] ??= []).push(to);
+    (graph[to] ??= []).push(from);
+  });
+  return graph;
+}
+
+function makeGraph(arr) {
+  const graph = new Map();
+  const add = (k, v) => {
+    if (!graph.has(k)) graph.set(k, []);
+    graph.get(k).push(v);
+  };
+  arr.forEach(([from, to]) => {
+    add(from, to);
+    add(to, from);
+  });
+  return graph;
+}
+
 // 시계방향 회전
 {
   function rotateArr(arr) {
